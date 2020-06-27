@@ -1,0 +1,94 @@
+﻿<Page x:Class="Sim.Account.View.pLguser"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sim.Account.View"
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      xmlns:vm="clr-namespace:Sim.Account.ViewModel"
+      xmlns:shared="clr-namespace:Sim.Controls.Views;assembly=Sim.Controls"
+      mc:Ignorable="d"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      KeepAlive="False"
+      Title="pLguser">
+
+    <Page.Resources>
+        <conv:Converter x:Key="ValueConverter"/>
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:vmLguser/>
+    </Page.DataContext>
+
+    <Page.Style>
+        <Style TargetType="Page">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding FocusedElements}" Value="0">
+                    <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=idbox}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Style>
+
+    <Grid>
+        <!--
+        <Border Background="Black" Opacity="0.5"/>-->
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="White">
+            <Grid.Effect>
+                <DropShadowEffect Direction="0" BlurRadius="10" ShadowDepth="0" Color="Black" Opacity=".4" />
+            </Grid.Effect>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Center">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Image Margin="5" Height="200" Width="128" Grid.Column="0" Grid.Row="1" Source="/Sim.Account;component/Imagens/id_icon.png"/>
+
+                <TextBlock Grid.Row="0" HorizontalAlignment="Left" Text="SIM.LOGIN" Margin="10,0" VerticalAlignment="Center"/>
+                
+                <Grid Grid.Row="2" VerticalAlignment="Center">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding FocusedElements}" Value="0">
+                                    <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=idbox}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Margin="2,0" FontSize="10" Content="IDENTIFICADOR" Grid.Column="0" Grid.Row="0"/>
+                    <TextBox MinWidth="200" BorderThickness="0,1,0,0" Name="idbox" Text="{Binding GetID}" Grid.Column="0" Grid.Row="1" FontSize="14" VerticalContentAlignment="Center">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Return" Command="{Binding CommandGetID, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding ElementName=idbox}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Height="32" Grid.Row="1" Grid.Column="1" Style="{DynamicResource SystemButton}" Command="{Binding CommandGetID}" CommandParameter="{Binding ElementName=idbox}">
+                        <Button.Content>
+                            <Path Height="9" Stretch="Uniform" Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
+                        </Button.Content>
+                    </Button>
+                </Grid>
+
+            </Grid>
+        </Grid>
+
+        <shared:ucMessageBox />
+        <shared:ucBlackBox />
+    </Grid>
+</Page>

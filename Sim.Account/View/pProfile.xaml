@@ -1,0 +1,160 @@
+﻿<Page x:Class="Sim.Account.View.pProfile"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      xmlns:vm="clr-namespace:Sim.Account.ViewModel"
+      xmlns:shared="clr-namespace:Sim.Controls.Views;assembly=Sim.Controls"
+      mc:Ignorable="d" 
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      Title="Perfil">
+
+    <Page.Resources>
+        <conv:Converter x:Key="ValueConverter"/>
+    </Page.Resources>
+
+    <Page.DataContext>
+        <vm:vmProfile/>
+    </Page.DataContext>
+
+    <Grid Margin="38,0,0,0">
+        <Grid HorizontalAlignment="Center" Margin="0,42,0,0" IsEnabled="{Binding IsEditable}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="0" Margin="0,10" VerticalAlignment="Stretch" Width="1" HorizontalAlignment="Right" Grid.Row="0"/>
+            <DockPanel Margin="10" Grid.Row="0">
+                <Grid MinWidth="250">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label FontSize="10" Content="IDENTIFICADOR" Margin="2,0" Grid.Row="0"/>
+                    <TextBox Name="idbox" IsReadOnly="True" Text="{Binding UserOn.Identificador}" Margin="2,0" Grid.Row="1" />
+                    <Label FontSize="10" Content="NOME" Margin="2,5,2,0" Grid.Row="2"/>
+                    <TextBox Text="{Binding UserOn.Nome}" Margin="2,0" Grid.Row="3" />
+                    <Label FontSize="10" Content="SEXO" Margin="2,5,2,0" Grid.Row="4"/>
+                    <ComboBox ItemsSource="{Binding Generos}" SelectedValuePath="Valor" DisplayMemberPath="Sexo" SelectedValue="{Binding UserOn.Sexo}" Margin="2,0" Grid.Row="5" />
+                    <Label FontSize="10" Content="EMAIL" Margin="2,5,2,0" Grid.Row="6"/>
+                    <TextBox Text="{Binding UserOn.Email}" Margin="2,0" Grid.Row="7" />
+                    <Label FontSize="10" Content="CONTA" Margin="2,5,2,0" Grid.Row="8"/>
+                    <TextBox Text="{Binding Account.Conta}" IsReadOnly="True" Margin="2,0" Grid.Row="9" />
+
+                    <GridSplitter Grid.Row="10" VerticalAlignment="Bottom" Height="1" Margin="0,10" HorizontalAlignment="Stretch"/>
+                    <Button Content="GRAVAR PERFIL" Command="{Binding CommandChangePerfil}" Margin="2" Grid.Row="13" />
+
+                    <GridSplitter Grid.Row="12" VerticalAlignment="Bottom" Height="1" Margin="0,10" HorizontalAlignment="Stretch"/>
+
+                    <Button Content="ALTERAR SENHA" VerticalAlignment="Bottom" Command="{Binding CommandPWBox}" Margin="2" Grid.Row="11" />
+                </Grid>
+            </DockPanel>
+            <StackPanel Margin="10" Grid.Column="1" Grid.Row="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label FontSize="10" Content="TEMA ATUAL" Margin="2,0" Grid.Row="0"/>
+                    <TextBox Text="{Binding Account.Thema}" IsReadOnly="True" Margin="2,0" Grid.Row="1" />
+                    <TextBox Text="{Binding Account.Color}" IsReadOnly="True" Margin="2" Grid.Row="2" />
+                </Grid>
+                <GridSplitter VerticalAlignment="Center" Height="1" Margin="0,10" HorizontalAlignment="Stretch"/>
+                <Label FontSize="10" Content="MODULOS" Margin="2,0"/>
+                <ItemsControl ItemsSource="{Binding Account.Modulos}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <ComboBox SelectedIndex="{Binding Path=Modulo}" IsEnabled="False" Margin="2">
+                                    <ComboBoxItem Content="..."  />
+                                    <ComboBoxItem Content="GOVERNO"  />
+                                    <ComboBoxItem Content="DESENVOLVIMETNO" />
+                                </ComboBox>
+                                <ComboBox SelectedIndex="{Binding Path=Acesso}" IsEnabled="False" Margin="2">
+                                    <ComboBoxItem Content="BLOQUEADO"  />
+                                    <ComboBoxItem Content="ACESSO"  />
+                                </ComboBox>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <GridSplitter VerticalAlignment="Center" Height="1" Margin="0,10" HorizontalAlignment="Stretch"/>
+                <Label FontSize="10" Content="SUBMODULOS" Margin="2,0"/>
+                <ItemsControl ItemsSource="{Binding Account.Submodulos}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <ComboBox SelectedIndex="{Binding Path=SubModulo}" IsEnabled="False" Margin="2">
+                                    <ComboBoxItem Content="..."  />
+                                    <ComboBoxItem Content="LEGISLACAO"  />
+                                    <ComboBoxItem Content="PORTARIA" />
+                                    <ComboBoxItem Content="CONTRATOS" />
+                                    <ComboBoxItem Content="DENOMINACOES" />
+                                    <ComboBoxItem Content="SALA DO EMPREENDEDOR" />
+                                    <ComboBoxItem Content="SEBRAE AQUI" />
+                                </ComboBox>
+                                <ComboBox SelectedIndex="{Binding Path=Acesso}" IsEnabled="False" Margin="2">
+                                    <ComboBoxItem Content="BLOQUEADO"  />
+                                    <ComboBoxItem Content="CONSULTA"  />
+                                    <ComboBoxItem Content="OPERADOR" />
+                                    <ComboBoxItem Content="ADMINISTRADOR" />
+                                </ComboBox>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+        <Grid Visibility="{Binding ChangePW}">
+            <Border Background="Black" Opacity=".5"/>
+            <Grid VerticalAlignment="Center" MinWidth="200" HorizontalAlignment="Center" Background="{DynamicResource WindowBackground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="SENHA ATUAL" FontSize="10" Margin="10,10,10,0" Grid.Row="0"/>
+                <PasswordBox Name="opw" Margin="10,0,10,0" Grid.Row="1"/>
+                <Label Content="NOVA SENHA" FontSize="10" Margin="10,5,10,0" Grid.Row="2"/>
+                <PasswordBox Name="npw" Margin="10,0,10,0" Grid.Row="3"/>
+                <DockPanel Margin="10,10,10,10" Grid.Row="4">
+                    <Button Content="Confirmar" Command="{Binding CommandChangePW}" Margin="2">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource ValueConverter}">
+                                <Binding ElementName="opw"/>
+                                <Binding ElementName="npw"/>
+                                <Binding ElementName="idbox"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <Button Content="Fechar" HorizontalAlignment="Right" Command="{Binding CommandReturn}" Margin="2"/>
+                </DockPanel>
+            </Grid>
+        </Grid>
+        <shared:ucMessageBox/>
+    </Grid>
+</Page>

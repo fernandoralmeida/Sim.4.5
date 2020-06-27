@@ -1,0 +1,140 @@
+﻿<Page x:Class="Sim.View.pModulos"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      xmlns:vm="clr-namespace:Sim.ViewModel"
+      mc:Ignorable="d" 
+      UseLayoutRounding="True"
+      SnapsToDevicePixels="True"
+      Title="Modulos">
+
+    <Page.DataContext>
+        <vm:vmModulos />
+    </Page.DataContext>
+    
+    <Page.Resources>
+        <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <ControlTemplate x:Key="ButtonFade" TargetType="{x:Type ButtonBase}">
+            <Grid>
+                <Border x:Name="Chrome"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="0"                                        
+                                        SnapsToDevicePixels="true" Opacity="0" >
+                    <Border.Background>
+                        <SolidColorBrush x:Name="bgcolorchome" Color="{DynamicResource ButtonBackgroundColor}"/>
+                    </Border.Background>
+                    <Border.Effect>
+                        <DropShadowEffect x:Name="sdw" BlurRadius="10" ShadowDepth="0" Opacity=".4" Color="Black"/>
+                    </Border.Effect>
+                </Border>
+                <ContentPresenter Name="Presenter" Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            </Grid>
+
+            <ControlTemplate.Resources>
+                <Storyboard x:Key="mousehover" Storyboard.TargetProperty="Opacity">
+                    <DoubleAnimation Storyboard.TargetName="Chrome" From="0" To="1" Duration="0:0:.25" BeginTime="0:0:0" />
+                    <DoubleAnimation Storyboard.TargetName="sdw" From="0" To=".4" Duration="0:0:.5" BeginTime="0:0:0" />
+                </Storyboard>
+                <Storyboard x:Key="mouseout" Storyboard.TargetProperty="Opacity" FillBehavior="Stop">
+                    <DoubleAnimation Storyboard.TargetName="Chrome" From="1" To="0" Duration="0:0:.5" BeginTime="0:0:0" />
+                    <DoubleAnimation Storyboard.TargetName="sdw" From=".4" To="0" Duration="0:0:.25" BeginTime="0:0:0" />
+                </Storyboard>
+                <Storyboard x:Key="mousedown" Storyboard.TargetProperty="Color">
+                    <ColorAnimation Storyboard.TargetName="bgcolorchome" To="{StaticResource AccentColor}" Duration="0:0:0.15"/>
+                </Storyboard>
+                <Storyboard x:Key="mouseup" Storyboard.TargetProperty="Color" FillBehavior="Stop">
+                    <ColorAnimation Storyboard.TargetName="bgcolorchome" To="{StaticResource ButtonBackgroundHoverColor}" Duration="0:0:0.15"/>
+                </Storyboard>
+            </ControlTemplate.Resources>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonTextDisabled}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource mousehover}"/>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource mouseout}"/>
+                    </Trigger.ExitActions>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonText}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource mousedown}"/>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource mouseup}"/>
+                    </Trigger.ExitActions>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderPressed}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonTextPressed}"/>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="true">
+                    <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Accent}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Page.Resources>
+
+    <Grid Margin="38,0,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,42,0,0" >
+            <StackPanel>
+               <Label Content="SECRETARIAS" FontSize="20" TextElement.FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20"/>
+                <WrapPanel HorizontalAlignment="Center" Margin="10">
+                    <Button Visibility="Collapsed"
+                            Content="ATUALIZAR SISTEMA"
+                            Template="{StaticResource ButtonFade}"
+                            SnapsToDevicePixels="True" Margin="1">
+                    </Button>
+                </WrapPanel>
+                <WrapPanel HorizontalAlignment="Center" Margin="10">
+                    <Button Width="250"
+                                Visibility="{Binding Path=AcessoGoverno, Converter={StaticResource BoolToVis}}"
+                                Height="120" 
+                                CommandParameter="/Sim.Sec.Governo;component/Menu/View/pMain.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1"
+                            Template="{StaticResource ButtonFade}">
+                        <Button.Content>
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Path Grid.Row="0" Stretch="Uniform" Width="50" Data="M0.5,93.6449973583221L79.8140016198158,93.6449973583221 79.8140016198158,98.2469968795776 0.5,98.2469968795776z M4.32399851083755,82.4109954833984L75.107000887394,82.4109954833984 75.107000887394,90.2459967136383 4.32399851083755,90.2459967136383z M59.1949983239174,40.0019950866699L66.1379991173744,40.0019950866699 66.1379991173744,79.0119962692261 59.1949983239174,79.0119962692261z M35.8030000329018,40.0019950866699L42.7459970116615,40.0019950866699 42.7459970116615,79.0119962692261 35.8030000329018,79.0119962692261z M14.3829990029335,40.0019950866699L21.3259988427162,40.0019950866699 21.3259988427162,79.0119962692261 14.3829990029335,79.0119962692261z M56.8409982323647,33.3269958496094L68.1969972252846,33.3269958496094 68.1969972252846,39.0019950866699 56.8409982323647,39.0019950866699z M33.4499993920326,33.3269958496094L44.804998934269,33.3269958496094 44.804998934269,39.0019950866699 33.4499993920326,39.0019950866699z M12.0299993157387,33.3269958496094L23.3859983086586,33.3269958496094 23.3859983086586,39.0019950866699 12.0299993157387,39.0019950866699z M4.32399851083755,23.4879989624023L75.107000887394,23.4879989624023 75.107000887394,30.4309959411621 4.32399851083755,30.4309959411621z M39.4255204796791,0.5L71.8709931969643,20.817497253418 7.8549981713295,21.1539993286133z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                                <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="GOVERNO" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="250"
+                                Visibility="{Binding Path=AcessoDesenvolvimento, Converter={StaticResource BoolToVis}}"
+                                Height="120" 
+                                CommandParameter="/Sim.Sec.Desenvolvimento;component/Menu/View/pMenu.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1"
+                            Template="{StaticResource ButtonFade}">
+                        <Button.Content>
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Path Grid.Row="0" Stretch="Uniform" Width="50" Data="M0.5,77.6398549675941L66.3259959220886,77.6398549675941 66.3259959220886,85.4548540115356 0.5,85.4548540115356z M7.02300024032593,43.9598541259766L16.284999370575,43.9598541259766 16.284999370575,71.6398544311523 7.02300024032593,71.6398544311523z M28.9009985923767,31.0308532714844L37.6629977226257,31.0308532714844 37.6629977226257,71.6398544311523 28.9009985923767,71.6398544311523z M51.7120013237,19.0198554992676L59.8069987297058,19.0198554992676 59.8069987297058,71.6398544311523 51.7120013237,71.6398544311523z M58.0841174125671,0.5L45.6804766654968,18.2885437011719 42.3593745231628,12.8950271606445 5.76880407333374,35.4259490966797 3.23472666740417,31.3105659484863 39.825297832489,8.77964782714844 36.6793398857117,3.67056274414063z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                                <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="DESENVOLVIMENTO" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

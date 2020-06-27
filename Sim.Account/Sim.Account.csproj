@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7D7FEAD6-A514-4803-9714-18F8B3F4034B}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Sim.Account</RootNamespace>
+    <AssemblyName>Sim.Account</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Logged.cs" />
+    <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\mContas.cs" />
+    <Compile Include="Model\mData.cs" />
+    <Compile Include="Model\mGenerico.cs" />
+    <Compile Include="Model\mGenero.cs" />
+    <Compile Include="Model\mIDInternal.cs" />
+    <Compile Include="Model\mModuloGenerico.cs" />
+    <Compile Include="Model\mModulos.cs" />
+    <Compile Include="Model\mOpcoes.cs" />
+    <Compile Include="Model\mRegistroAcesso.cs" />
+    <Compile Include="Model\mString.cs" />
+    <Compile Include="Model\mSubModulos.cs" />
+    <Compile Include="Model\mUser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ViewModel\vmAccounts.cs" />
+    <Compile Include="ViewModel\vmAdd.cs" />
+    <Compile Include="ViewModel\vmChange.cs" />
+    <Compile Include="ViewModel\vmLgpsw.cs" />
+    <Compile Include="ViewModel\vmLguser.cs" />
+    <Compile Include="ViewModel\vmLogin.cs" />
+    <Compile Include="ViewModel\vmProfile.cs" />
+    <Compile Include="View\pAccounts.xaml.cs">
+      <DependentUpon>pAccounts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\pAdd.xaml.cs">
+      <DependentUpon>pAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\pLgpsw.xaml.cs">
+      <DependentUpon>pLgpsw.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\pLguser.xaml.cs">
+      <DependentUpon>pLguser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\pLogin.xaml.cs">
+      <DependentUpon>pLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\pManager.xaml.cs">
+      <DependentUpon>pManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\pProfile.xaml.cs">
+      <DependentUpon>pProfile.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagens\id_icon.png" />
+    <Resource Include="Imagens\keys.ico" />
+    <Resource Include="Imagens\UserAccountsIcon.png" />
+    <Resource Include="Imagens\user_f.png" />
+    <Resource Include="Imagens\user_m.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sim.Controls\Sim.Controls.csproj">
+      <Project>{cd114252-8d43-4210-99ee-5b94bd244448}</Project>
+      <Name>Sim.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.DataBase\Sim.DataBase.csproj">
+      <Project>{2e19850b-b7b8-4a73-966a-6096335b03b2}</Project>
+      <Name>Sim.DataBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.Data\Sim.Data.csproj">
+      <Project>{c1152f88-a269-4111-b36c-1481a108ef11}</Project>
+      <Name>Sim.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.Mvvm\Sim.Mvvm.csproj">
+      <Project>{e3c9b155-a836-485e-b222-8b359f2ce80e}</Project>
+      <Name>Sim.Mvvm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\pAccounts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\pAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\pLgpsw.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\pLguser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\pLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\pManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\pProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

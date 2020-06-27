@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Sim.Sec.Governo.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PDFPortarias" Type="System.String" Scope="User">
+      <Value Profile="(Default)">...</Value>
+    </Setting>
+    <Setting Name="JOPortarias" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.jau.sp.gov.br/painel/arquivos/jornal/</Value>
+    </Setting>
+    <Setting Name="PDFLegislacao" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://leis.jau.sp.gov.br</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

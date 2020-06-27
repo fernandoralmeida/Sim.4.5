@@ -1,0 +1,38 @@
+﻿<Page x:Class="Sim.Sec.Governo.Legislacao.View.Pages.pLinkPdf"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      xmlns:vmp="clr-namespace:Sim.Sec.Governo.Legislacao.ViewModel.vmPages"
+      mc:Ignorable="d" 
+      SnapsToDevicePixels="True" UseLayoutRounding="True"
+	Title="pLinkPdf">
+    <Page.DataContext>
+        <vmp:vmLinkPdf/>
+    </Page.DataContext>
+    <Page.Resources>
+        <conv:Converter x:Key="MultConverter"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="PDFs" Margin="0,0,0,10" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="ACESSAR ARQUIVOS EM" FontSize="10" Grid.Row="0" Grid.Column="0" Margin="2,0"/>
+            <TextBox Text="{Binding RootPDF}" IsEnabled="{Binding TextBoxEnabled}" Grid.Column="0" Grid.Row="1" Margin="2"/>
+            <Button Content="{Binding RootPDFRotulo}" Grid.Row="1" Grid.Column="1" Margin="2" Command="{Binding CommandUpdateRootPDF}"/>
+        </Grid>
+    </Grid>
+</Page>

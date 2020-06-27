@@ -1,0 +1,58 @@
+﻿<Page x:Class="Sim.Sec.Desenvolvimento.Shared.View.Opcoes.pOrigem"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      xmlns:vm="clr-namespace:Sim.Sec.Desenvolvimento.Shared.ViewModel.Opcoes"
+      mc:Ignorable="d"
+      Title="Atendimento">
+
+    <Page.DataContext>
+        <vm:vmAtendimento />
+    </Page.DataContext>
+
+    <Page.Resources>
+        <conv:Converter x:Key="MultConverter"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Origem Atendimento" Margin="2,0,0,10"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Column="0" Grid.Row="0" Margin="2" Text="{Binding NovaClassificacao}"/>
+            <Button Content="Incluir Local" Grid.Column="1" Grid.Row="0" Margin="2" Command="{Binding CommandInsertClassificacao}"/>
+            <DataGrid AutoGenerateColumns="False" HorizontalScrollBarVisibility="Auto" HeadersVisibility="Column" ItemsSource="{Binding Listar}" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="2" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Valor}" ClipboardContentBinding="{x:Null}" Header="Código"/>
+                    <DataGridTextColumn Binding="{Binding Nome}" ClipboardContentBinding="{x:Null}" Header="Local"/>
+                    <DataGridTemplateColumn Header="Ativo">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Name="classl" Content="Sim" IsChecked="{Binding Ativo}" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding DataContext.CommandBlockClassificacao, RelativeSource={RelativeSource AncestorType={x:Type Page}}}">
+                                    <CheckBox.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource MultConverter}">
+                                            <Binding Path="Codigo"/>
+                                            <Binding ElementName="classl"/>
+                                        </MultiBinding>
+                                    </CheckBox.CommandParameter>
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Page>

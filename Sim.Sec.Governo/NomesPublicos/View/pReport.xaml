@@ -1,0 +1,31 @@
+﻿<Page x:Class="Sim.Sec.Governo.NomesPublicos.View.pReport"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sim.Sec.Governo.NomesPublicos.View"
+      mc:Ignorable="d" 
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      Title="pReport">
+
+    <Grid Margin="38,0,0,0">
+        <Grid Margin="10,42,10,10" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Visibility="Visible" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <WrapPanel>
+                    <TextBlock Margin="2">
+                        <Hyperlink Command="NavigationCommands.BrowseBack">VOLTAR</Hyperlink>
+                    </TextBlock>
+                    <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+
+                    <Label Content="ESTATISTICAS NOMES PÚBLICOS" Margin="2"/>
+
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

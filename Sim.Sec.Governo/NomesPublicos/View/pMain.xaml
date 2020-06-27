@@ -1,0 +1,53 @@
+﻿<Page x:Class="Sim.Sec.Governo.NomesPublicos.View.pMain"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Sim.Sec.Governo.NomesPublicos.ViewModel"
+      mc:Ignorable="d"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      Title="Pagina Principal">
+
+    <Page.DataContext>
+        <vm:vmMain/>
+    </Page.DataContext>
+
+    <Grid Margin="38,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="10,42,10,10" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0">
+            <WrapPanel>
+                <TextBlock Margin="2" IsEnabled="{Binding IsEnable}">
+                <Hyperlink NavigateUri="pAdd.xaml">INCLUIR</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                <Hyperlink NavigateUri="pSearch.xaml">CONSULTAS</Hyperlink>
+                </TextBlock>
+            </WrapPanel>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto" Margin="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="2" Background="{DynamicResource WindowBackground}" Opacity=".5" BorderThickness="1" BorderBrush="{DynamicResource Accent}"/>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="2">
+                    <Label Content="ULTIMOS DOCUMENTOS INCLUÍDOS" Margin="2" VerticalAlignment="Center"/>
+                </StackPanel>
+                <DockPanel Grid.Row="1" Grid.Column="0">
+                    <StackPanel Margin="10">
+                        <DataGrid SelectionMode="Single" ItemsSource="{Binding LastDocs, NotifyOnSourceUpdated=True}" IsReadOnly="True" HeadersVisibility="Column">
+
+                        </DataGrid>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

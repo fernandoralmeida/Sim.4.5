@@ -1,0 +1,352 @@
+﻿<Page x:Class="Sim.Sec.Desenvolvimento.Shared.View.Viabilidade.pView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Sim.Sec.Desenvolvimento.Shared.ViewModel.Viabilidade"
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      mc:Ignorable="d"
+      KeepAlive="True"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      Title="Estudo de Viabilidade">
+    <Page.DataContext>
+        <vm:vmView/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <conv:Converter x:Key="MultConverter"/>
+    </Page.Resources>
+
+    <Grid Margin="38,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,42,0,0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Margin="2,0" Grid.Row="0" VerticalAlignment="Center">
+                    <Hyperlink Command="{Binding CommandCancel}">CANCELAR</Hyperlink>
+            </TextBlock>
+            <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+            <Label Content="VIABILIDADE Nº" Margin="2" VerticalAlignment="Center"/>
+            <TextBox VerticalAlignment="Center" Foreground="{DynamicResource Accent}" Background="Transparent" BorderThickness="0" IsReadOnly="True" FontWeight="Bold" Text="{Binding EstudoViabilidade}" Margin="2" />
+        </StackPanel>
+        
+        <ScrollViewer Grid.Row="2">
+            <Grid HorizontalAlignment="Center">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Background="{DynamicResource WindowBackground}" Opacity=".5" BorderThickness="1" BorderBrush="{DynamicResource Accent}"/>
+
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Label FontSize="10" Content="CPF/CNPJ" Grid.Row="1" Margin="2,0"/>
+                        <TextBox Text="{Binding Viabilidade.Requerente.Inscricao}" Grid.Row="2" Margin="2,0"/>
+                        <Button Grid.Column="2" Grid.Row="2" Margin="2,0" Command="{Binding CommandGetCPF}">
+                            <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                      Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Content="------DADOS REQUETENTE ------" FontStyle="Italic" FontSize="10" Margin="2,0"  Grid.Row="0"/>
+
+                            <ItemsControl Grid.Row="1" ItemsSource="{Binding Requerente}" Margin="2,10,2,5">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="INSCRIÇÃO" FontSize="10" Margin="5,0" Grid.Row="0" Grid.Column="0"/>
+                                            <Label Content="CLIENTE" FontSize="10" Margin="5,0" Grid.Row="0" Grid.Column="1"/>
+                                            <Label Content="TELEFONE" FontSize="10" Margin="5,0" Grid.Row="0" Grid.Column="2"/>
+                                            <Label Content="EMAIL" FontSize="10" Margin="5,0" Grid.Row="0" Grid.Column="3"/>
+
+                                            <Label Content="{Binding Inscricao}" Margin="5,0" Grid.Row="1" Grid.Column="0"/>
+                                            <Label Content="{Binding NomeRazao}" Margin="5,0" Grid.Row="1" Grid.Column="1"/>
+                                            <Label Content="{Binding Telefones}" Margin="5,0" Grid.Row="3" Grid.Column="2"/>
+                                            <Label Content="{Binding Email}" Margin="5,0" Grid.Row="3" Grid.Column="3"/>
+
+                                            <Button CommandParameter="{Binding Inscricao}" Command="{Binding DataContext.CommandAlterar, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.RowSpan="2" Grid.Column="4">
+                                                <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                                            </Button>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid Grid.Row="2" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="------ ENDEREÇO DA VIABILIDADE ------" FontStyle="Italic" FontSize="10" Margin="2,0"  Grid.Row="0"/>
+
+                        <StackPanel Grid.Row="1">
+                            <Label Content="CEP" FontSize="10" Margin="2,0"/>
+                            <WrapPanel>
+                                <TextBox MaxLength="10" MinWidth="40" Text="{Binding Viabilidade.CEP}" CharacterCasing="Upper" Margin="2,0"/>
+                                <Button Command="{Binding CommandSynCEP}" Margin="2,0">
+                                    <Button.Content>
+                                        <Path Stretch="Uniform" Height="14" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="F1 M 24,13C 27.1521,13 29.9945,14.3258 32,16.4501L 32,11L 35,14L 35,22L 27,22L 24,19L 29.5903,19C 28.217,17.4656 26.2212,16.5 24,16.5C 20.1969,16.5 17.055,19.3306 16.5661,23L 13.0448,23C 13.5501,17.3935 18.262,13 24,13 Z M 24,31.5C 27.8031,31.5 30.945,28.6694 31.4339,25L 34.9552,25C 34.4499,30.6065 29.738,35 24,35C 20.8479,35 18.0055,33.6742 16,31.5499L 16,37L 13,34L 13,26L 21,26L 24,29L 18.4097,29C 19.783,30.5344 21.7787,31.5 24,31.5 Z"/>
+                                    </Button.Content>
+                                </Button>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="3" Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="LOGRADOURO" FontSize="10" Grid.Row="0" Grid.Column="0" Margin="2,0"/>
+                        <Label Content="NÚMERO" FontSize="10" Grid.Row="0" Grid.Column="1" Margin="2,0"/>
+                        <Label Content="COMPLEMENTO" FontSize="10" Grid.Row="0" Grid.Column="2" Margin="2,0"/>
+
+                        <TextBox Text="{Binding Viabilidade.Logradouro}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="0" Margin="2,0"/>
+                        <TextBox Text="{Binding Viabilidade.Numero}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Margin="2,0"/>
+                        <TextBox Text="{Binding Viabilidade.Complemento}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="2" Margin="2,0"/>
+
+                    </Grid>
+
+                    <Grid Grid.Row="4" Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+
+                        <Label Content="BAIRRO/DISTRITO" FontSize="10" Grid.Row="0" Grid.Column="1" Margin="2,0"/>
+                        <Label Content="MUNICÍPIO" FontSize="10" Grid.Row="0" Grid.Column="2" Margin="2,0"/>
+                        <Label Content="UF" FontSize="10" Grid.Row="0" Grid.Column="3" Margin="2,0"/>
+
+
+                        <TextBox Text="{Binding Viabilidade.Bairro}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Margin="2,0"/>
+                        <TextBox Text="{Binding Viabilidade.Municipio}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="2" Margin="2,0"/>
+                        <TextBox Text="{Binding Viabilidade.UF}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="3" Margin="2,0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="5" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="CTM IMÓVEL" FontSize="10" Grid.Column="0" Grid.Row="0" Margin="2,0"/>
+                        <!--
+                        <Label Content="DATA" FontSize="10" Grid.Column="1" Grid.Row="0" Margin="2,0"/>                      
+                        <Label Content="RESULTADO" FontSize="10" Grid.Column="2" Grid.Row="0" Margin="2,0"/>
+                        <Label Content="AVISO" FontSize="10" Grid.Column="3" Grid.Row="0" Margin="2,0"/>
+                        -->
+                        <TextBox Margin="2,0" Text="{Binding Viabilidade.CTM}" Grid.Row="1" Grid.Column="0"/>
+                        <!--
+                        <DatePicker SelectedDate="{Binding Viabilidade.Data}" Grid.Column="1" Grid.Row="1" Margin="2,0" />
+                        
+                        <DatePicker SelectedDate="{Binding Viabilidade.DataResultado}" Grid.Column="2" Grid.Row="1" Margin="2,0"/>
+                        <DatePicker SelectedDate="{Binding Viabilidade.DataAviso}" Grid.Column="3" Grid.Row="1" Margin="2,0"/>
+                        -->
+                    </Grid>
+
+                    <Grid Grid.Row="6" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="CNAE MEI - ATIVIDADE" FontSize="10" Grid.Column="0" Grid.Row="0" Margin="2,0"/>
+                        <TextBox Margin="2,0" Text="{Binding GetCNAE}" Grid.Row="1" Grid.Column="0"/>
+                        <Button Grid.Column="2" Grid.Row="1" Margin="2,0" Command="{Binding CommandCNAE}">
+                            <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                  Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+                        </Button>
+                        <Button Content="LISTAR CNAE's" Command="{Binding CommandListarCnaeBox}" Margin="2,0" Grid.Column="3" Grid.Row="1"/>
+                    </Grid>
+
+                    <DataGrid Grid.Row="7" Margin="4,2" ItemsSource="{Binding ListaAtividades}" SelectedIndex="{Binding SelectedRow}" AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True">
+                        <DataGrid.Columns>
+
+                            <DataGridTemplateColumn Header="...">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="REMOVER" Style="{StaticResource SystemButtonLink}" HorizontalAlignment="Center" Command="{Binding DataContext.CommandRemoveCNAE, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Binding="{Binding CNAE}" ClipboardContentBinding="{x:Null}" Header="CNAE" />
+                            <DataGridTextColumn Binding="{Binding Descricao}" ClipboardContentBinding="{x:Null}" Header="DESCRIÇÃO" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid Grid.Row="8" Margin="2">
+                        <StackPanel>
+                            <Label Content="------ COMANDOS ------" FontSize="10" FontStyle="Italic" Margin="2"/>
+                            <WrapPanel>
+                                <Button Content="GERAR VIABILIDADE" Command="{Binding CommandMailBox}" Margin="2,0"/>
+                                <Button Content="CANCELAR" Command="{Binding CommandCancel}" Margin="2,0"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+        </ScrollViewer>
+
+        <Grid Grid.RowSpan="3" Visibility="{Binding MailBox}">
+            <Border Background="Black" Opacity=".5"/>
+            <Grid Background="{DynamicResource WindowBackground}" MinHeight="50" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="EMAIL" HorizontalAlignment="Center" FontSize="10" Grid.Row="0" Grid.ColumnSpan="2" Margin="5"/>
+                <Label Content="DE" FontSize="10" Grid.Row="1" Grid.Column="0" Margin="2,0"/>
+                <Label Content="PARA" FontSize="10" Grid.Row="1" Grid.Column="1" Margin="2,0"/>
+                <Label Content="ASSUNTO" FontSize="10" Grid.Row="3" Grid.Column="0" Margin="2,0"/>
+                <TextBox Text="{Binding MailFrom}" Grid.Row="2" Grid.Column="0" VerticalContentAlignment="Center" Margin="2,0"/>
+                <ComboBox IsEditable="True" Text="{Binding MailTo}" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" Margin="2,0">
+                    <ComboBoxItem Content="aprovacao.obras@jau.sp.gov.br"/>
+                    <ComboBoxItem Content="eveline@jau.sp.gov.br"/>
+                    <ComboBoxItem Content="viarapidaempresa@jau.sp.gov.br"/>
+                </ComboBox>
+                <TextBox Text="{Binding MailSubject}" Grid.Row="4" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Margin="2,0"/>
+                <TextBox Text="{Binding Viabilidade.TextoEmail}" Grid.Row="5" MinLines="5" Margin="2,2,2,0" Grid.ColumnSpan="2" AcceptsReturn="True" Grid.Column="0"/>
+
+                <Button Content="GRAVAR" Command="{Binding CommandSendMail}" Grid.Row="6" Grid.Column="0" Margin="2"/>
+                <Button Content="FECHAR" Grid.Row="6" Command="{Binding CommandCloseMailBox}" Grid.Column="1" Margin="2"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.RowSpan="3" Visibility="{Binding CnaeBox}">
+            <Border Background="Black" Opacity=".5"/>
+            <Grid Background="{DynamicResource WindowBackground}" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid Height="500" Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding ListaCNAE}" AutoGenerateColumns="False" HeadersVisibility="Column" Margin="2,0" IsReadOnly="True">
+                    <DataGrid.Columns>
+
+                        <DataGridTemplateColumn Header="...">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="checker" Style="{StaticResource SystemButtonLink}" Content="+" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding DataContext.CommandAddCNAE, RelativeSource={RelativeSource AncestorType={x:Type Page}}}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultConverter}">
+                                                <Binding Path="CNAE"/>
+                                                <Binding Path="Descricao"/>
+                                                <Binding Path="Ocupacao"/>
+                                                <Binding ElementName="checker"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Binding="{Binding CNAE}" ClipboardContentBinding="{x:Null}" Header="CNAE" />
+                        <DataGridTextColumn Binding="{Binding Ocupacao}" ClipboardContentBinding="{x:Null}" Header="OCUPAÇÃO" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button HorizontalAlignment="Right" Content="X" Style="{StaticResource SystemCloseButton}" Grid.Row="0" Command="{Binding CommandCloseCnaeBox}" Grid.Column="1" Margin="2"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.RowSpan="3" Visibility="{Binding BlackBox}">
+            <Border Background="Black" Opacity=".5"/>
+            <Grid>
+                <ProgressBar IsIndeterminate="{Binding StartProgress}" Height="15" Width="200"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Page>

@@ -1,0 +1,55 @@
+﻿<Page x:Class="Sim.View.pSettings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      xmlns:vm="clr-namespace:Sim.ViewModel"
+      xmlns:local="clr-namespace:Sim.View"
+      mc:Ignorable="d" 
+      Title="pSettings">
+
+    <Page.DataContext>
+        <vm:VMSettings/>
+    </Page.DataContext>
+    
+    <Page.Resources>
+        <ResourceDictionary>
+            <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <Storyboard x:Key="ShowPage" >
+                <ThicknessAnimation Storyboard.TargetProperty="Margin" From="150,0,0,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.5" />
+            </Storyboard>
+            <Storyboard x:Key="FadingPage">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1" BeginTime="0:0:0" />
+            </Storyboard>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Margin="38,42,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Margin="10">
+            <TextBlock Margin="5">
+                <Hyperlink NavigateUri="pToolsTheme.xaml" TargetName="stg_innerframe"><Run Text="Personalizar"/></Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="5">
+                <Hyperlink NavigateUri="pToolsPrint.xaml" TargetName="stg_innerframe"><Run Text="Impressão"/></Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="5" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}">
+                <Hyperlink NavigateUri="/Sim.Account;component/View/pAccounts.xaml" TargetName="stg_innerframe"><Run Text="Central de Contas"/></Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="5" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}">
+                <Hyperlink NavigateUri="pToolsDB.xaml" TargetName="stg_innerframe"><Run Text="Banco de Dados"/></Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <Border BorderBrush="{DynamicResource ButtonBorder}" Grid.Column="1" BorderThickness="1,0,0,0" />
+        <Frame x:Name="stg_innerframe" NavigationUIVisibility="Hidden" 
+               Navigating="Stg_innerframe_Navigating" Grid.Column="1" 
+               Source="/Sim.App;component/View/pToolsTheme.xaml"/>
+    </Grid>
+</Page>

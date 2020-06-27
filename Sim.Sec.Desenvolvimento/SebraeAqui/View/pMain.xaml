@@ -1,0 +1,217 @@
+﻿<Page x:Class="Sim.Sec.Desenvolvimento.SebraeAqui.View.pMain"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:shared="clr-namespace:Sim.Controls.Views;assembly=Sim.Controls"
+      xmlns:cctrl="clr-namespace:Sim.Sec.Desenvolvimento.Shared.Control"
+      xmlns:vm="clr-namespace:Sim.Sec.Desenvolvimento.SebraeAqui.ViewModel"
+      mc:Ignorable="d"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      KeepAlive="False"
+      Title="Sebrae Aqui">
+    
+    <Page.DataContext>
+        <vm:vmMain/>
+    </Page.DataContext>
+
+    <Grid Margin="38,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,42,0,0" Grid.Row="0">
+            <WrapPanel HorizontalAlignment="Center">
+                <TextBlock Margin="2">
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pMain.xaml">EMPRESAS</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Pessoa/pMain.xaml">PESSOAS</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Viabilidade/pMain.xaml">VIABILIDADES</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                    <Hyperlink NavigateUri="pConsulta.xaml">SEBRAE</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2" IsEnabled="{Binding IsAdmin}">
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Opcoes/pMain.xaml">OPÇÕES</Hyperlink>
+                </TextBlock>
+            </WrapPanel>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Margin="10" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="2" Background="{DynamicResource WindowBackground}" Opacity=".5" BorderThickness="1" BorderBrush="{DynamicResource Accent}"/>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="2">
+
+                    <TextBlock Margin="2" VerticalAlignment="Center" IsEnabled="{Binding IsEnable}">
+                        <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Atendimento/pNovo.xaml">+ ATENDIMENTOS</Hyperlink>
+                    </TextBlock>
+                    <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                    <Button ToolTip="Retornar" Command="{Binding CommandDataPrev}" Style="{StaticResource SystemButtonIcon}">
+                        <Button.Content>
+                            <Path Stretch="Uniform" Height="12" Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                  Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"  />
+                        </Button.Content>
+                    </Button>
+                    <DatePicker Background="Transparent" BorderThickness="0" SelectedDate="{Binding DataI}" Margin="2,0" Width="100" />
+                    <Button ToolTip="Retornar" Command="{Binding CommandDataNext}" Style="{StaticResource SystemButtonIcon}">
+                        <Button.Content>
+                            <Path Stretch="Uniform" Height="12" Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                  Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"  />
+                        </Button.Content>
+                    </Button>
+                    <!--
+                    <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                    <Button Margin="2" ToolTip="Atualizar lista" Command="{Binding CommandRefreshDate}" Style="{StaticResource SystemButton}">
+                        <Button.Content>
+                            <Path Stretch="Uniform" Height="14" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="F1 M 24,13C 27.1521,13 29.9945,14.3258 32,16.4501L 32,11L 35,14L 35,22L 27,22L 24,19L 29.5903,19C 28.217,17.4656 26.2212,16.5 24,16.5C 20.1969,16.5 17.055,19.3306 16.5661,23L 13.0448,23C 13.5501,17.3935 18.262,13 24,13 Z M 24,31.5C 27.8031,31.5 30.945,28.6694 31.4339,25L 34.9552,25C 34.4499,30.6065 29.738,35 24,35C 20.8479,35 18.0055,33.6742 16,31.5499L 16,37L 13,34L 13,26L 21,26L 24,29L 18.4097,29C 19.783,30.5344 21.7787,31.5 24,31.5 Z"/>
+                        </Button.Content>
+                    </Button>-->
+                    <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                    <TextBlock Margin="2" VerticalAlignment="Center">
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Atendimento/pConsulta.xaml">CONSULTAR</Hyperlink>
+                    </TextBlock>
+                    <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                    <TextBlock Margin="2" VerticalAlignment="Center">
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Atendimento/pReports.xaml">RELATÓRIOS</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+                <DockPanel Grid.Row="1" Grid.Column="0">
+                    <StackPanel Margin="10">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding ListarAtendimentos, NotifyOnSourceUpdated=True}" SelectedIndex="{Binding SelectedRow}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                                <Button ToolTip="Alterar" Command="{Binding DataContext.CommandEdit, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
+                                                    CommandParameter="{Binding Protocolo}" Style="{StaticResource SystemButtonIcon}">
+
+                                                    <Path Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" Height="14" Width="14"/>
+
+                                                </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <!--
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                                <Button ToolTip="Visualizar" Command="{Binding DataContext.CommandPreviewBox, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
+                                                    CommandParameter="{Binding Protocolo}" Style="{StaticResource SystemButtonIcon}">
+
+                                                    <Path Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z" Height="15" Width="17"/>
+
+                                                </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                -->
+                                <DataGridTextColumn Binding="{Binding Contador}" ClipboardContentBinding="{x:Null}" Header="Nº" />
+                                <DataGridTextColumn Binding="{Binding Hora, StringFormat=HH:mm}" ClipboardContentBinding="{x:Null}" Header="HORA" />
+                                <DataGridTemplateColumn Header="CLIENTE">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Button Grid.Column="0" ToolTip="Visualizar" Command="{Binding DataContext.CommandPreviewBox, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
+                                                    CommandParameter="{Binding Protocolo}" Style="{StaticResource SystemButtonIcon}">
+
+                                                    <Path Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z" Height="15" Width="17"/>
+
+                                                </Button>
+                                                <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding Cliente.NomeRazao}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <!--
+                                <DataGridTextColumn Binding="{Binding Cliente.NomeRazao}" ClipboardContentBinding="{x:Null}" Header="CLIENTE" />
+                                -->
+                                <DataGridTemplateColumn Header="SERVIÇOS" MaxWidth="300" ClipboardContentBinding="{x:Null}">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="0,0,5,0" TextTrimming="CharacterEllipsis" Text="{Binding TipoString}" Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridCell}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <!--
+                                <DataGridTextColumn Binding="{Binding TipoString}" MaxWidth="300" ClipboardContentBinding="{x:Null}" Header="SERVIÇOs" />                                
+                                -->
+                                <DataGridTextColumn Binding="{Binding AtendimentoSebrae}" ClipboardContentBinding="{x:Null}" Header="RAE" />
+                                
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <cctrl:ucAgenda VerticalAlignment="Bottom" Grid.Row="2"/>
+
+        <Grid Grid.RowSpan="3" Visibility="{Binding PreviewBox}">
+            <Border Background="Black" Opacity=".5"/>
+            <Grid Margin="0,42,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource WindowBackground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Visibility="{Binding RetVisible}" Command="{Binding CommandRetCPF}" Style="{StaticResource SystemButton}" Grid.Row="0" HorizontalAlignment="Left">
+                    <Button.Content>
+                        <Path Stretch="Uniform" Height="12" Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                  Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"  />
+                    </Button.Content>
+                </Button>
+                <Label Grid.Column="1" Content="INFORMAÇÕES!" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Grid.Column="2" Command="{Binding CommandClosePreview}" Style="{StaticResource SystemCloseButton}" Grid.Row="0" Content="X" HorizontalAlignment="Right"/>
+                <FlowDocumentScrollViewer  
+                    Grid.ColumnSpan="3"
+                    Grid.Column="0"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True" 
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Grid.Row="1" 
+                    Document="{Binding FlowDoc}"/>
+                <Grid Grid.Row="2" Margin="5" Grid.ColumnSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label FontWeight="Bold" Grid.Row="0" Content="ATENDIMENTO SEBRAE" Margin="2,0" FontSize="10" />
+                    <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding AtSebrae.AtendimentoSAC}" Margin="2" />
+                    <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Content="LANÇAR ATENDIMENTO" Margin="2" Command="{Binding CommandAtSebrae}"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        <shared:ucBlackBox Grid.RowSpan="3"/>
+        <shared:ucMessageBox Grid.RowSpan="3"/>
+    </Grid>
+</Page>

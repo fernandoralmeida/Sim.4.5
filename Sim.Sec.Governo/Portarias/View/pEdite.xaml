@@ -1,0 +1,141 @@
+﻿<Page x:Class="Sim.Sec.Governo.Portarias.View.pEdite"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:vm="clr-namespace:Sim.Sec.Governo.Portarias.ViewModel"
+      xmlns:cmctrl="clr-namespace:Sim.Controls;assembly=Sim.Controls"
+      xmlns:providers="clr-namespace:Sim.Sec.Governo.Portarias.ViewModel.Providers"
+      mc:Ignorable="d" 
+      UseLayoutRounding="True"
+      SnapsToDevicePixels="True"
+      Title="pEdite">
+
+    <Page.DataContext>
+        <vm:vmEdit/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <providers:vmServidorName x:Key="servName"/>
+        <providers:vmClassificacao x:Key="tpoProvider"/>
+    </Page.Resources>
+
+    <Grid Margin="38,0,0,0">
+        <Grid Margin="10,42,10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="10" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.7*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.8*"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+                <GroupBox Header="Portaria" Margin="5" Grid.Row="0" Grid.Column="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Número" Grid.Row="0" Grid.Column="0"/>
+                        <Label Content="Data" Grid.Row="0" Grid.Column="1"/>
+                        <Label Content="Publicado" Grid.Row="0" Grid.Column="2"/>
+                        <Label Content="Espécie" Grid.Row="2" Grid.ColumnSpan="3"/>
+                        <Label Content="Resumo/Descrição" Grid.Row="4" Grid.ColumnSpan="3"/>
+                        <TextBox Text="{Binding Portaria.Numero}" Grid.Row="1" Grid.Column="0" Margin="2"/>
+                        <!--
+                    <DatePicker SelectedDate="{Binding Portaria.Data}" Grid.Row="1" Grid.Column="1" Margin="2"/>
+                    -->
+                        <DatePicker SelectedDate="{Binding Portaria.Data, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Margin="2"/>
+                        <TextBox Text="{Binding Portaria.Publicada}" Grid.Row="1" Grid.Column="2" Margin="2" CharacterCasing="Upper"/>
+                        <ComboBox Grid.Row="3" Grid.ColumnSpan="3" Margin="2" ItemsSource="{Binding Source={StaticResource ResourceKey=tpoProvider}}" DisplayMemberPath="Nome" SelectedValuePath="Codigo" SelectedValue="{Binding Portaria.Tipo}"/>
+                        <TextBox Text="{Binding Portaria.Resumo}" Grid.Row="5" Grid.ColumnSpan="3" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" Margin="2" VerticalScrollBarVisibility="Auto" CharacterCasing="Upper"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Info. Registro" Margin="5" Grid.RowSpan="2" Grid.Column="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Indice" Grid.Row="0"/>
+                        <Label Content="Link" Grid.Row="2"/>
+                        <Label Content="Data Cadastro" Grid.Row="4"/>
+                        <Label Content="Atualização" Grid.Row="6"/>
+                        <Label Content="Desativar Registro" Grid.Row="8"/>
+                        <TextBox Text="{Binding Portaria.Indice}" Grid.Row="1" Margin="2"/>
+                        <TextBox Text="{Binding Portaria.Pdf}" Grid.Row="3" Margin="2" CharacterCasing="Lower"/>
+                        <!--
+                    <DatePicker SelectedDate="{Binding Portaria.Cadastrado}" Grid.Row="5" Margin="2"/>
+                    <DatePicker SelectedDate="{Binding Portaria.Atualizado}" Grid.Row="7" Margin="2"/>
+                    -->
+                        <DatePicker SelectedDate="{Binding Portaria.Cadastrado, Mode=TwoWay}" Grid.Row="5" Margin="2"/>
+                        <DatePicker SelectedDate="{Binding Portaria.Atualizado, Mode=TwoWay}" Grid.Row="7" Margin="2"/>
+                        <CheckBox IsChecked="{Binding Portaria.Excluido}" Content="Sim" Grid.Row="9" Margin="2"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Servidor(es)" Margin="5,0,5,5" Grid.Row="1" Grid.Column="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <cmctrl:SuggestingTextBox Margin="2" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Source={StaticResource ResourceKey=servName}}" Text="{Binding Names, Mode=TwoWay}" Delay="200" Threshold="1"/>
+                        <Button Content="Incluir Servidor" Grid.Column="1" Grid.Row="0" Margin="2" Command="{Binding CommandIncName}"/>
+                        <DataGrid HeadersVisibility="Column" ItemsSource="{Binding Portaria.Servidor}" SelectedIndex="{Binding SelectedRow}" Grid.Row="1" Grid.ColumnSpan="2" IsReadOnly="True" AutoGenerateColumns="False" Margin="2">
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn Header="...">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource SystemButtonLink}" Command="{Binding DataContext.CommandExcName, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content ="Excluir"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn Binding="{Binding Path=Nome}" ClipboardContentBinding="{x:Null}" Header="Servidor(es)" />
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Comandos" Margin="5,0,5,5" Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="Gravar Alteração" Grid.Column="0" Margin="2" Command="{Binding CommandSave}"/>
+                        <Button Content="Cancelar" Grid.Column="1" Margin="2" Command="{Binding CommandCancel}"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

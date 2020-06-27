@@ -1,0 +1,342 @@
+﻿<Page x:Class="Sim.Sec.Desenvolvimento.Shared.View.Pessoa.pNovo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:shared="clr-namespace:Sim.Controls.Views;assembly=Sim.Controls"
+      xmlns:vm="clr-namespace:Sim.Sec.Desenvolvimento.Shared.ViewModel.Pessoa"
+      KeepAlive="True"
+      mc:Ignorable="d"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      Title="Novo">
+    
+    <Page.DataContext>
+        <vm:vmNovo/>
+    </Page.DataContext>
+
+    <Grid Margin="38,0,0,0">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Margin="0,42,0,0" Grid.Row="1">
+            <Grid HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.RowSpan="5" Background="{DynamicResource WindowBackground}" Opacity=".5" BorderThickness="1" BorderBrush="{DynamicResource Accent}"/>
+
+                <Grid Grid.Row="0" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="2,10" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+
+                        <Label Content="CPF" FontSize="10" Grid.Column="0" Grid.Row="0" Margin="2,0"/>
+                        <Label Content="RG" FontSize="10" Grid.Column="1" Grid.Row="0" Margin="2,0"/>
+
+                        <Label Content="NASCIMENTO" FontSize="10" Grid.Column="3" Grid.Row="0" Margin="2,0"/>
+
+                        <TextBox MaxLength="14" Text="{Binding PessoaFisica.CPF}" CharacterCasing="Upper" Grid.Column="0" Grid.Row="1" Margin="2,0"/>
+                        <TextBox MaxLength="14" Text="{Binding PessoaFisica.RG}" CharacterCasing="Upper" Grid.Column="1" Grid.Row="1" Margin="2,0"/>
+                        <DatePicker SelectedDate="{Binding PessoaFisica.DataNascimento}" Grid.Column="2" Grid.Row="1" Margin="2,0"/>
+
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="2,10" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="NOME" FontSize="10" Grid.Row="0" Margin="2,0"/>
+
+                        <TextBox Grid.Column="0" Text="{Binding PessoaFisica.Nome}" CharacterCasing="Upper" Grid.Row="1" Margin="2,0"/>
+
+                        <Label Grid.Column="1" Content="SEXO" FontSize="10" Grid.Row="0" Margin="2,0"/>
+
+                        <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding ListaSexo}" DisplayMemberPath="Nome" SelectedValuePath="Valor" SelectedValue="{Binding PessoaFisica.Sexo}" Margin="2,0"/>
+
+                    </Grid>
+
+
+
+                    <Grid Grid.Row="2" Margin="2,10" Grid.ColumnSpan="2">
+                        <WrapPanel Grid.Row="2">
+                            <CheckBox Content="POSSUI DEFICIÊNCIA" IsChecked="{Binding TemDeficiencia}" FontSize="10" Margin="2" VerticalAlignment="Center"/>
+                            <WrapPanel Visibility="{Binding DeficienteView}">
+                                <Label Content=">" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox Content="FISICA" IsChecked="{Binding Deficiente.Fisica}" FontSize="10" Margin="2" VerticalAlignment="Center"/>
+                                <CheckBox Content="VISUAL" IsChecked="{Binding Deficiente.Visual}" FontSize="10" Margin="2" VerticalAlignment="Center"/>
+                                <CheckBox Content="AUDITIVA" IsChecked="{Binding Deficiente.Auditiva}" FontSize="10" Margin="2" VerticalAlignment="Center"/>
+                                <CheckBox Content="INTELECTUAL" IsChecked="{Binding Deficiente.Intelectual}" FontSize="10" Margin="2" VerticalAlignment="Center"/>
+                            </WrapPanel>
+                        </WrapPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="3" Margin="2,10" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="CEP" FontSize="10" Grid.Row="0" Grid.Column="0" Margin="2,0"/>
+                        <TextBox MaxLength="10" Text="{Binding PessoaFisica.CEP}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="0" Margin="2,0"/>
+
+                        <Button Command="{Binding CommandSynCEP}" Grid.Row="1" Grid.Column="1" Margin="2,0">
+                            <Button.Content>
+                                <Path Stretch="Uniform" Height="14" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="F1 M 24,13C 27.1521,13 29.9945,14.3258 32,16.4501L 32,11L 35,14L 35,22L 27,22L 24,19L 29.5903,19C 28.217,17.4656 26.2212,16.5 24,16.5C 20.1969,16.5 17.055,19.3306 16.5661,23L 13.0448,23C 13.5501,17.3935 18.262,13 24,13 Z M 24,31.5C 27.8031,31.5 30.945,28.6694 31.4339,25L 34.9552,25C 34.4499,30.6065 29.738,35 24,35C 20.8479,35 18.0055,33.6742 16,31.5499L 16,37L 13,34L 13,26L 21,26L 24,29L 18.4097,29C 19.783,30.5344 21.7787,31.5 24,31.5 Z"/>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Row="4" Margin="2,10" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="LOGRADOURO" FontSize="10" Grid.Row="0" Grid.Column="0" Margin="2,0"/>
+                        <Label Content="NÚMERO" FontSize="10" Grid.Row="0" Grid.Column="1" Margin="2,0"/>
+                        <Label Content="COMPLEMENTO" FontSize="10" Grid.Row="0" Grid.Column="2" Margin="2,0"/>
+
+                        <TextBox Text="{Binding PessoaFisica.Logradouro}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="0" Margin="2,0"/>
+                        <TextBox Text="{Binding PessoaFisica.Numero}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Margin="2,0"/>
+                        <TextBox Text="{Binding PessoaFisica.Complemento}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="2" Margin="2,0"/>
+
+                    </Grid>
+
+                    <Grid Grid.Row="5" Margin="2,10" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+
+                        <Label Content="BAIRRO/DISTRITO" FontSize="10" Grid.Row="0" Grid.Column="1" Margin="2,0"/>
+                        <Label Content="MUNICÍPIO" FontSize="10" Grid.Row="0" Grid.Column="2" Margin="2,0"/>
+                        <Label Content="UF" FontSize="10" Grid.Row="0" Grid.Column="3" Margin="2,0"/>
+
+
+                        <TextBox Text="{Binding PessoaFisica.Bairro}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Margin="2,0"/>
+                        <TextBox Text="{Binding PessoaFisica.Municipio}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="2" Margin="2,0"/>
+                        <TextBox Text="{Binding PessoaFisica.UF}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="3" Margin="2,0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="6" Margin="2,10" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="EMAIL" FontSize="10" Grid.Row="0" Grid.Column="0" Margin="2,0"/>
+                        <Label Content="TELEFONE" FontSize="10" Grid.Row="0" Grid.Column="1" Margin="2,0"/>
+
+                        <TextBox Text="{Binding PessoaFisica.Email}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="0" Margin="2,0"/>
+                        <TextBox Text="{Binding PessoaFisica.Telefones}" CharacterCasing="Upper" Grid.Row="1" Grid.Column="1" Margin="2,0"/>
+
+                    </Grid>
+
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="------ INFORMAÇÕES ADICIONAIS ------" FontStyle="Italic" FontSize="10" Margin="2,0" Grid.Row="0" Grid.ColumnSpan="2" />
+
+                    <Label Content="PERFIL" FontSize="10" Margin="2,0" Grid.Row="1" Grid.Column="0"/>
+                    <ComboBox Margin="2,0" ItemsSource="{Binding ListaPerfis}" DisplayMemberPath="Nome" SelectedValuePath="Valor" SelectedValue="{Binding Perfis.Perfil}" Grid.Row="2" Grid.Column="0"/>
+                    <Label Content="COM NEGÓCIO" FontSize="10" Margin="2,0" Grid.Row="1" Grid.Column="1"/>
+                    <CheckBox IsChecked="{Binding Perfis.Negocio}" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="------ CONTATO COMERCIAL ------" FontStyle="Italic" FontSize="10" Margin="2,0" Grid.Row="0" Grid.ColumnSpan="4" />
+
+                    <Label Content="VÍNCULO" FontSize="10" Grid.Row="1" Grid.Column="0" Margin="2,0"/>
+                    <Label Content="CNPJ" FontSize="10" Grid.Row="1" Grid.Column="1" Margin="2,0"/>
+
+                    <ComboBox ItemsSource="{Binding ListaVinculos}" DisplayMemberPath="Nome" SelectedValuePath="Valor" SelectedValue="{Binding Vinculos.Vinculo}" Margin="2,0" Grid.Row="2" Grid.Column="0"/>
+
+                    <TextBox MaxLength="18" Text="{Binding CNPJ}" CharacterCasing="Upper" Grid.Row="2" Grid.Column="1" Margin="2,0"/>
+                    <Button Grid.Column="2" Grid.Row="2" Margin="2,0" Command="{Binding CommandGetEmpresa}">
+                        <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                              Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+                    </Button>
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="5" Visibility="{Binding ViewDataGrid}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="------ EMPRESAS VÍNCULADAS ------" FontStyle="Italic" FontSize="10" Margin="2,0" Grid.ColumnSpan="2" Grid.Row="0"/>
+
+                        <DataGrid Margin="2" SnapsToDevicePixels="True" HeadersVisibility="Column" ItemsSource="{Binding ListaVinculoPJ, NotifyOnSourceUpdated=True}" SelectedIndex="{Binding SelectedRow, NotifyOnSourceUpdated=True}" IsReadOnly="True" AutoGenerateColumns="False" RowDetailsVisibilityMode="VisibleWhenSelected"  HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn Header="">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="REMOVER" Command="{Binding DataContext.CommandRemoverCNPJ, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="CNPJ">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Background="Transparent" BorderThickness="0" Text="{Binding CNPJ}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="EMPRESA">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Background="Transparent" BorderThickness="0" Text="{Binding RazaoSocical}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="TEL.">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Background="Transparent" BorderThickness="0" Text="{Binding Telefones}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="EMPRESA">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Background="Transparent" BorderThickness="0" Text="{Binding VinculoEmpresa}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!--
+                                <DataGridTextColumn Binding="{Binding CNPJ}" ClipboardContentBinding="{x:Null}" Header="CNPJ" />
+                                <DataGridTextColumn Binding="{Binding RazaoSocical}" ClipboardContentBinding="{x:Null}" Header="EMPRESA" />
+                                <DataGridTextColumn Binding="{Binding Telefones}" ClipboardContentBinding="{x:Null}" Header="TEL" />
+                                <DataGridTextColumn Binding="{Binding VinculoEmpresa}" ClipboardContentBinding="{x:Null}" Header="VÍNCULO" />
+                                -->
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="4" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="------ COMANDOS ------" FontStyle="Italic" FontSize="10" Margin="2,0" Grid.ColumnSpan="2" Grid.Row="0"/>
+                    <Button Content="GRAVAR" Grid.Column="0" Grid.Row="1" Command="{Binding CommandGravar}" Margin="2"/>
+                    <Button Content="CANCELAR" Grid.Column="1" Grid.Row="1" Command="{Binding CommandCancelar}" Margin="2"/>
+
+                </Grid>
+
+                <Grid Visibility="Collapsed" Grid.Row="1" Grid.RowSpan="4"  Margin="10,40,10,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="DATA CADASTRO" FontSize="10" Margin="2,0" Grid.Row="0"/>
+                    <DatePicker SelectedDate="{Binding PessoaFisica.Cadastro}" Margin="2" Grid.Row="1" />
+                    <Label Content="ULTIMA ALTERAÇÃO" FontSize="10" Margin="2,0" Grid.Row="2"/>
+                    <DatePicker SelectedDate="{Binding PessoaFisica.Atualizado}" Margin="2" Grid.Row="3" />
+                    <CheckBox Content="ATIVO" IsChecked="{Binding PessoaFisica.Ativo}" Margin="2" Grid.Row="4"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <shared:ucBlackBox  Grid.RowSpan="2"/>
+    </Grid>
+</Page>

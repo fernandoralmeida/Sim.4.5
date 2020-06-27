@@ -1,0 +1,179 @@
+﻿<Page x:Class="Sim.Sec.Governo.NomesPublicos.View.pAdd"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Sim.Sec.Governo.NomesPublicos.ViewModel"
+      mc:Ignorable="d" 
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      Title="Incluir Denominacao">
+
+    <Page.DataContext>
+        <vm:vmAdd/>
+    </Page.DataContext>
+
+    <Grid Margin="38,0,0,0">
+        <Grid Margin="10,42,10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Opacity=".5" Background="{DynamicResource WindowBackground}" BorderBrush="{DynamicResource Accent}" BorderThickness="1" Grid.Row="1"/>
+
+                <Grid Margin="5" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="TIPO" FontSize="10" Margin="2,0" Grid.Row="0"/>
+                        <ComboBox MinWidth="100" ItemsSource="{Binding Tipos}" Text="{Binding Denominacao.Tipo}" IsEditable="True" Margin="2,0" Grid.Row="1" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="NOME [EX. NOME DA RUA, PREDIO, PRAÇA E ETC...]" FontSize="10" Margin="2,0" Grid.Column="0" Grid.Row="0"/>
+                        <TextBox CharacterCasing="Upper" Text="{Binding Denominacao.Nome}" Margin="2,0" Grid.Column="0" Grid.Row="1" />
+                        <Label Content="BAIRRO" FontSize="10" Margin="2,0" Grid.Column="1" Grid.Row="0"/>
+                        <TextBox CharacterCasing="Upper" Text="{Binding Denominacao.Bairro}" Margin="2,0" Grid.Column="1" Grid.Row="1" />
+                    </Grid>
+
+                    <Grid Grid.Row="2" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="CEP" FontSize="10" Margin="2,0" Grid.Column="0" Grid.Row="0" />
+                        <TextBox CharacterCasing="Upper" Text="{Binding Denominacao.CEP}" Margin="2,0" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+
+                    <Grid Grid.Row="3" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="PONTO INICIAL" FontSize="10" Margin="2,0" Grid.Row="0" Grid.Column="0"/>
+                        <TextBox MinWidth="100" CharacterCasing="Upper" Text="{Binding Denominacao.PontoInicial}" Margin="2,0" Grid.Row="1" Grid.Column="0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="4" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="NOME ANTERIOR" FontSize="10" Margin="2,0" Grid.Row="0" Grid.Column="0"/>
+                        <TextBox MinWidth="100" CharacterCasing="Upper" Text="{Binding Denominacao.NomeAnterior}" Margin="2,0" Grid.Row="1" Grid.Column="0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="5" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="ORIGEM" FontSize="10" Margin="2,0" Grid.Row="0" Grid.Column="0"/>
+                        <ComboBox MinWidth="100" IsEditable="True" ItemsSource="{Binding Origens}" Text="{Binding Denominacao.Origem}" Margin="2,0" Grid.Row="1" Grid.Column="0"/>
+                        <Label Content="NÚMERO" FontSize="10" Margin="2,0" Grid.Row="0" Grid.Column="1"/>
+                        <TextBox CharacterCasing="Upper" Text="{Binding Denominacao.NumeroOrigem}" Margin="2,0" Grid.Row="1" Grid.Column="1"/>
+                        <Label Content="ANO" FontSize="10" Margin="2,0" Grid.Row="0" Grid.Column="2"/>
+                        <TextBox CharacterCasing="Upper" Text="{Binding Denominacao.AnoOrigem}" Margin="2,0" Grid.Row="1" Grid.Column="2"/>
+
+                    </Grid>
+
+                    <Grid Grid.Row="6" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="ESPECIE" FontSize="10" Margin="2,0" Grid.Row="0" Grid.Column="0"/>
+                        <ComboBox MinWidth="100" ItemsSource="{Binding Especies}" DisplayMemberPath="Especie" SelectedValuePath="Codigo" SelectedValue="{Binding Denominacao.Especie}" Margin="2,0" Grid.Row="1" Grid.Column="0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="7" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="OBSERVAÇÕES" FontSize="10" Margin="2,0" Grid.Row="0" />
+                        <TextBox CharacterCasing="Upper" Text="{Binding Denominacao.Observacoes}" Margin="2,0" Grid.Row="1" AcceptsReturn="True" />
+                    </Grid>
+
+                    <Grid Visibility="Collapsed" Grid.Row="8" Margin="2,10" HorizontalAlignment="Right">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding Denominacao.Cadastro, StringFormat=dd/MM/yyyy}" FontSize="10" Grid.Row="0" Grid.Column="0" Margin="2,0"/>
+                        <Label Content="{Binding Denominacao.Atualizado, StringFormat=dd/MM/yyyy}" FontSize="10" Grid.Column="1" Grid.Row="0" Margin="2,0"/>
+                        <CheckBox Content="ATIVO" IsChecked="{Binding Denominacao.Ativo}" FontSize="10" Grid.Column="2" Grid.Row="0" Margin="2,0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="9" Margin="2,10" HorizontalAlignment="Center" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="GRAVAR" Command="{Binding CommandSave}" Grid.Row="0" Grid.Column="0" Margin="2,0"/>
+                        <Button Content="CANCELAR" Command="NavigationCommands.BrowseBack" Grid.Column="1" Grid.Row="0" Margin="2,0"/>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

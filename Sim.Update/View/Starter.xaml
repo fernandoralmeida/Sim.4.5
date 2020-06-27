@@ -1,0 +1,24 @@
+﻿<Page x:Class="Sim.Update.View.Starter"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Sim.Update.ViewModel"
+      mc:Ignorable="d" 
+      Title="pLoad">
+
+    <Page.DataContext>
+        <vm:Starter/>
+    </Page.DataContext>
+
+    <Grid Background="{DynamicResource Accent}">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="200">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Image Height="128" Grid.Row="0" Source="../sim.app.ico" Stretch="Uniform"/>
+            <ProgressBar Foreground="White" Grid.Row="1" Height="10" IsIndeterminate="True" />
+        </Grid>
+    </Grid>
+</Page>

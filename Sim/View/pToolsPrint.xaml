@@ -1,0 +1,66 @@
+﻿<Page x:Class="Sim.View.pToolsPrint"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:shared="clr-namespace:Sim.Controls.Views;assembly=Sim.Controls"
+      xmlns:vm="clr-namespace:Sim.ViewModel"
+      mc:Ignorable="d" 
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True"
+      Title="Tools Head Print">
+
+    <Page.DataContext>
+        <vm:vmToolsHPrint/>
+    </Page.DataContext>
+
+    <Grid Margin="38,0,0,0">
+        <Grid Margin="0,42,0,0">
+            <Grid HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="PREFEITURA" Margin="2,5,0,0" />
+                    <TextBox Grid.Row="1" Text="{Binding NameOrg}" IsEnabled="{Binding TextBoxEnabledOrg}" Margin="2,0"/>
+                </Grid>
+                <Grid Grid.Row="1" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="FUNDAÇÃO" Margin="2,5,0,0" />
+                    <TextBox Grid.Row="1" Text="{Binding SloganOrg}" IsEnabled="{Binding TextBoxEnabledOrg}" Margin="2,0"/>
+                </Grid>
+                <Grid Grid.Row="2" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="SECRETARIA" Margin="2,5,0,0"/>
+                    <TextBox Grid.Row="1" Text="{Binding DepOrg}" IsEnabled="{Binding TextBoxEnabledOrg}" Margin="2,0"/>
+                </Grid>
+                <Grid Grid.Row="3" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="SETOR" Margin="2,5,0,0"/>
+                    <TextBox Grid.Row="1" Text="{Binding SetorOrg}" IsEnabled="{Binding TextBoxEnabledOrg}" Margin="2,0"/>
+                </Grid>
+                <Button HorizontalAlignment="Left" Grid.Row="4" Content="GRAVAR ALTERAÇÕES" Margin="2,20" Command="{Binding CommandUpdateRelatory}"/>
+            </Grid>
+        </Grid>
+        <shared:ucDialogBox />
+        <shared:ucMessageBox />
+    </Grid>
+
+</Page>

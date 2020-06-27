@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:bing="clr-namespace:Sim.UI.Images">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ModernUI.Light.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- background image taken from http://good-wallpapers.com/ -->
+    <Rectangle x:Key="WindowBackgroundContent" x:Shared="false">
+        <Rectangle.Fill>
+            <ImageBrush bing:BingImage.UseBingImage="True" Opacity=".2" Stretch="UniformToFill" />
+        </Rectangle.Fill>
+    </Rectangle>
+    
+</ResourceDictionary>

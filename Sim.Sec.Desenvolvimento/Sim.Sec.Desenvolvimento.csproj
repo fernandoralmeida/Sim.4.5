@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1BADE65-4D3B-41DF-B1D9-18EF931ACEC6}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Sim.Sec.Desenvolvimento</RootNamespace>
+    <AssemblyName>Sim.Sec.Desenvolvimento</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComercioAmbulante\Model\mAmbulante.cs" />
+    <Compile Include="ComercioAmbulante\Model\mDataCM.cs" />
+    <Compile Include="ComercioAmbulante\Model\mDataReport.cs" />
+    <Compile Include="ComercioAmbulante\Model\mPeriodos.cs" />
+    <Compile Include="ComercioAmbulante\Model\mReportCA.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmConsulta.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmMain.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmNovo.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmPerfil.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmPerfilPrint.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmReport.cs" />
+    <Compile Include="ComercioAmbulante\View\pConsulta.xaml.cs">
+      <DependentUpon>pConsulta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\pMain.xaml.cs">
+      <DependentUpon>pMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\pNovo.xaml.cs">
+      <DependentUpon>pNovo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\pOpcoes.xaml.cs">
+      <DependentUpon>pOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\pPerfil.xaml.cs">
+      <DependentUpon>pPerfil.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\pPerfilPrint.xaml.cs">
+      <DependentUpon>pPerfilPrint.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\pReport.xaml.cs">
+      <DependentUpon>pReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Menu\ViewModel\vmMenu.cs" />
+    <Compile Include="Menu\View\pMenu.xaml.cs">
+      <DependentUpon>pMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SalaEmpreendedor\ViewModel\vmMain.cs" />
+    <Compile Include="SalaEmpreendedor\View\pMain.xaml.cs">
+      <DependentUpon>pMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SebraeAqui\Model\mAtendimentoSebrae.cs" />
+    <Compile Include="SebraeAqui\Model\mDataSA.cs" />
+    <Compile Include="SebraeAqui\ViewModel\vmMain.cs" />
+    <Compile Include="SebraeAqui\View\pConsulta.xaml.cs">
+      <DependentUpon>pConsulta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SebraeAqui\View\pMain.xaml.cs">
+      <DependentUpon>pMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\Control\IAgenda.cs" />
+    <Compile Include="Shared\Control\ucAgenda.xaml.cs">
+      <DependentUpon>ucAgenda.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\Control\ucPreviewBox.xaml.cs">
+      <DependentUpon>ucPreviewBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\Model\AreaTransferencia.cs" />
+    <Compile Include="Shared\Model\mAgenda.cs" />
+    <Compile Include="Shared\Model\mAgendamento.cs" />
+    <Compile Include="Shared\Model\mAtendimento.cs" />
+    <Compile Include="Shared\Model\mCliente.cs" />
+    <Compile Include="Shared\Model\mCNAE.cs" />
+    <Compile Include="Shared\Model\mData.cs" />
+    <Compile Include="Shared\Model\mDeficiencia.cs" />
+    <Compile Include="Shared\Model\mFlowHeader.cs" />
+    <Compile Include="Shared\Model\mFormalizada.cs" />
+    <Compile Include="Shared\Model\mInscricao.cs" />
+    <Compile Include="Shared\Model\mMascaras.cs" />
+    <Compile Include="Shared\Model\mPerfil.cs" />
+    <Compile Include="Shared\Model\mPessoaBase.cs" />
+    <Compile Include="Shared\Model\mPF.cs" />
+    <Compile Include="Shared\Model\mPF_Ext.cs" />
+    <Compile Include="Shared\Model\mPF_Sexo.cs" />
+    <Compile Include="Shared\Model\mPJ.cs" />
+    <Compile Include="Shared\Model\mPJ_Ext.cs" />
+    <Compile Include="Shared\Model\mReportAtendimentos.cs" />
+    <Compile Include="Shared\Model\mReportEmpresas.cs" />
+    <Compile Include="Shared\Model\mReportPessoas.cs" />
+    <Compile Include="Shared\Model\mReports.cs" />
+    <Compile Include="Shared\Model\mReportViabilidade.cs" />
+    <Compile Include="Shared\Model\mSegmentos.cs" />
+    <Compile Include="Shared\Model\mTiposGenericos.cs" />
+    <Compile Include="Shared\Model\mViabilidade.cs" />
+    <Compile Include="Shared\Model\mVinculos.cs" />
+    <Compile Include="Shared\Model\mVinculos_Ext.cs" />
+    <Compile Include="Shared\ViewModel\Agenda\vmCliente.cs" />
+    <Compile Include="Shared\ViewModel\Agenda\vmConsulta.cs" />
+    <Compile Include="Shared\ViewModel\Agenda\vmDetalhe.cs" />
+    <Compile Include="Shared\ViewModel\Agenda\vmEditar.cs" />
+    <Compile Include="Shared\ViewModel\Agenda\vmEvento.cs" />
+    <Compile Include="Shared\ViewModel\Agenda\vmInscricao.cs" />
+    <Compile Include="Shared\ViewModel\Atendimento\vmConsulta.cs" />
+    <Compile Include="Shared\ViewModel\Atendimento\vmEdite.cs" />
+    <Compile Include="Shared\ViewModel\Atendimento\vmNovo.cs" />
+    <Compile Include="Shared\ViewModel\Atendimento\vmReports.cs" />
+    <Compile Include="Shared\ViewModel\Empresa\vmConsulta.cs" />
+    <Compile Include="Shared\ViewModel\Empresa\vmMain.cs" />
+    <Compile Include="Shared\ViewModel\Empresa\vmReport.cs" />
+    <Compile Include="Shared\ViewModel\Empresa\vmView.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmAtendimento.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmAtuacao.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmCnae.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmOrigem.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmPerfil.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmPorte.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmSegmento.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmSexo.cs" />
+    <Compile Include="Shared\ViewModel\Opcoes\vmViabilidade.cs" />
+    <Compile Include="Shared\ViewModel\Pessoa\vmConsulta.cs" />
+    <Compile Include="Shared\ViewModel\Pessoa\vmMain.cs" />
+    <Compile Include="Shared\ViewModel\Pessoa\vmNovo.cs" />
+    <Compile Include="Shared\ViewModel\Pessoa\vmReport.cs" />
+    <Compile Include="Shared\ViewModel\Providers\vmCharts.cs" />
+    <Compile Include="Shared\ViewModel\Viabilidade\vmConsulta.cs" />
+    <Compile Include="Shared\ViewModel\Viabilidade\vmMain.cs" />
+    <Compile Include="Shared\ViewModel\Viabilidade\vmReport.cs" />
+    <Compile Include="Shared\ViewModel\Viabilidade\vmView.cs" />
+    <Compile Include="Shared\View\Agenda\pCliente.xaml.cs">
+      <DependentUpon>pCliente.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Agenda\pConsulta.xaml.cs">
+      <DependentUpon>pConsulta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Agenda\pDetalhe.xaml.cs">
+      <DependentUpon>pDetalhe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Agenda\pEditar.xaml.cs">
+      <DependentUpon>pEditar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Agenda\pEvento.xaml.cs">
+      <DependentUpon>pEvento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Agenda\pInscricao.xaml.cs">
+      <DependentUpon>pInscricao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Atendimento\pConsulta.xaml.cs">
+      <DependentUpon>pConsulta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Atendimento\pEdite.xaml.cs">
+      <DependentUpon>pEdite.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Atendimento\pNovo.xaml.cs">
+      <DependentUpon>pNovo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Atendimento\pReports.xaml.cs">
+      <DependentUpon>pReports.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Empresa\pConsulta.xaml.cs">
+      <DependentUpon>pConsulta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Empresa\pMain.xaml.cs">
+      <DependentUpon>pMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Empresa\pReport.xaml.cs">
+      <DependentUpon>pReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Empresa\pView.xaml.cs">
+      <DependentUpon>pView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pAtendimento.xaml.cs">
+      <DependentUpon>pAtendimento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pAtuacao.xaml.cs">
+      <DependentUpon>pAtuacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pCnae.xaml.cs">
+      <DependentUpon>pCnae.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pMain.xaml.cs">
+      <DependentUpon>pMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pOrigem.xaml.cs">
+      <DependentUpon>pOrigem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pPerfil.xaml.cs">
+      <DependentUpon>pPerfil.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pPorte.xaml.cs">
+      <DependentUpon>pPorte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pVinculo.xaml.cs">
+      <DependentUpon>pVinculo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pSexo.xaml.cs">
+      <DependentUpon>pSexo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Opcoes\pViabilidade.xaml.cs">
+      <DependentUpon>pViabilidade.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Pessoa\pConsulta.xaml.cs">
+      <DependentUpon>pConsulta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Pessoa\pMain.xaml.cs">
+      <DependentUpon>pMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Pessoa\pNovo.xaml.cs">
+      <DependentUpon>pNovo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Pessoa\pReport.xaml.cs">
+      <DependentUpon>pReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Viabilidade\pConsulta.xaml.cs">
+      <DependentUpon>pConsulta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Viabilidade\pMain.xaml.cs">
+      <DependentUpon>pMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Viabilidade\pReport.xaml.cs">
+      <DependentUpon>pReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\View\Viabilidade\pView.xaml.cs">
+      <DependentUpon>pView.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SalaEmpreendedor\Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ComercioAmbulante\View\pConsulta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\pMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\pNovo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\pOpcoes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\pPerfil.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\pPerfilPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\pReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Menu\View\pMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SalaEmpreendedor\View\pMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SebraeAqui\View\pConsulta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SebraeAqui\View\pMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\Control\ucAgenda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\Control\ucPreviewBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Agenda\pCliente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Agenda\pConsulta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Agenda\pDetalhe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Agenda\pEditar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Agenda\pEvento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Agenda\pInscricao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Atendimento\pConsulta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Atendimento\pEdite.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Atendimento\pNovo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Atendimento\pReports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Empresa\pConsulta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Empresa\pMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Empresa\pReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Empresa\pView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pAtendimento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pAtuacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pCnae.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pOrigem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pPerfil.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pPorte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pVinculo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pSexo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Opcoes\pViabilidade.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Pessoa\pConsulta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Pessoa\pMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Pessoa\pNovo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Pessoa\pReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Viabilidade\pConsulta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Viabilidade\pMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Viabilidade\pReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shared\View\Viabilidade\pView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sim.Account\Sim.Account.csproj">
+      <Project>{7d7fead6-a514-4803-9714-18f8b3f4034b}</Project>
+      <Name>Sim.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.Controls\Sim.Controls.csproj">
+      <Project>{cd114252-8d43-4210-99ee-5b94bd244448}</Project>
+      <Name>Sim.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.DataBase\Sim.DataBase.csproj">
+      <Project>{2e19850b-b7b8-4a73-966a-6096335b03b2}</Project>
+      <Name>Sim.DataBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.Data\Sim.Data.csproj">
+      <Project>{c1152f88-a269-4111-b36c-1481a108ef11}</Project>
+      <Name>Sim.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.Mvvm\Sim.Mvvm.csproj">
+      <Project>{e3c9b155-a836-485e-b222-8b359f2ce80e}</Project>
+      <Name>Sim.Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.Services\Sim.Services.csproj">
+      <Project>{4fcfd496-f477-4ad1-8ef4-cd4882f75e41}</Project>
+      <Name>Sim.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sim.UI\Sim.UI.csproj">
+      <Project>{b786a1a4-b08f-47d7-a5a8-ecc8730b5c1d}</Project>
+      <Name>Sim.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

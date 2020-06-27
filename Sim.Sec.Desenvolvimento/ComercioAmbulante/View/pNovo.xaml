@@ -1,0 +1,388 @@
+﻿<Page x:Class="Sim.Sec.Desenvolvimento.ComercioAmbulante.View.pNovo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:shared="clr-namespace:Sim.Controls.Views;assembly=Sim.Controls"
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      xmlns:vm="clr-namespace:Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel"
+      mc:Ignorable="d" 
+      KeepAlive="True"
+      UseLayoutRounding="True"
+      SnapsToDevicePixels="True"
+      Title="Cadastro de Ambulantes">
+
+    <Page.DataContext>
+        <vm:vmNovo/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <conv:Converter x:Key="MultConverter"/>
+    </Page.Resources>
+
+    <Grid  Margin="38,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,42,10,10">
+            <Label Content="CADASTRO DE COMERCIO AMBULANTE" Margin="2" VerticalAlignment="Center"/>
+            <Label Content="{Binding Ambulante.Cadastro}" Margin="2" VerticalAlignment="Center"/>
+        </StackPanel>
+        
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid HorizontalAlignment="Center">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!---->
+                <Border Grid.RowSpan="5" Background="{DynamicResource WindowBackground}" Opacity=".5" BorderThickness="1" BorderBrush="{DynamicResource Accent}"/>
+                                
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>                    
+
+                    <Grid Grid.Row="1" Margin="5" Visibility="{Binding Corpo}">                        
+                        <StackPanel>
+                            <Label Content="CLIENTE ------" Margin="2" FontSize="10" FontStyle="Italic"/>
+ 
+                            <ItemsControl ItemsSource="{Binding PF}" Margin="2,5">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>                                        
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="CPF" FontSize="10" Margin="1,0" Grid.Row="0" Grid.Column="0"/>
+                                            <Label Content="NOME" FontSize="10" Margin="1,0" Grid.Row="0" Grid.Column="1"/>
+                                            <Label Content="TELEFONE" FontSize="10" Margin="1,0" Grid.Row="0" Grid.Column="2"/>
+                                            <Label Content="EMAIL" FontSize="10" Margin="1,0" Grid.Row="0" Grid.Column="3"/>
+
+                                            <TextBox Text="{Binding Inscricao}" Margin="1,0" Grid.Row="1" Grid.Column="0"/>
+                                            <TextBox Text="{Binding NomeRazao}" Margin="1,0" Grid.Row="1" Grid.Column="1"/>
+                                            <TextBox Text="{Binding Telefones}" Margin="1,0" Grid.Row="3" Grid.Column="2"/>
+                                            <TextBox Text="{Binding Email}" Margin="1,0" Grid.Row="3" Grid.Column="3"/>
+
+                                            <Button CommandParameter="{Binding Inscricao}" Margin="1,0" Command="{Binding DataContext.CommandAlterar, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Row="1" Grid.Column="4">
+                                                <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />                                                
+                                            </Button>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            
+                            <ItemsControl ItemsSource="{Binding PJ}" Margin="2,5">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="EMPRESA" FontSize="10" Margin="1,0" Grid.Row="0" Grid.Column="0"/>
+                                            <Label Content="RAZÃO SOCIAL" FontSize="10" Margin="1,0" Grid.Row="0" Grid.Column="1"/>
+                                            <Label Content="TELEFONE" FontSize="10" Margin="1,0" Grid.Row="0" Grid.Column="2"/>
+                                            <Label Content="EMAIL" FontSize="10" Margin="1,0" Grid.Row="0" Grid.Column="3"/>
+
+                                            <TextBox Text="{Binding Inscricao}" Margin="1,0" Grid.Row="1" Grid.Column="0"/>
+                                            <TextBox Text="{Binding NomeRazao}" Margin="1,0" Grid.Row="1" Grid.Column="1"/>
+                                            <TextBox Text="{Binding Telefones}" Margin="1,0" Grid.Row="3" Grid.Column="2"/>
+                                            <TextBox Text="{Binding Email}" Margin="1,0" Grid.Row="3" Grid.Column="3"/>
+
+                                            <Button CommandParameter="{Binding Inscricao}" Margin="1,0" Command="{Binding DataContext.CommandAlterar, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Row="1" Grid.Column="4">
+                                                <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                                            </Button>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="2" Margin="5"  Visibility="{Binding Corpo}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="DETALHES ------" Grid.Row="0" Margin="2" FontSize="10" Grid.ColumnSpan="2" FontStyle="Italic"/>
+
+                        <Grid Grid.Row="1" Margin="2,5,2,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="ATIVIDADE(s)" FontSize="10" Grid.Column="0" Grid.Row="0" Margin="2,0"/>
+                        <TextBox Margin="2,0" Text="{Binding GetCNAE}" Grid.Row="1" Grid.Column="0"/>
+                        <Button Grid.Column="1" Grid.Row="1" Margin="2,0" Command="{Binding CommandCNAE}">
+                            <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                  Data="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" />
+                        </Button>
+                        <Button Command="{Binding CommandListarCnaeBox}" Margin="2,0" Grid.Column="2" Grid.Row="1">
+                            <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                  Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />                        
+                        </Button>
+                        <Button Command="{Binding CommandGetCNAE}" Margin="2,0" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="1">
+                            <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="F1 M 24,13C 27.1521,13 29.9945,14.3258 32,16.4501L 32,11L 35,14L 35,22L 27,22L 24,19L 29.5903,19C 28.217,17.4656 26.2212,16.5 24,16.5C 20.1969,16.5 17.055,19.3306 16.5661,23L 13.0448,23C 13.5501,17.3935 18.262,13 24,13 Z M 24,31.5C 27.8031,31.5 30.945,28.6694 31.4339,25L 34.9552,25C 34.4499,30.6065 29.738,35 24,35C 20.8479,35 18.0055,33.6742 16,31.5499L 16,37L 13,34L 13,26L 21,26L 24,29L 18.4097,29C 19.783,30.5344 21.7787,31.5 24,31.5 Z"/>
+                        </Button>
+                        <DataGrid Grid.Row="3" Grid.ColumnSpan="4" Margin="2" ItemsSource="{Binding ListaAtividades}" SelectedIndex="{Binding SelectedRow}" AutoGenerateColumns="False" HeadersVisibility="None" IsReadOnly="True">
+                        <DataGrid.Columns>
+
+                            <DataGridTemplateColumn Header="...">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="X" Style="{StaticResource SystemButtonLink}" HorizontalAlignment="Center" Command="{Binding DataContext.CommandRemoveCNAE, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Binding="{Binding Ocupacao}" ClipboardContentBinding="{x:Null}" Header="ATIVIDADE" />
+                            <DataGridTextColumn Binding="{Binding CNAE}" ClipboardContentBinding="{x:Null}" Header="CNAE" />
+                            
+                        </DataGrid.Columns>
+                        </DataGrid>
+                        <Label Grid.Column="0" Content="DESCRIÇÃO DETALHADA DA ATIVIDADE COMERCIAL:" Grid.Row="4" Margin="2,5,2,0" FontSize="10"/>
+                        <TextBox Grid.ColumnSpan="4" CharacterCasing="Upper" Text="{Binding Ambulante.DescricaoNegocio}" Grid.Row="5" Margin="2,0,2,2" AcceptsReturn="True" MinLines="4" />                        
+
+                        <Label Grid.Column="0" Content="TEMPO QUE EXERCE A ATIVIDADE: (MESES)" Grid.Row="6" Margin="2,5,2,0" FontSize="10"/>
+                        <TextBox Grid.Column="0" MinWidth="50" HorizontalAlignment="Left" Text="{Binding Ambulante.TempoAtividade}" Grid.Row="7" Margin="2,0,2,2" />                        
+
+                    </Grid>
+                        
+                        <Grid Grid.Row="2" Margin="2,0,2,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="TIPO DE INSTALAÇÃO" Grid.Row="0" Margin="2,5,2,0" FontSize="10"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                <CheckBox Content="TENDA" IsChecked="{Binding IsTenda}" FontSize="10" Margin="2"/>
+                                <CheckBox Content="VEÍCULO" IsChecked="{Binding IsVeiculo}" FontSize="10" Margin="2"/>
+                                <CheckBox Content="TRAILER" IsChecked="{Binding IsTrailer}" FontSize="10" Margin="2"/>
+                                <CheckBox Content="CARRINHO" IsChecked="{Binding IsCarrinho}" FontSize="10" Margin="2"/>
+                                <CheckBox Content="OUTROS" IsChecked="{Binding IsOutros}" FontSize="10" Margin="2"/> 
+                            </StackPanel>  
+                            <Label Grid.Row="2" Visibility="{Binding TextBoxOutrosView}" Content="DESCREVA OUTROS" Margin="2,5,2,0" FontSize="10"/>
+                            <TextBox Grid.Row="3" Text="{Binding GetOutros}" Visibility="{Binding TextBoxOutrosView}" CharacterCasing="Upper" MinWidth="50" Margin="2" HorizontalAlignment="Left"/>                            
+                        </Grid>
+                        
+                        <Grid Grid.Row="3" Margin="2,0,2,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="DIAS E PERIODOS DE TRABALHO" Grid.Row="0" Grid.ColumnSpan="2" Margin="2,5,2,0" Grid.Column="0" FontSize="10"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                                <ComboBox Name="_cbox" SelectedIndex="0" Margin="2,0">
+                                    <ComboBoxItem Content="..."/>
+                                    <ComboBoxItem Content="DOMINGO"/>
+                                    <ComboBoxItem Content="SEGUNDA"/>
+                                    <ComboBoxItem Content="TERÇA"/>
+                                    <ComboBoxItem Content="QUARTA"/>
+                                    <ComboBoxItem Content="QUINTA"/>
+                                    <ComboBoxItem Content="SEXTA"/>
+                                    <ComboBoxItem Content="SABADO"/>
+                                    <ComboBoxItem Content="DIAS UTEIS"/>
+                                    <ComboBoxItem Content="FINAL DE SEMANA"/>
+                                    <ComboBoxItem Content="FERIADOS"/>
+                                    <ComboBoxItem Content="DATAS FESTIVAS"/>
+                                </ComboBox>
+                                <CheckBox IsChecked="{Binding Manha}" Content="MANHÃ" Margin="2" FontSize="10" />
+                                <CheckBox IsChecked="{Binding Tarde}" Content="TARDE" Margin="2" FontSize="10" />
+                                <CheckBox IsChecked="{Binding Noite}" Content="NOITE" Margin="2" FontSize="10" />
+                                <Button ToolTip="Adicionar" Grid.Column="1" Grid.Row="1" Margin="20,0,2,0" Command="{Binding CommandAddTimeWork}">
+                                    <Path Stretch="Uniform" Width="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                          Data="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" />
+                                    <Button.CommandParameter>
+                                        <Binding ElementName="_cbox"/>
+                                    </Button.CommandParameter>
+                                </Button>
+                            </StackPanel>
+                            <DataGrid Grid.Row="3" Grid.ColumnSpan="2" Margin="2" ItemsSource="{Binding ListarTimeWork}" SelectedIndex="{Binding SelectedRow2}" AutoGenerateColumns="False" HeadersVisibility="None" IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="...">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="X" Style="{StaticResource SystemButtonLink}" HorizontalAlignment="Center" Command="{Binding DataContext.CommandRemoveTimeWork, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        
+                                        <DataGridTextColumn Binding="{Binding Dias}" ClipboardContentBinding="{x:Null}" Header="DATA" />
+                                        <DataGridTextColumn Binding="{Binding Periodos}" ClipboardContentBinding="{x:Null}" Header="PERIODO" />                                        
+                                    </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        
+                        <Grid Grid.Row="4" Margin="2,5" HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="NÚMERO DE PESSOAS ENVOLVIDAS" Margin="2,0" FontSize="10" Grid.Column="0" Grid.Row="0" />
+                            <TextBox Text="{Binding Ambulante.PessoasEnvolvidas}" HorizontalAlignment="Left" MinWidth="50" Margin="2,0" Grid.Row="1" />
+                            <Label Content="LOCAL DE TRABALHO" Margin="2,5,2,0" FontSize="10" Grid.Row="2"/>
+                            <TextBox Text="{Binding Ambulante.Local}" CharacterCasing="Upper" Grid.Row="3" Margin="2,0"/>
+                            <StackPanel Grid.Row="4" Margin="2,5">
+                                <CheckBox Margin="0,1" IsChecked="{Binding Ambulante.EntRepresentativa}" Content="É REGISTRADO EM ALGUMA ENTIDADE REPRESENTATIVA?" FontSize="10" />
+                                <CheckBox Margin="0,1" IsChecked="{Binding Ambulante.QuerFormalizar}" Visibility="{Binding TemEmpresa}" Content="TEM INTERESSE EM OBTER INFORMAÇÕES SOBRE FORMALIZAÇÃO?" FontSize="10"/>
+                                <CheckBox Margin="0,1" IsChecked="{Binding Ambulante.TemCadastro}" Content="Possui Cadastro?"/>
+                                <CheckBox Margin="0,1" IsChecked="{Binding DataLicencaView}" Content="Possui Licença?"/>
+                                <DatePicker Margin="0,1" SelectedDate="{Binding Ambulante.DataLicenca,  StringFormat=dd/MM/yyyy}" Visibility="{Binding TemLicenca}" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Grid>
+                        
+                    </Grid>
+
+                    <Grid Grid.Row="3" Margin="7,0,7,5" Visibility="{Binding ViewInfo}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="INFORMAÇÕES ADICIONAIS ------" Grid.Row="0" Grid.ColumnSpan="3" Margin="2,5" FontSize="10" FontStyle="Italic"/>
+
+                        <Label Content="SITUAÇÃO:" Grid.Row="1" Grid.Column="0" Margin="2,0" FontSize="10"/>
+                        <ComboBox Margin="2,0" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="3" 
+                                  DisplayMemberPath="Nome" SelectedValuePath="Valor"
+                                  ItemsSource="{Binding Situacaoes}" SelectedValue="{Binding Ambulante.Situacao}" />
+                        <Label Content="JUSTIFICATIVA:" Grid.Row="3" Grid.Column="0" Margin="2,5,2,0" FontSize="10"/>
+                        <TextBox Text="{Binding Ambulante.Justificativa}" Grid.ColumnSpan="3" AcceptsReturn="True" CharacterCasing="Upper"  Grid.Row="4" Margin="2,0" MinLines="2"/>
+                        
+                        <Label Content="DATA CADASTRO:" Grid.Row="5" Grid.Column="0" Margin="2,5,2,0" FontSize="10"/>
+                        <DatePicker SelectedDate="{Binding Ambulante.DataCadastro, StringFormat=dd/MM/yyyy}" Grid.Column="0" Grid.Row="6" Margin="2,0" />
+
+                        <Label Content="ULTIMA ALTERAÇÃO:" Grid.Row="5" Grid.Column="1"  Margin="2,5,2,0" FontSize="10"/>
+                        <DatePicker SelectedDate="{Binding Ambulante.DataAlteracao, StringFormat=dd/MM/yyyy}" Grid.Row="6" Grid.Column="1" Margin="2,0" />
+
+                        <Label Visibility="Collapsed" Content="ATIVO" Grid.Row="1" Grid.Column="2"  Margin="20,5,20,0" FontSize="10"/>
+                        <CheckBox Visibility="Collapsed" IsChecked="{Binding Atendimento.Ativo}" Grid.Row="2" Grid.Column="2" Margin="10,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                    </Grid>
+
+                    <Grid Grid.Row="4" Margin="5,10,5,5"  Visibility="{Binding Corpo}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Content="GRAVAR CADASTRO" Grid.Column="0" Grid.Row="1" Command="{Binding CommandSave}" Margin="2"/>
+                        <Button Content="CANCELAR" Grid.Column="1" Grid.Row="1" Command="{Binding CommandCancelar}" Margin="2"/>
+                    </Grid>
+
+                </Grid>
+            </Grid>                
+            </ScrollViewer>
+    
+        <Grid Grid.RowSpan="3" Visibility="{Binding CnaeBox}">
+            <Border Background="Black" Opacity=".5"/>
+            <Grid Background="{DynamicResource WindowBackground}" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>                
+                <DataGrid Height="500" Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding ListaCNAE}" AutoGenerateColumns="False" HeadersVisibility="Column" Margin="2,0" IsReadOnly="True">
+                    <DataGrid.Columns>
+
+                        <DataGridTemplateColumn Header="...">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="checker" Style="{StaticResource SystemButtonLink}" Content="+" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding DataContext.CommandAddCNAE, RelativeSource={RelativeSource AncestorType={x:Type Page}}}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultConverter}">
+                                                <Binding Path="CNAE"/>
+                                                <Binding Path="Descricao"/>
+                                                <Binding Path="Ocupacao"/>
+                                                <Binding ElementName="checker"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Binding="{Binding CNAE}" ClipboardContentBinding="{x:Null}" Header="CNAE" />
+                        <DataGridTextColumn Binding="{Binding Ocupacao}" ClipboardContentBinding="{x:Null}" Header="OCUPAÇÃO" /> 
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button HorizontalAlignment="Right" Content="X" Style="{StaticResource SystemCloseButton}" Grid.Row="0" Command="{Binding CommandCloseCnaeBox}" Grid.Column="1" Margin="2"/>
+            </Grid>
+        </Grid>
+        <shared:ucBlackBox Grid.RowSpan="3"/>
+        <shared:ucMessageBox Grid.RowSpan="3"/>
+    </Grid>   
+</Page>

@@ -1,0 +1,75 @@
+﻿<Page x:Class="Sim.Sec.Governo.Portarias.View.pMainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Sim.Sec.Governo.Portarias.ViewModel"
+      mc:Ignorable="d" 
+      Title="Modulo Governo Portarias"
+      SnapsToDevicePixels="True" UseLayoutRounding="True">
+    
+    <Page.DataContext>
+        <vm:vmMainpage/>
+    </Page.DataContext>
+
+    <Grid Margin="38,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,42,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0">
+            <WrapPanel>
+                <TextBlock Margin="2" IsEnabled="{Binding AcessoOK}">
+                <Hyperlink NavigateUri="pAdd.xaml">INCLUIR</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                <Hyperlink NavigateUri="pSearch.xaml">CONSULTAS</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                <Hyperlink NavigateUri="pReports.xaml">RELATÓRIOS</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                <Hyperlink NavigateUri="pConfig.xaml">OPÇÕES</Hyperlink>
+                </TextBlock>
+            </WrapPanel>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Margin="20" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="2" Background="{DynamicResource WindowBackground}" Opacity=".5" BorderThickness="1" BorderBrush="{DynamicResource Accent}"/>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="2">
+                    <Label Content="ULTIMOS DOCUMENTOS INCLUÍDOS" Margin="2" VerticalAlignment="Center"/>
+                </StackPanel>
+                <DockPanel Grid.Row="1" Grid.Column="0">
+                    <StackPanel Margin="10">
+                        <DataGrid Grid.Row="1" SelectionMode="Single" ItemsSource="{Binding LastDocs}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn Header="...">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Portaria"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Binding="{Binding Path=Numero}" ClipboardContentBinding="{x:Null}" Header="Numero"/>
+                                <DataGridTextColumn Binding="{Binding Path=Data, StringFormat=yyyy}" ClipboardContentBinding="{x:Null}" Header="Ano"/>
+                                <DataGridTextColumn Binding="{Binding Path=Tipo}" ClipboardContentBinding="{x:Null}" Header="Tipo" />
+                                <DataGridTextColumn Binding="{Binding Path=Cadastrado, StringFormat=dd/MM/yyyy}" ClipboardContentBinding="{x:Null}" Header="Cadastro" />
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

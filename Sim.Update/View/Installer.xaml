@@ -1,0 +1,51 @@
+﻿<Page x:Class="Sim.Update.View.Installer"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Sim.Update.ViewModel"
+      xmlns:converters="clr-namespace:Sim.Update.Converters"
+      mc:Ignorable="d"
+      UseLayoutRounding="True"
+      SnapsToDevicePixels="True"
+      Title="Sim.Installer">
+
+    <Page.DataContext>
+        <vm:Installer/>
+    </Page.DataContext>
+
+    <Page.Resources>       
+        <ResourceDictionary>
+            <converters:BooleanToVisibilityConverter x:Key="BoolToVisible"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Temas/Button.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,32,0,0">
+            <Image Source="/Sim.Updater;component/sim.app.ico" Height="64" Width="64" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+            <Label HorizontalAlignment="Center" Foreground="White" Content="Olá, Bem Vindo!" Margin="10,10" FontWeight="Bold"/>
+            <Label HorizontalAlignment="Center" Foreground="White" Content="Para iniciar a instalação do SIM" Margin="10,10"/>
+            <Label HorizontalAlignment="Center" Foreground="White" Content="Clique no botão abaixo!" Margin="10,10"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Width="200" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20">
+            <Button Command="{Binding CommandStart}" Visibility="{Binding ButtonEnabled, Converter={StaticResource BoolToVisible}}" Template="{DynamicResource ButtonFade}" HorizontalAlignment="Center" >
+                <Button.Content>
+                    <Canvas Width="48" Height="48">
+                        <Path Data="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" Stroke="White" Fill="YellowGreen" Height="40" Stretch="Fill" Width="32" Canvas.Left="8" Canvas.Top="4" />
+                    </Canvas>
+                </Button.Content>
+            </Button>
+            <ProgressBar Foreground="White" Visibility="{Binding StartProgress, Converter={StaticResource BoolToVisible}}" IsIndeterminate="{Binding StartProgress}" Height="20" Margin="0,20"/>
+            <Label HorizontalAlignment="Center" Foreground="White" Content="{Binding TextProgress}" Margin="10,10"/>
+        </StackPanel>
+    </Grid>
+</Page>

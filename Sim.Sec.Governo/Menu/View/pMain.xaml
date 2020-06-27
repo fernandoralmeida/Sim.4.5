@@ -1,0 +1,151 @@
+﻿<Page x:Class="Sim.Sec.Governo.Menu.View.pMain"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:conv="clr-namespace:Sim.Mvvm.Converters;assembly=Sim.Mvvm"
+      xmlns:vm="clr-namespace:Sim.Sec.Governo.Menu.ViewModel"
+      mc:Ignorable="d" 
+      SnapsToDevicePixels="True" UseLayoutRounding="True"
+      Title="pMain">
+
+    <Page.DataContext>
+        <vm:vmMainContent/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <ControlTemplate x:Key="ButtonFade" TargetType="{x:Type ButtonBase}">
+            <Grid>
+                <Border x:Name="Chrome"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="0"                                        
+                                        SnapsToDevicePixels="true" Opacity="0" >
+                    <Border.Background>
+                        <SolidColorBrush x:Name="bgcolorchome" Color="{DynamicResource ButtonBackgroundColor}"/>
+                    </Border.Background>
+                    <Border.Effect>
+                        <DropShadowEffect x:Name="sdw" BlurRadius="10" ShadowDepth="0" Opacity=".4" Color="Black"/>
+                    </Border.Effect>
+                </Border>
+                <ContentPresenter Name="Presenter" Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            </Grid>
+
+            <ControlTemplate.Resources>
+                <Storyboard x:Key="mousehover" Storyboard.TargetProperty="Opacity">
+                    <DoubleAnimation Storyboard.TargetName="Chrome" From="0" To="1" Duration="0:0:.25" BeginTime="0:0:0" />
+                    <DoubleAnimation Storyboard.TargetName="sdw" From="0" To=".4" Duration="0:0:.5" BeginTime="0:0:0" />
+                </Storyboard>
+                <Storyboard x:Key="mouseout" Storyboard.TargetProperty="Opacity" FillBehavior="Stop">
+                    <DoubleAnimation Storyboard.TargetName="Chrome" From="1" To="0" Duration="0:0:.5" BeginTime="0:0:0" />
+                    <DoubleAnimation Storyboard.TargetName="sdw" From=".4" To="0" Duration="0:0:.25" BeginTime="0:0:0" />
+                </Storyboard>
+                <Storyboard x:Key="mousedown" Storyboard.TargetProperty="Color">
+                    <ColorAnimation Storyboard.TargetName="bgcolorchome" To="{StaticResource AccentColor}" Duration="0:0:0.15"/>
+                </Storyboard>
+                <Storyboard x:Key="mouseup" Storyboard.TargetProperty="Color" FillBehavior="Stop">
+                    <ColorAnimation Storyboard.TargetName="bgcolorchome" To="{StaticResource ButtonBackgroundHoverColor}" Duration="0:0:0.15"/>
+                </Storyboard>
+            </ControlTemplate.Resources>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonTextDisabled}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource mousehover}"/>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource mouseout}"/>
+                    </Trigger.ExitActions>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonText}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource mousedown}"/>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource mouseup}"/>
+                    </Trigger.ExitActions>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderPressed}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonTextPressed}"/>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="true">
+                    <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Accent}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Page.Resources>
+
+    <Grid Margin="38,0,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,42,0,0" >
+            <StackPanel>
+                <Label Content="SERVIÇOS" FontSize="20" TextElement.FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20"/>
+                        <WrapPanel HorizontalAlignment="Center" Margin="10">
+                            <Button Width="250"
+                                Visibility="{Binding Path=AcessoLegislacao, Converter={StaticResource BoolToVis}}"
+                                Height="120" 
+                                CommandParameter="/Sim.Sec.Governo;component/Legislacao/View/pMainPage.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1" Template="{StaticResource ButtonFade}">
+                                <Button.Content>
+                                    <Grid Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Path Grid.Row="0" Stretch="Uniform" Width="64
+                                              
+                                              " Data="M24.5619964599609,82.125L62.7289962768555,82.125 62.7289962768555,90 24.5619964599609,90z M43.2289981842041,27.895999699831L44.2289953231812,27.895999699831C45.8858504295349,27.8959999084473,47.2289962768555,29.2391456365585,47.2289953231812,30.8959994316101L47.2289953231812,74.3269996643066 49.2079963684082,74.3269996643066 49.2079963684082,80.431999206543 38.2709963321686,80.431999206543 38.2709963321686,74.3269996643066 40.2289969027042,74.3269996643066 40.2289969027042,30.8959994316101C40.2289962768555,29.2391456365585,41.5721420049667,27.8959999084473,43.2289981842041,27.895999699831z M13.0969791412354,25.9663151502609L2.11152267456055,56.8580017089844 24.0769672393799,56.8580017089844z M73.0969772338867,25.966313958168L62.1115226745605,56.8580017089844 84.0769691467285,56.8580017089844z M73.1885452270508,23.6763834953308C73.4056243896484,23.6891269683838,73.6044502258301,23.828920841217,73.6818580627441,24.0467038154602L85.3441467285156,56.8580017089844 86.0779914855957,56.8580017089844C86.0779914855957,56.8580017089844 84.8647880554199,68.3580017089844 72.9080200195313,68.3580017089844 60.9512519836426,68.3580017089844 59.9109973907471,56.8580017089844 59.9109973907471,56.8580017089844L60.8824806213379,56.8580017089844 72.5169296264648,24.1413147449493C72.5321502685547,24.0985140800476,72.5508270263672,24.058084487915,72.5724449157715,24.0203108787537L72.6157455444336,23.9581305980682 72.633659362793,23.9282104969025C72.6761703491211,23.8705325126648,72.7300682067871,23.8206133842468,72.7935447692871,23.7822756767273L72.8136100769043,23.772780418396 72.8326072692871,23.7597517967224C72.867259979248,23.7404808998108,72.9033164978027,23.7247214317322,72.9402656555176,23.712760925293L73.0087127685547,23.6980957984924 73.0789642333984,23.6808276176453C73.1156806945801,23.6756649017334,73.1523666381836,23.6742601394653,73.1885452270508,23.6763834953308z M13.1885452270508,23.6763834953308C13.4056243896484,23.6891269683838,13.6044502258301,23.828920841217,13.6818580627441,24.0467038154602L25.3441467285156,56.8580017089844 26.1669893264771,56.8580017089844C26.1669883728027,56.8580017089844 24.9537916183472,68.3580017089844 12.9970207214355,68.3580017089844 1.04024887084961,68.3580017089844 0,56.8580017089844 0,56.8580017089844L0.882480621337891,56.8580017089844 12.5169296264648,24.1413135528564C12.5321502685547,24.0985140800476,12.5508251190186,24.058084487915,12.5724449157715,24.0203096866608L12.615743637085,23.958135843277 12.6336574554443,23.9282104969025C12.6761665344238,23.8705320358276,12.7300682067871,23.8206133842468,12.7935428619385,23.7822756767273L12.8136100769043,23.7727799415588 12.8326053619385,23.7597517967224C12.867259979248,23.7404808998108,12.9033184051514,23.7247214317322,12.9402637481689,23.7127594947815L13.0087203979492,23.6980938911438 13.0789623260498,23.6808261871338C13.1156787872314,23.6756649017334,13.1523666381836,23.6742596626282,13.1885452270508,23.6763834953308z M43.6979970932007,13.5279970169067C46.5328741073608,13.5279998779297,48.9651851654053,15.2514657974243,50.0041618347168,17.7076997756958L50.0791988372803,17.8979988098145 72.7959976196289,17.8979988098145C74.093864440918,17.8979997634888 75.14599609375,18.8910322189331 75.14599609375,20.1160001754761 75.14599609375,21.3409676551819 74.093864440918,22.3340001106262 72.7959976196289,22.3340005874634L50.2549076080322,22.3340005874634 50.2343034744263,22.4065489768982C49.3677749633789,25.1923213005066 46.7691140174866,27.2149999141693 43.6979970932007,27.2150002717972 40.6268788278103,27.2149999141693 38.028217792511,25.1923213005066 37.1616897583008,22.4065489768982L37.1410863399506,22.3340005874634 13.1509971618652,22.3340005874634C11.8531265258789,22.3340001106262 10.8009967803955,21.3409676551819 10.8009967803955,20.1160001754761 10.8009967803955,18.8910322189331 11.8531265258789,17.8979997634888 13.1509971618652,17.8979988098145L37.3167939186096,17.8979988098145 37.3918313980103,17.7076997756958C38.4308074712753,15.2514657974243,40.8631186485291,13.5279998779297,43.6979970932007,13.5279970169067z M43.2289967536926,0L44.2289967536926,0C45.8858504295349,0,47.2289962768555,1.3431453704834,47.2289962768555,3L47.2289962768555,9.89800071716309C47.2289962768555,11.5548534393311,45.8858504295349,12.8979997634888,44.2289967536926,12.8979997634888L43.2289967536926,12.8979997634888C41.5721420049667,12.8979997634888,40.2289962768555,11.5548534393311,40.2289969027042,9.89800071716309L40.2289969027042,3C40.2289962768555,1.3431453704834,41.5721420049667,0,43.2289967536926,0z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                                        <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="LEGISLAÇÃO" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                            <Button Width="250"
+                                Visibility="{Binding Path=AcessoPortarias, Converter={StaticResource BoolToVis}}"
+                                Height="120"
+                                CommandParameter="/Sim.Sec.Governo;component/Portarias/View/pMainpage.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1" Template="{StaticResource ButtonFade}">
+                                <Button.Content>
+                                    <Grid Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Path Grid.Row="0" Stretch="Uniform" Width="45  " Data="M11.1669998168945,62.2919979095459L27.0849995613098,62.2919979095459 27.0849995613098,65.2919988632202 11.1669998168945,65.2919988632202z M11.1669998168945,55.6249978542328L27.0849995613098,55.6249978542328 27.0849995613098,58.6249976158142 11.1669998168945,58.6249976158142z M40.8304843902588,51.7879975072566C46.0310726165771,51.7879981994629 50.2469863891602,56.0039091110229 50.2469863891602,61.2044982910156 50.2469863891602,63.6422758102417 49.3206386566162,65.8636922836304 47.8007488250732,67.535943031311L47.7687549591064,67.5694980621338 48.2187423706055,68.0392379760742C49.2273292541504,69.1079711914063,50.2199382781982,70.2567386627197,51.1592140197754,71.4733810424805L51.5331535339355,71.9718894958496 51.8530864715576,72.3984031677246C52.3082237243652,73.0233135223389,52.7476902008057,73.6644344329834,53.166820526123,74.3202438354492L53.4039154052734,74.7049999237061 53.7796783447266,75.3147850036621C55.370174407959,77.9952621459961 56.5979022979736,80.898609161377 57.1639995574951,83.9275550842285 57.1639995574951,83.9275550842285 53.5660438537598,80.1223659515381 50.0184955596924,79.2680473327637 50.0184955596924,79.2680473327637 45.8418788909912,82.7370567321777 44.7851638793945,85.9989967346191 44.7851638793945,85.9989967346191 43.9806613922119,81.018648147583 42.5759124755859,75.3635082244873L42.4082946777344,74.7049999237061 42.2411766052246,74.0484580993652C42.1261081695557,73.607421875,42.0075817108154,73.1643505096436,41.8856887817383,72.7212085723877L41.6736621856689,71.9718894958496 41.5100059509277,71.393518447876 41.2762489318848,70.610221862793 41.0735282897949,70.6179256439209C40.9927625656128,70.6199703216553,40.9117431640625,70.621000289917,40.8304843902588,70.621000289917L40.6581010818481,70.6188182830811 40.3806524276733,71.5613613128662 40.2660722732544,71.9718894958496 40.0154657363892,72.8697929382324C39.8969783782959,73.3065090179443,39.7817630767822,73.7431526184082,39.6699094772339,74.177791595459L39.537540435791,74.7049999237061 39.3445253372192,75.4737682342529C37.9790210723877,81.0468845367432 37.1969947814941,85.9549980163574 37.1969947814941,85.9549980163574 36.1697998046875,82.7403697967529 32.1098742485046,79.3216743469238 32.1098737716675,79.3216743469238 28.6614377498627,80.1636009216309 25.163999080658,83.9136009216309 25.1639998584405,83.9136009216309 25.7142814993858,80.9285888671875 26.9077088832855,78.0673522949219 28.453770160675,75.4257526397705L28.8918585777283,74.7049999237061 29.0495057106018,74.4456367492676C29.4569253921509,73.7993392944336,29.8841156959534,73.167516708374,30.3265361785889,72.5516700744629L30.7555108070374,71.9718894958496 31.0010237693787,71.6400661468506C31.9140567779541,70.441068649292,32.8789348602295,69.3089637756348,33.8593444824219,68.2557315826416L34.2027597427368,67.8922863006592 34.1720113754272,67.8629703521729C32.4679608345032,66.1589202880859 31.4139833450317,63.8047943115234 31.4139838218689,61.2044982910156 31.4139833450317,56.0039091110229 35.6298933029175,51.7879981994629 40.8304843902588,51.7879975072566z M11.1669998168945,42.6219968795776L46.9179992675781,42.6219968795776 46.9179992675781,45.6219983100891 11.1669998168945,45.6219983100891z M11.1669998168945,34.621997833252L46.9179992675781,34.621997833252 46.9179992675781,37.621997833252 11.1669998168945,37.621997833252z M11.1669998168945,26.621997833252L46.9179992675781,26.621997833252 46.9179992675781,29.621997833252 11.1669998168945,29.621997833252z M11.1669998168945,18.621997833252L46.9179992675781,18.621997833252 46.9179992675781,21.621997833252 11.1669998168945,21.621997833252z M11.1669998168945,10.621997833252L46.9179992675781,10.621997833252 46.9179992675781,13.621997833252 11.1669998168945,13.621997833252z M0,0L57.8339977264404,0 57.8339977264404,74.7049999237061 54.6669998168945,74.7049999237061 54.6669998168945,71.9718894958496 55.1332931518555,71.9718894958496 55.1332931518555,2.47073364257813 2.85990715026855,2.47073364257813 2.85990715026855,71.9718894958496 27.3339984416962,71.9718894958496 27.3339984416962,74.7049999237061 0,74.7049999237061z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                                        <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="PORTARIAS" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                            <Button Width="250"
+                                Visibility="{Binding Path=AcessoDenominacoes, Converter={StaticResource BoolToVis}}"
+                                Height="120"                                
+                                CommandParameter="/Sim.Sec.Governo;component/NomesPublicos/View/pMain.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1" Template="{StaticResource ButtonFade}">
+                                <Button.Content>
+                                    <Grid Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Path Grid.Row="0" Stretch="Uniform" Width="55
+                                              " Data="M35.0374145507813,72.9430027008057L39.027626991272,72.9430027008057 43.003005862236,79.9430027008057 59.5,79.9430027008057 59.5,85.9430027008057 14.5,85.9430027008057 14.5,79.9430027008057 30.9949941635132,79.9430027008057z M45.9969990253448,27.7240005017377L73.0030002593994,27.7240005017377C73.5536270141602,27.7240009307861,74,28.1703730225563,74,28.7210010290146L74,41.0989990234375C74,41.6496286392212,73.5536270141602,42.0960006713867,73.0030002593994,42.096001625061L45.9969990253448,42.096001625061C45.4463720917702,42.0960006713867,45,41.6496286392212,45.0000010697463,41.0989990234375L45.0000010697463,28.7210010290146C45,28.1703730225563,45.4463720917702,27.7240009307861,45.9969990253448,27.7240005017377z M0.997001647949219,8.80400085449219L28.0030002593994,8.80400085449219C28.5536270141602,8.80400085449219,29,9.25037384033203,29,9.80100059509277L29,21.6790008544922C29,22.2296290397644,28.5536270141602,22.6760010719299,28.0030002593994,22.6760001182556L0.997001647949219,22.6760001182556C0.446372985839844,22.6760010719299,0,22.2296290397644,0,21.6790008544922L0,9.80100059509277C0,9.25037384033203,0.446372985839844,8.80400085449219,0.997001647949219,8.80400085449219z M35,7.80100059509277L39.0000009536743,7.80100059509277 39.0000009536743,69.9430027008057 35,69.9430027008057z M36.8950004577637,0C38.7363171577454,0 40.2290000915527,1.49492263793945 40.2290000915527,3.3390007019043 40.2290000915527,5.18307876586914 38.7363171577454,6.67800140380859 36.8950004577637,6.67800140380859 35.0536823272705,6.67800140380859 33.5609998703003,5.18307876586914 33.5609998703003,3.3390007019043 33.5609998703003,1.49492263793945 35.0536823272705,0 36.8950004577637,0z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                                        <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="NOMES PÚBLICOS" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                        </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

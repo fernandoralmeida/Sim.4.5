@@ -1,0 +1,14 @@
+﻿<Page x:Class="Sim.Sec.Governo.Legislacao.View.Pages.pDenied"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sim.Sec.Governo.Legislacao.View.Pages"
+      mc:Ignorable="d" 
+      SnapsToDevicePixels="True" UseLayoutRounding="True"
+	Title="pDiened">
+
+    <Grid>
+        <Label Content="Acesso não permitido!"/>
+    </Grid>
+</Page>
