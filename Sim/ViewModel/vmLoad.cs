@@ -20,6 +20,7 @@ namespace Sim.ViewModel
         public vmLoad()
         {
             ViewMessageBox = Visibility.Collapsed;
+
             CheckUpdadte();
         }
         #endregion

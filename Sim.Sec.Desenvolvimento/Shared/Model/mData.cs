@@ -1490,8 +1490,9 @@ WHERE (((SDT_SE_PJ_Formalizada.Ativo) = True) AND ((SDT_SE_PJ_Segmento.Ativo) = 
                 dataAccess.AddParameters("@tipo2", commands[5]);
                 dataAccess.AddParameters("@setor1", commands[6]);
                 dataAccess.AddParameters("@setor2", commands[7]);
+                dataAccess.AddParameters("@evento", commands[8]);
 
-                string sql = @"SELECT * FROM SDT_Agenda WHERE ((Data BETWEEN @datai AND @dataf) AND (Estado BETWEEN @estado1 AND @estado2) AND (Tipo BETWEEN @tipo1 AND @tipo2) AND (Setor BETWEEN @setor1 AND @setor2) AND (ATIVO = True)) ORDER BY Data, Hora";
+                string sql = @"SELECT * FROM SDT_Agenda WHERE ((Data BETWEEN @datai AND @dataf) AND (Estado BETWEEN @estado1 AND @estado2) AND (Tipo BETWEEN @tipo1 AND @tipo2) AND (Setor BETWEEN @setor1 AND @setor2) AND (ATIVO = True) AND (Evento LIKE '%' + @evento + '%')) ORDER BY Data, Hora";
 
                 var _tipos = dataAccess.Read("SELECT * FROM SDT_Agenda_Tipos WHERE (Ativo = True) ORDER BY Valor");
                 var _estados = dataAccess.Read("SELECT * FROM SDT_Agenda_Estado WHERE (Ativo = True) ORDER BY Valor");

@@ -37,8 +37,6 @@ namespace Sim.ViewModel
         private string _urimodulo;
         private string _urisubmodulo;
 
-        private bool _startsim;
-
         private Visibility _menuon;
         private Visibility _browseback;
         private Visibility _isadmin;
@@ -48,6 +46,7 @@ namespace Sim.ViewModel
         private Visibility _submodview;
         private Visibility _pageview;
         private Visibility _viewinfo;
+        private Visibility _startclosed = Visibility.Visible;
 
         private ICommand _commandbrowseback;
         private ICommand _commandgopage;
@@ -277,6 +276,12 @@ namespace Sim.ViewModel
             }
         }
 
+        public Visibility StartClosed
+        {
+            get { return _startclosed; }
+            set { _startclosed = value;RaisePropertyChanged("StartClosed"); }
+        }
+
         #endregion
 
         #region Commands
@@ -456,16 +461,19 @@ namespace Sim.ViewModel
                     MenuOn = Visibility.Collapsed;
                     IsAdmin = Visibility.Collapsed;
                     MenuOnOff = Visibility.Collapsed;
-                    //Application.Current.Resources["WindowBackgroundColor"] = System.Windows.Media.Color.FromRgb(0x1b, 0xa1, 0xe2);
-                    if(mStarted.SimStarted)
+                    //Application.Current.Resources["WindowBackgroundColor"] = Color.FromRgb(0x1b, 0xa1, 0xe2);
+                    if (mStarted.SimStarted)
                         ns.Navigate(new Uri(Properties.Resources.Sim_View_Load, UriKind.Relative));
                     else
+                    {
                         ns.Navigate(new Uri(Account.Properties.Resources.Account_Login_User, UriKind.Relative));
+                        StartClosed = Visibility.Collapsed;
+                    }
 
                     Color paleta = new Color();
                     //paleta = (Color)ColorConverter.ConvertFromString("##00FFFF");
                     paleta = Color.FromRgb(0x1b, 0xa1, 0xe2);
-                    new UI.Presentation.ThemeManager().ApplyTheme(paleta, "Light");
+                    new UI.Presentation.ThemeManager().ApplyTheme(paleta, "Light");                    
                 }
 
                 else

@@ -23,10 +23,10 @@ namespace Sim
         {            
             InitializeComponent();
 
-            var cbw = System.Windows.Media.Color.FromRgb(0x1b, 0xa1, 0xe2);
-            var brs = new System.Windows.Media.SolidColorBrush(cbw);
+            //var cbw = System.Windows.Media.Color.FromRgb(0x1b, 0xa1, 0xe2);
+            //var brs = new System.Windows.Media.SolidColorBrush(cbw);
 
-            this.Background = brs;
+            //this.Background = brs;
 
             Mvvm.Observers.GlobalNavigation.NavService = _globalframe.NavigationService;
 
@@ -126,12 +126,14 @@ namespace Sim
                 ShowFadingContent("FadingPage", (sender as Frame));
                 ShowFadingContent("ShowPage", (sender as Frame));
             }
+
+            
         }
 
         private void ShowFadingContent(string Storyboard, Frame pnl)
         {
             Storyboard sb = Resources[Storyboard] as Storyboard;
-            sb.Begin(pnl);
+            sb.Begin(pnl);            
         }
 
         private void Lateral_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -150,6 +152,7 @@ namespace Sim
                 Storyboard sb = Resources["ShowTopMenu"] as Storyboard;
                 sb.Begin((sender as StackPanel));
             }
+
         }
 
     }

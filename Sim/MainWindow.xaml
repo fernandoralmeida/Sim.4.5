@@ -18,6 +18,8 @@
                 <ColumnDefinition Width="38"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <!-- Load fix white -->
+            <Border Visibility="{Binding StartClosed}" Background="{DynamicResource Accent}" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
             <!-- Frame Content -->
             <Frame Grid.ColumnSpan="2" Grid.RowSpan="2" x:Name="_globalframe" Navigating="NavigationWindow_Navigating" Margin="0" Focusable="False" NavigationUIVisibility="Hidden" />
             <!-- Top Menu -->

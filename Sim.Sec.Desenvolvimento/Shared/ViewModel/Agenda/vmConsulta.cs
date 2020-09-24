@@ -398,12 +398,12 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Agenda
             if (GetCNPJCPF == string.Empty || GetCNPJCPF == null)
             {
                 _param.Add("%");
-                Filtros.Add("[CLIENTE = TODOS]");
+                Filtros.Add("[EVENTO = TODOS]");
             }
             else
             {
                 _param.Add(new mMascaras().Remove(GetCNPJCPF));
-                Filtros.Add("[CLIENTE = " + GetCNPJCPF + "]");
+                Filtros.Add("[EVENTO = " + GetCNPJCPF + "]");
             }
 
             return _param;
