@@ -24,7 +24,7 @@
             <Frame Grid.ColumnSpan="2" Grid.RowSpan="2" x:Name="_globalframe" Navigating="NavigationWindow_Navigating" Margin="0" Focusable="False" NavigationUIVisibility="Hidden" />
             <!-- Top Menu -->
             <StackPanel Height="32" Visibility="{Binding MenuOn}" Grid.Row="0" Grid.Column="1" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" IsVisibleChanged="Grid_IsVisibleChanged" VerticalAlignment="Top">
-                <Button Margin="5,0,0,0" Content="{Binding SysName}" Command="{Binding CommandGoPage}" CommandParameter="../View/pModulos.xaml" Style="{StaticResource SystemButtonLink}" />
+                <Button Margin="20,0,0,0" Content="{Binding SysName}" Command="{Binding CommandGoPage}" CommandParameter="../View/pModulos.xaml" Style="{StaticResource SystemButtonLink}" />
                 <Line Visibility="{Binding ModView}" X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}"/>
                 <Button Visibility="{Binding ModView}" Content="{Binding Modulo}" Command="{Binding CommandGoPage}" CommandParameter="{Binding UriModulo}" Style="{StaticResource SystemButtonLink}" />
                 <Line  Visibility="{Binding SubModView}" X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}"/>
