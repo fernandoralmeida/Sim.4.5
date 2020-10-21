@@ -13,7 +13,8 @@ namespace Sim.Publisher.ViewModel
         {
             get
             {
-                return string.Format(@"{0}{1}", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"\CSharp\Projetos\Sim.4.5\Sim\bin\Release\");
+                return string.Format(@"{0}{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"\source\repos\fernandoralmeida\Sim.4.5\Sim\bin\Release\");
+                //return string.Format(@"{0}{1}", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"\CSharp\Projetos\Sim.4.5\Sim\bin\Release\");
             }
         }
 
@@ -29,7 +30,7 @@ namespace Sim.Publisher.ViewModel
 
         public static string Net_Work_Path
         {
-            get { return @"\\sec-desen\Sim"; }
+            get { return @"\\servidor\Sim"; }
             //get { return @"E:\Sim\"; }
         }
 

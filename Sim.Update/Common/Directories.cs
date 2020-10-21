@@ -49,7 +49,7 @@ namespace Sim.Update.Common
         public static string Net_Work_Path
         {
             //get { return @"E:\Sim\"; }
-            get { return @"\\sec-desen\Sim\"; }
+            get { return @"\\servidor\Sim\"; }
         }
     }
 }
