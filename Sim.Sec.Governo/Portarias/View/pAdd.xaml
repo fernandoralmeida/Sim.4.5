@@ -17,7 +17,7 @@
         <providers:vmServidorName x:Key="servName"/>
         <providers:vmClassificacao x:Key="tpoProvider"/>
     </Page.Resources>
-    <Grid Margin="48,42,10,10">
+    <Grid Margin="10,42,10,10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.7*"/>

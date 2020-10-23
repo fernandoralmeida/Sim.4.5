@@ -22,6 +22,7 @@ namespace Sim.ViewModel
 
         #region Declarations
         NavigationService ns;
+        NavigationService _settingsframe;
         mApps _apps = new mApps();
         mMemory _mmemory = new mMemory();
 
@@ -47,6 +48,7 @@ namespace Sim.ViewModel
         private Visibility _pageview;
         private Visibility _viewinfo;
         private Visibility _startclosed = Visibility.Visible;
+        private Visibility _settingsvisible = Visibility.Collapsed;
 
         private ICommand _commandbrowseback;
         private ICommand _commandgopage;
@@ -282,6 +284,14 @@ namespace Sim.ViewModel
             set { _startclosed = value;RaisePropertyChanged("StartClosed"); }
         }
 
+        public Visibility SettingsVisible
+        {
+            get { return _settingsvisible; }
+            set
+            {
+                _settingsvisible = value;RaisePropertyChanged("SettingsVisible");
+            }
+        }
         #endregion
 
         #region Commands
@@ -341,15 +351,9 @@ namespace Sim.ViewModel
             ViewDialogBox = Visibility.Collapsed;
         });
 
-        public ICommand CommandNavigate
-        {
-            get
-            {
-                if (_commandnavigate == null)
-                    _commandnavigate = new RelayCommand(p => { ns.Navigate(new Uri(p.ToString(), UriKind.Relative)); });
-                return _commandnavigate;
-            }
-        }
+        public ICommand CommandNavigate => new RelayCommand(p => {
+            ns.Navigate(new Uri(p.ToString(), UriKind.RelativeOrAbsolute));
+        });
 
         public ICommand CommandGoPage
         {
@@ -389,6 +393,17 @@ namespace Sim.ViewModel
                 return _commandmenuonoff;
             }
         }
+
+        public ICommand CommandViewSettings => new RelayCommand(p => {
+
+            SettingsVisible = Visibility.Visible;
+
+        });
+
+        public ICommand CommandCloseSettings => new RelayCommand(p => {
+
+            SettingsVisible = Visibility.Collapsed;
+        });
         #endregion
 
         #region Constructor
@@ -400,6 +415,7 @@ namespace Sim.ViewModel
 
             mStarted.SimStarted = true;
             ns = GlobalNavigation.NavService;
+            _settingsframe = GlobalNavigation.ChildFrame;
             ns.Navigated += Ns_Navigated;
             ViewDialogBox = Visibility.Collapsed;
             GlobalNotifyProperty.GlobalPropertyChanged += new PropertyChangedEventHandler(OnGlobalPropertyChanged);

@@ -14,9 +14,10 @@ namespace Sim.View
         public pSettings()
         {
             InitializeComponent();
-            stg_innerframe.JournalOwnership = JournalOwnership.OwnsJournal;
+            //stg_innerframe.JournalOwnership = JournalOwnership.OwnsJournal;
         }
 
+        /*
         private void Stg_innerframe_Navigating(object sender, NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.New)
@@ -37,5 +38,6 @@ namespace Sim.View
             Storyboard sb = Resources[Storyboard] as Storyboard;
             sb.Begin(pnl);
         }
+        */
     }
 }

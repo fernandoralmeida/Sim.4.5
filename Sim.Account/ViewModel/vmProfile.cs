@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.ComponentModel;
+using System.Windows.Navigation;
 
 namespace Sim.Account.ViewModel
 {
@@ -18,6 +19,7 @@ namespace Sim.Account.ViewModel
     internal class vmProfile : VMBase
     {
         #region Declarations
+        NavigationService ns;
         private mUser _user = new mUser();
         private Logged _account = new Logged();
 
@@ -34,6 +36,7 @@ namespace Sim.Account.ViewModel
         #region Constructors
         public vmProfile()
         {
+            ns = GlobalNavigation.NavService;
             GlobalNavigation.Pagina = "MEU PERFIL";
             GlobalNavigation.BrowseBack = Visibility.Visible;
             ChangePW = Visibility.Collapsed;
@@ -156,8 +159,10 @@ namespace Sim.Account.ViewModel
                         UserOn.Ativo = true;
 
                         if (new mData().UpdateUsuario(UserOn))
-                            AsyncMessageBox("Dados atualizados!", DialogBoxColor.Green, false);
-
+                        {
+                            AsyncMessageBox("Dados atualizados!", DialogBoxColor.Green, true);
+                            
+                        }
                     });
 
                 return _commandchangeperfil;

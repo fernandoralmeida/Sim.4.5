@@ -11,7 +11,7 @@
         <vm:vmToolsTheme/>
     </Page.DataContext>
 
-    <Grid Margin="38,0,0,0">
+    <Grid Margin="0,0,0,0">
         <Grid Margin="0,42,0,0" HorizontalAlignment="Center" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

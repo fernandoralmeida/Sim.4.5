@@ -18,7 +18,7 @@
         <vm:vmInscricao />
     </Page.DataContext>
 
-    <Grid Margin="38,0,0,0">
+    <Grid Margin="0,0,0,0">
         <Grid Margin="0,42,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Border BorderThickness="1" Opacity=".5" Background="{DynamicResource WindowBackground}" BorderBrush="{DynamicResource Accent}" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
             <Grid Margin="10" >

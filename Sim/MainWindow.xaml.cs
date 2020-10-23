@@ -29,6 +29,7 @@ namespace Sim
             //this.Background = brs;
 
             Mvvm.Observers.GlobalNavigation.NavService = _globalframe.NavigationService;
+            //Mvvm.Observers.GlobalNavigation.ChildFrame = _settingsframe.NavigationService;
 
             this.DataContext = new ViewModel.vmMainWindow();
 

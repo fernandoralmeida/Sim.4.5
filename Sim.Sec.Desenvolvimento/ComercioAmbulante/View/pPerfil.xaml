@@ -13,7 +13,7 @@
         <vm:vmPerfil/>
     </Page.DataContext>
 
-    <Grid  Margin="38,0,0,0">
+    <Grid  Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

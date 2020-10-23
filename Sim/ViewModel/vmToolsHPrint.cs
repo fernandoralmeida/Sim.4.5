@@ -1,16 +1,19 @@
 ﻿using System.Windows.Input;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace Sim.ViewModel
 {
 
     using Mvvm.Commands;
     using Controls.ViewModels;
+    using Mvvm.Observers;
+
 
     class vmToolsHPrint : VMBase, IDialogBox
     {
         #region Declarations
-
+        NavigationService ns;
         private string _nameorg;
         private string _slogan;
         private string _deporg;
@@ -79,7 +82,8 @@ namespace Sim.ViewModel
 
         public vmToolsHPrint()
         {
-            Mvvm.Observers.GlobalNavigation.Pagina = "IMPRESSÃO";
+            ns = GlobalNavigation.NavService;
+            GlobalNavigation.Pagina = "IMPRESSÃO";
             NameOrg = Services.Properties.Settings.Default.Prefeitura;
             SloganOrg = Services.Properties.Settings.Default.Fundada;
             DepOrg = Services.Properties.Settings.Default.Secretaria;
@@ -107,7 +111,8 @@ namespace Sim.ViewModel
 
             if(t.IsCompleted)
             {
-                AsyncMessageBox("Alterações gravadas!", DialogBoxColor.Green, false);
+                AsyncMessageBox("Alterações gravadas!", DialogBoxColor.Green, true);
+
             }
         }
         #endregion

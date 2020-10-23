@@ -16,24 +16,174 @@
     <Page.Resources>
         <ResourceDictionary>
             <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
-            <Storyboard x:Key="ShowPage" >
-                <ThicknessAnimation Storyboard.TargetProperty="Margin" From="150,0,0,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.5" />
-            </Storyboard>
-            <Storyboard x:Key="FadingPage">
-                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1" BeginTime="0:0:0" />
-            </Storyboard>
+            <ControlTemplate x:Key="ButtonFade" TargetType="{x:Type ButtonBase}">
+                <Grid>
+                    <Border x:Name="Chrome"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="0"                                        
+                                        SnapsToDevicePixels="true" Opacity="0" >
+                        <Border.Background>
+                            <SolidColorBrush x:Name="bgcolorchome" Color="{DynamicResource ButtonBackgroundColor}"/>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect x:Name="sdw" BlurRadius="10" ShadowDepth="0" Opacity=".4" Color="Black"/>
+                        </Border.Effect>
+                    </Border>
+                    <ContentPresenter Name="Presenter" Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                </Grid>
+
+                <ControlTemplate.Resources>
+                    <Storyboard x:Key="mousehover" Storyboard.TargetProperty="Opacity">
+                        <DoubleAnimation Storyboard.TargetName="Chrome" From="0" To="1" Duration="0:0:.25" BeginTime="0:0:0" />
+                        <DoubleAnimation Storyboard.TargetName="sdw" From="0" To=".4" Duration="0:0:.5" BeginTime="0:0:0" />
+                    </Storyboard>
+                    <Storyboard x:Key="mouseout" Storyboard.TargetProperty="Opacity" FillBehavior="Stop">
+                        <DoubleAnimation Storyboard.TargetName="Chrome" From="1" To="0" Duration="0:0:.5" BeginTime="0:0:0" />
+                        <DoubleAnimation Storyboard.TargetName="sdw" From=".4" To="0" Duration="0:0:.25" BeginTime="0:0:0" />
+                    </Storyboard>
+                    <Storyboard x:Key="mousedown" Storyboard.TargetProperty="Color">
+                        <ColorAnimation Storyboard.TargetName="bgcolorchome" To="{StaticResource AccentColor}" Duration="0:0:0.15"/>
+                    </Storyboard>
+                    <Storyboard x:Key="mouseup" Storyboard.TargetProperty="Color" FillBehavior="Stop">
+                        <ColorAnimation Storyboard.TargetName="bgcolorchome" To="{StaticResource ButtonBackgroundHoverColor}" Duration="0:0:0.15"/>
+                    </Storyboard>
+                </ControlTemplate.Resources>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonTextDisabled}"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource mousehover}"/>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                            <BeginStoryboard Storyboard="{StaticResource mouseout}"/>
+                        </Trigger.ExitActions>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonText}"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource mousedown}"/>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                            <BeginStoryboard Storyboard="{StaticResource mouseup}"/>
+                        </Trigger.ExitActions>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderPressed}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonTextPressed}"/>
+                    </Trigger>
+                    <Trigger Property="IsFocused" Value="true">
+                        <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Accent}" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Margin="38,42,0,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Grid Margin="0,42,0,0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="0" Margin="10">
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Center" Margin="10">
+            <Button Width="120"
+                                Height="120" 
+                                CommandParameter="/Sim.Account;component/View/pProfile.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1"
+                            Template="{StaticResource ButtonFade}">
+                <Button.Content>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="{Binding IconUser}" Height="50" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+                        
+                        <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="PERFIL" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button Width="120"
+                                Height="120" 
+                                CommandParameter="../View/pToolsTheme.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1"
+                            Template="{StaticResource ButtonFade}">
+                <Button.Content>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Path Grid.Row="0" Stretch="Uniform" Height="44" Data="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                        <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="TEMAS" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button Width="120"                                
+                                Height="120" 
+                                CommandParameter="../View/pToolsPrint.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1"
+                            Template="{StaticResource ButtonFade}">
+                <Button.Content>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Path Grid.Row="0" Stretch="Uniform" Width="40" Data="M18,2V6H6V2H18M19,11A1,1 0 0,0 20,10A1,1 0 0,0 19,9A1,1 0 0,0 18,10A1,1 0 0,0 19,11M16,18V13H8V18H16M19,7A3,3 0 0,1 22,10V16H18V20H6V16H2V10A3,3 0 0,1 5,7H19M15,24V22H17V24H15M11,24V22H13V24H11M7,24V22H9V24H7Z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                        <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="IMPRESSÃO" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button Width="120"
+                                Visibility="{Binding Path=IsAdmin, Converter={StaticResource BoolToVis}}"
+                                Height="120" 
+                                CommandParameter="/Sim.Account;component/View/pAccounts.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1"
+                            Template="{StaticResource ButtonFade}">
+                <Button.Content>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Path Grid.Row="0" Stretch="Uniform" Width="50" Data="M9,4A4,4 0 0,0 5,8A4,4 0 0,0 9,12A4,4 0 0,0 13,8A4,4 0 0,0 9,4M9,14C6.33,14 1,15.33 1,18V20H12.08C12.03,19.67 12,19.34 12,19C12,17.5 12.5,16 13.41,14.8C11.88,14.28 10.18,14 9,14M18,14C17.87,14 17.76,14.09 17.74,14.21L17.55,15.53C17.25,15.66 16.96,15.82 16.7,16L15.46,15.5C15.35,15.5 15.22,15.5 15.15,15.63L14.15,17.36C14.09,17.47 14.11,17.6 14.21,17.68L15.27,18.5C15.25,18.67 15.24,18.83 15.24,19C15.24,19.17 15.25,19.33 15.27,19.5L14.21,20.32C14.12,20.4 14.09,20.53 14.15,20.64L15.15,22.37C15.21,22.5 15.34,22.5 15.46,22.5L16.7,22C16.96,22.18 17.24,22.35 17.55,22.47L17.74,23.79C17.76,23.91 17.86,24 18,24H20C20.11,24 20.22,23.91 20.24,23.79L20.43,22.47C20.73,22.34 21,22.18 21.27,22L22.5,22.5C22.63,22.5 22.76,22.5 22.83,22.37L23.83,20.64C23.89,20.53 23.86,20.4 23.77,20.32L22.7,19.5C22.72,19.33 22.74,19.17 22.74,19C22.74,18.83 22.73,18.67 22.7,18.5L23.76,17.68C23.85,17.6 23.88,17.47 23.82,17.36L22.82,15.63C22.76,15.5 22.63,15.5 22.5,15.5L21.27,16C21,15.82 20.73,15.65 20.42,15.53L20.23,14.21C20.22,14.09 20.11,14 20,14M19,17.5A1.5,1.5 0 0,1 20.5,19A1.5,1.5 0 0,1 19,20.5C18.16,20.5 17.5,19.83 17.5,19A1.5,1.5 0 0,1 19,17.5Z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                        <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="CONTAS" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button Width="120"
+                                Visibility="{Binding Path=IsAdmin, Converter={StaticResource BoolToVis}}"
+                                Height="120" 
+                                CommandParameter="../View/pToolsDB.xaml"
+                                Command="{Binding CommandExecute}" 
+                                SnapsToDevicePixels="True" Margin="1"
+                            Template="{StaticResource ButtonFade}">
+                <Button.Content>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Path Grid.Row="0" Stretch="Uniform" Width="40" Data="M12,3C7.58,3 4,4.79 4,7C4,9.21 7.58,11 12,11C16.42,11 20,9.21 20,7C20,4.79 16.42,3 12,3M4,9V12C4,14.21 7.58,16 12,16C16.42,16 20,14.21 20,12V9C20,11.21 16.42,13 12,13C7.58,13 4,11.21 4,9M4,14V17C4,19.21 7.58,21 12,21C16.42,21 20,19.21 20,17V14C20,16.21 16.42,18 12,18C7.58,18 4,16.21 4,14Z"
+                                              Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                        <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="BASE DADOS" Margin="5,5,5,0" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
+        </WrapPanel>
+        <StackPanel Grid.Column="0" Margin="10" Visibility="Collapsed">
             <TextBlock Margin="5">
                 <Hyperlink NavigateUri="pToolsTheme.xaml" TargetName="stg_innerframe"><Run Text="Personalizar"/></Hyperlink>
             </TextBlock>
@@ -47,9 +197,5 @@
                 <Hyperlink NavigateUri="pToolsDB.xaml" TargetName="stg_innerframe"><Run Text="Banco de Dados"/></Hyperlink>
             </TextBlock>
         </StackPanel>
-        <Border BorderBrush="{DynamicResource ButtonBorder}" Grid.Column="1" BorderThickness="1,0,0,0" />
-        <Frame x:Name="stg_innerframe" NavigationUIVisibility="Hidden" 
-               Navigating="Stg_innerframe_Navigating" Grid.Column="1" 
-               Source="/Sim.App;component/View/pToolsTheme.xaml"/>
     </Grid>
 </Page>

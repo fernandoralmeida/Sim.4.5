@@ -16,6 +16,7 @@ namespace Sim.Mvvm.Observers
         private static string _urimodulo;
         private static string _urisubmodulo;
         private static NavigationService _navservice;
+        private static NavigationService _childframe;
         private static Visibility _browseback;
         #endregion
 
@@ -60,6 +61,16 @@ namespace Sim.Mvvm.Observers
             {
                 _navservice = value;
                 OnGlobalPropertyChanged("NavService");
+            }
+        }
+
+        public static NavigationService ChildFrame
+        {
+            get { return _childframe; }
+            set
+            {
+                _childframe = value;
+                OnGlobalPropertyChanged("ChildFrame");
             }
         }
         #endregion

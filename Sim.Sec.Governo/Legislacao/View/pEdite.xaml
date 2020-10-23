@@ -19,7 +19,7 @@
         <vm:vmEdite/>
     </Page.DataContext>
 
-    <Grid Margin="38,0,0,0">
+    <Grid Margin="0,0,0,0">
         <Grid Margin="10,42,10,10">
             <Grid Margin="10">
                 <Grid>
