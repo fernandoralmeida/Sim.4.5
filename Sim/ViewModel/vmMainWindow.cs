@@ -52,7 +52,6 @@ namespace Sim.ViewModel
 
         private ICommand _commandbrowseback;
         private ICommand _commandgopage;
-        private ICommand _commandnavigate;
         private ICommand _commandlogoff;
         private ICommand _commandmenuonoff;
         #endregion
@@ -88,6 +87,7 @@ namespace Sim.ViewModel
                 RaisePropertyChanged("SelectedPage");
             }
         }
+
         public Uri IconUser
         {
             get { return _iconuser; }

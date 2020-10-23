@@ -29,7 +29,7 @@ namespace Sim.ViewModel
 
         private async void CheckUpdadte()
         {
-            string _url = @"\\sec-desen\Sim\sim_update.xml";
+            string _url = @"\\servidor\Sim\sim_update.xml";
             //string _url = @"E:\Sim\sim_update.xml";
 
             var t = Task.Run(() =>
