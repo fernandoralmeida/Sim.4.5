@@ -70,13 +70,7 @@ namespace Sim.Update.ViewModel
         {
             StartProgress = true;
             ButtonEnabled = false;
-
-            if (File.Exists(@"sim_install.gz"))
-                _fileexist = true;
-            else
-                _fileexist = false;
-
-            SystemInstaller();
+            SystemInstaller(File.Exists(@"sim_install.gz"));
             
         });
 
@@ -94,12 +88,12 @@ namespace Sim.Update.ViewModel
         
         #region Functions
 
-        private async void SystemInstaller()
+        private async void SystemInstaller(bool _existfile)
         {
             var t = Task.Run(() => 
             {
 
-                if (_fileexist)
+                if (_existfile)
                 {
                     
                     TextProgress = "Verificando";
