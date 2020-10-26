@@ -47,14 +47,14 @@ namespace Sim.Publisher.ViewModel
                     if (node2.Name == chave)
                         node2.InnerText = valor;
 
-            docxml.Save(string.Format(@"{0}\CSharp\Projetos\Sim_Net45\Sim.Publisher\{1}.xml", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sim_update"));
+            docxml.Save(string.Format(@"{0}\source\repos\fernandoralmeida\Sim.4.5\Sim.Publisher\{1}.xml", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "sim_update"));
             docxml.Save(string.Format(@"{0}\{1}\{2}.xml", Directories.SimTEMP, Folders.Publish, "sim_update"));
         }
 
         public static List<string> Listar(string file, string elemento, string elementos, string item)
         {
             List<string> lista = new List<string>();
-            var docxml = XDocument.Load(string.Format(@"{0}\CSharp\Projetos\Sim_Net45\Sim.Publisher\{1}.xml", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), file));
+            var docxml = XDocument.Load(string.Format(@"{0}\source\repos\fernandoralmeida\Sim.4.5\Sim.Publisher\{1}.xml", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), file));
             var items = docxml.Element(XName.Get(elemento)).Elements(XName.Get(elementos));
             var nitems = items.Select(ele => ele.Element(XName.Get(item)).Value);
 

@@ -195,7 +195,7 @@ namespace Sim.Publisher.ViewModel
                         if (fi.Name == Files.Sim_Exe_Name)
                             System.IO.File.Copy(file, _root + @"\" + fi.Name, true);
 
-                        System.IO.File.Copy(string.Format(@"{0}\CSharp\Projetos\Sim.4.5\Sim.Update\bin\Release\{1}", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Sim.Updater.exe"), _root + @"\Sim.New.Updater.exe", true);
+                        System.IO.File.Copy(string.Format(@"{0}\source\repos\fernandoralmeida\Sim.4.5\Sim.Update\bin\Release\{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Sim.Updater.exe"), _root + @"\Sim.New.Updater.exe", true);
 
                         if (fi.Extension == ".ico")
                             System.IO.File.Copy(file, _root + @"\" + fi.Name, true);
@@ -279,8 +279,8 @@ namespace Sim.Publisher.ViewModel
                     }
 
                 //System.IO.File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"\sim_update.xml", _publish + @"\sim_update.xml", true);
-                System.IO.File.Copy(string.Format(@"{0}\CSharp\Projetos\Sim.4.5\Sim.Update\bin\Release\{1}", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Sim.Updater.exe"), _publish + @"\Sim.Installer.exe", true);
-                System.IO.File.Copy(string.Format(@"{0}\CSharp\Projetos\Sim.4.5\Sim.Update\bin\Release\{1}", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Sim.Updater.exe"), _local + @"\Sim.Installer.exe", true);
+                System.IO.File.Copy(string.Format(@"{0}\source\repos\fernandoralmeida\Sim.4.5\Sim.Update\bin\Release\{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Sim.Updater.exe"), _publish + @"\Sim.Installer.exe", true);
+                System.IO.File.Copy(string.Format(@"{0}\source\repos\fernandoralmeida\Sim.4.5\Sim.Update\bin\Release\{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Sim.Updater.exe"), _local + @"\Sim.Installer.exe", true);
                 System.IO.File.Copy(string.Format(@"{0}{1}", _publish, Files.Sim_Install_Name), _local + @"\sim_install.gz", true);
                 System.IO.File.Copy(string.Format(@"{0}{1}", _publish, Files.Sim_Package_Name), _local + @"\sim_update.gz", true);
                 Version.Update(valor.ToString());
@@ -321,7 +321,7 @@ namespace Sim.Publisher.ViewModel
             //new Ftp().UploadFileFTP(Folders.Publish_Path + @"\" + Files.Sim_Package_Name, Directories.Sim_FTP_Install + Files.Sim_Package_Name, bgWorkerUpload);
             //new Ftp().UploadFileFTP(Folders.Publish_Path + "\\" + Files.Sim_Install_Name, Directories.Sim_FTP_Install + Files.Sim_Install_Name, bgWorkerUpload);
 
-            System.IO.File.Copy(string.Format(@"{0}\CSharp\Projetos\Sim.4.5\Sim.Update\bin\Release\{1}", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Sim.Updater.exe"), Directories.Net_Work_Path + @"\Sim.Installer.exe", true);
+            System.IO.File.Copy(string.Format(@"{0}\source\repos\fernandoralmeida\Sim.4.5\Sim.Update\bin\Release\{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Sim.Updater.exe"), Directories.Net_Work_Path + @"\Sim.Installer.exe", true);
             System.IO.File.Copy(string.Format(@"{0}{1}", Directories.Publisher, Files.Sim_Install_Name), Directories.Net_Work_Path + @"\sim_install.gz", true);
             System.IO.File.Copy(string.Format(@"{0}{1}", Directories.Publisher, Files.Sim_Package_Name), Directories.Net_Work_Path + @"\sim_update.gz", true);
             System.IO.File.Copy(string.Format(@"{0}\{1}", Directories.Publisher, "sim_update.xml"), Directories.Net_Work_Path + @"\sim_update.xml", true);
