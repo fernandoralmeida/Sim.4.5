@@ -8,6 +8,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Control
     public interface IAgenda 
     {
         ObservableCollection<mAgenda> ListarAgenda { get; set; }
+        string EventoSelecionado { get; set; }
 
         ICommand CommandAgendaNavigate { get; }
         ICommand CommandEventoAtivo { get; }

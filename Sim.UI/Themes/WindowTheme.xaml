@@ -47,6 +47,7 @@
 
                                     <!-- Borda 
                                     <Border Grid.RowSpan="3" Grid.ColumnSpan="2" Background="{DynamicResource WindowHeaderGradient}"/>-->
+                                    
 
                                     <!-- Window Content Pages Navigations -->
                                     <ContentPresenter Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" Margin="0" Focusable="False" Content="{TemplateBinding Content}" />
@@ -59,7 +60,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <!-- window system buttons-->
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Background="{DynamicResource WindowBackground}">
+                                        <StackPanel Visibility="{Binding WindowChomeButtonsVisible}" Grid.Column="1" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" Background="Transparent">
                                             <!--
                                             <StackPanel.Effect>
                                                 <DropShadowEffect Color="Black" Opacity=".4" ShadowDepth="0" BlurRadius="10"/>
@@ -90,7 +91,7 @@
                                             </Grid>
                                             <Button Focusable="False" Height="32" Width="42" Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" Style="{StaticResource SystemCloseButton}" >
                                                 <Button.Content>
-                                                    <Path Stretch="Uniform" Height="9" Width="8"
+                                                    <Path Stretch="Uniform" Height="11" Width="8"
                                                         Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"
                                                         Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
                                                 </Button.Content>

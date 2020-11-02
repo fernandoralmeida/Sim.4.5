@@ -247,7 +247,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 if (_commandprintprofile == null)
                     _commandprintprofile = new RelayCommand(p =>
                     {
-                        ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/CadastroAmbulante/View/pPerfilPrint.xaml", UriKind.Relative));
+                        ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pPerfilPrint.xaml", UriKind.Relative));
                         AreaTransferencia.CadastroAmbulante = (string)p;
                     });
 
@@ -300,7 +300,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                 if (Logged.Acesso == (int)AccountAccess.Master)
                 {
-                    ns.Navigate(new Uri(@"/Sim.Modulo.cAmbulante;component/View/pCAmbulante.xaml", UriKind.Relative));
+                    ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pNovo.xaml", UriKind.Relative));
                     AreaTransferencia.CPF = (string)obj;
                 }
                 else
@@ -311,7 +311,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         {
                             if (m.Acesso > (int)SubModuloAccess.Consulta)
                             {
-                                ns.Navigate(new Uri(@"/Sim.Modulo.cAmbulante;component/View/pCAmbulante.xaml", UriKind.Relative));
+                                ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pNovo.xaml", UriKind.Relative));
                                 AreaTransferencia.CPF = (string)obj;
                             }
                         }

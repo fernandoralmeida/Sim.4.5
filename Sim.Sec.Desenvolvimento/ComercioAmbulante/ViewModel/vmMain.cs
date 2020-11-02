@@ -51,6 +51,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private ICommand _commandrefreshdate;
         private ICommand _commandgocnpj;
         private ICommand _commandretcpf;
+
+        private string _eventoselecionado;
         #endregion
 
         #region Properties
@@ -388,6 +390,30 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Sim.Alerta!"); }
         });
+
+        public string EventoSelecionado
+        {
+            get { return _eventoselecionado; }
+            set
+            {
+
+                _eventoselecionado = value;
+
+                if (_eventoselecionado == "Ativos")
+                    CommandEventoAtivo.Execute(null);
+
+                if (_eventoselecionado == "Vencidos")
+                    CommandEventoVencido.Execute(null);
+
+                if (_eventoselecionado == "Cancelados")
+                    CommandEventoCancelado.Execute(null);
+
+                if (_eventoselecionado == "Finalizados")
+                    CommandEventoFinalizado.Execute(null);
+
+                RaisePropertyChanged("EventoSelecionado");
+            }
+        }
         #endregion
 
         #region Constructor
@@ -403,7 +429,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             StartProgress = false;
             AreaTransferencia.Limpar();
 
-            CommandEventoAtivo.Execute(null);
+            EventoSelecionado = "Ativos";
+            //CommandEventoAtivo.Execute(null);
 
             AsyncListarAtendimentoHoje(Parametros("1"));
 

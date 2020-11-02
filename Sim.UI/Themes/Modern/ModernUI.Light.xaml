@@ -135,19 +135,19 @@
     <SolidColorBrush x:Key="WindowTextReadOnly" Color="#919191" />
 
     <!--<SolidColorBrush x:Key="CloseButtonBackground" Color="{StaticResource WindowBackgroundColor}"  Opacity="1" />-->
-    <SolidColorBrush x:Key="CloseButtonBackground" Color="{DynamicResource AccentColor}" />
-    <SolidColorBrush x:Key="CloseButtonForeground" Color="White" Opacity=".9" />
+    <SolidColorBrush x:Key="CloseButtonBackground" Color="Transparent" />
+    <SolidColorBrush x:Key="CloseButtonForeground" Color="Black" Opacity=".9" />
     <SolidColorBrush x:Key="CloseButtonBackgroundOnMoseOver" Color="#e51400" Opacity=".85" />
     <SolidColorBrush x:Key="CloseButtonForegroundOnMoseOver" Color="White" />
     <SolidColorBrush x:Key="CloseButtonBackgroundIsPressed" Color="Crimson" Opacity=".7" />
     <SolidColorBrush x:Key="CloseButtonForegroundIsPressed" Color="#333333" />
 
-    <SolidColorBrush x:Key="SystemButtonBackground" Color="{DynamicResource AccentColor}" />
-    <SolidColorBrush x:Key="SystemButtonForeground" Color="White" Opacity=".9" />
-    <SolidColorBrush x:Key="SystemButtonBackgroundOnMoseOver" Color="{DynamicResource AccentColor}" Opacity=".85" />
-    <SolidColorBrush x:Key="SystemButtonForegroundOnMoseOver" Color="White" />
-    <SolidColorBrush x:Key="SystemButtonBackgroundIsPressed" Color="{DynamicResource AccentColor}" Opacity=".7"/>
-    <SolidColorBrush x:Key="SystemButtonForegroundIsPressed" Color="White" />
+    <SolidColorBrush x:Key="SystemButtonBackground" Color="Transparent" />
+    <SolidColorBrush x:Key="SystemButtonForeground" Color="Black" Opacity=".9" />
+    <SolidColorBrush x:Key="SystemButtonBackgroundOnMoseOver" Color="Black" Opacity=".15" />
+    <SolidColorBrush x:Key="SystemButtonForegroundOnMoseOver" Color="Black" Opacity=".9" />
+    <SolidColorBrush x:Key="SystemButtonBackgroundIsPressed" Color="Black" Opacity=".1"/>
+    <SolidColorBrush x:Key="SystemButtonForegroundIsPressed" Color="Black" />
 
     <!--
     <Rectangle x:Key="WindowBackgroundContent" x:Shared="false" Height="96" Fill="{StaticResource WindowHeaderGradient}" VerticalAlignment="Top"/>-->

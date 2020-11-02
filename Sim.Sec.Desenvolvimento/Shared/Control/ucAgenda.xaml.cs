@@ -24,5 +24,6 @@ namespace Sim.Sec.Desenvolvimento.Shared.Control
         {
             InitializeComponent();
         }
+
     }
 }

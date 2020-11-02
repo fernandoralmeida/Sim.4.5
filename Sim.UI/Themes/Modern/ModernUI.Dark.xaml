@@ -128,18 +128,18 @@
     <SolidColorBrush x:Key="WindowTextReadOnly" Color="#717171" />
 
     <!--<SolidColorBrush x:Key="CloseButtonBackground" Color="{StaticResource WindowBackgroundColor}"  Opacity="1" />-->
-    <SolidColorBrush x:Key="CloseButtonBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="CloseButtonBackground" Color="Transparent" />
     <SolidColorBrush x:Key="CloseButtonForeground" Color="White" Opacity=".9" />
     <SolidColorBrush x:Key="CloseButtonBackgroundOnMoseOver" Color="#e51400" Opacity=".85" />
     <SolidColorBrush x:Key="CloseButtonForegroundOnMoseOver" Color="White" />
     <SolidColorBrush x:Key="CloseButtonBackgroundIsPressed" Color="Crimson" Opacity=".7"/>
     <SolidColorBrush x:Key="CloseButtonForegroundIsPressed" Color="#333333" />
   
-    <SolidColorBrush x:Key="SystemButtonBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="SystemButtonBackground" Color="Transparent" />
     <SolidColorBrush x:Key="SystemButtonForeground" Color="White" Opacity=".9" />
-    <SolidColorBrush x:Key="SystemButtonBackgroundOnMoseOver" Color="{DynamicResource AccentColor}" Opacity=".85" />
+    <SolidColorBrush x:Key="SystemButtonBackgroundOnMoseOver" Color="#3e3e42" Opacity=".85" />
     <SolidColorBrush x:Key="SystemButtonForegroundOnMoseOver" Color="White" />
-    <SolidColorBrush x:Key="SystemButtonBackgroundIsPressed" Color="{DynamicResource AccentColor}" Opacity="0.7"/>
+    <SolidColorBrush x:Key="SystemButtonBackgroundIsPressed" Color="#3e3e42" Opacity="0.7"/>
     <SolidColorBrush x:Key="SystemButtonForegroundIsPressed" Color="White" />
 
     <!--

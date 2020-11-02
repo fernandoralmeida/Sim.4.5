@@ -49,6 +49,7 @@ namespace Sim.ViewModel
         private Visibility _viewinfo;
         private Visibility _startclosed = Visibility.Visible;
         private Visibility _settingsvisible = Visibility.Collapsed;
+        private Visibility _windowchromebuttonsvisible = Visibility.Collapsed;
 
         private ICommand _commandbrowseback;
         private ICommand _commandgopage;
@@ -292,6 +293,12 @@ namespace Sim.ViewModel
                 _settingsvisible = value;RaisePropertyChanged("SettingsVisible");
             }
         }
+
+        public Visibility WindowChomeButtonsVisible
+        {
+            get { return _windowchromebuttonsvisible; } 
+            set { _windowchromebuttonsvisible = value; RaisePropertyChanged("WindowChomeButtonsVisible"); }
+        }
         #endregion
 
         #region Commands
@@ -483,6 +490,7 @@ namespace Sim.ViewModel
                     else
                     {
                         ns.Navigate(new Uri(Account.Properties.Resources.Account_Login_User, UriKind.Relative));
+                        WindowChomeButtonsVisible = Visibility.Visible;
                         StartClosed = Visibility.Collapsed;
                     }
 
@@ -498,7 +506,8 @@ namespace Sim.ViewModel
                     Color paleta = new Color();
                     paleta = (Color)ColorConverter.ConvertFromString(Logged.Color);
                     new UI.Presentation.ThemeManager().ApplyTheme(paleta, Logged.Thema);
-                    MenuOn = Visibility.Visible;                    
+                    MenuOn = Visibility.Visible;
+                    
                     Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new System.Action(delegate
                     {
                         ns.Navigate(new Uri(Properties.Resources.Sim_View_Root, UriKind.Relative));

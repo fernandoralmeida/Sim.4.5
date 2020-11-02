@@ -59,7 +59,7 @@
                     </Button.Content>
                 </Button>
 
-                <Grid Grid.Row="2" VerticalAlignment="Center">
+                <Grid Grid.Row="2">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Style.Triggers>
@@ -77,13 +77,14 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+                    <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource InputBorder}" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                     <Label Margin="2,0" FontSize="10" Content="SENHA" Grid.Column="0" Grid.Row="0"/>
-                    <PasswordBox MinWidth="200" BorderThickness="0,1,0,0" Name="pswbox" Grid.Column="0" Grid.Row="1" FontSize="14" VerticalContentAlignment="Center" >
+                    <PasswordBox MinWidth="200" BorderThickness="0" Name="pswbox" Grid.Column="0" Grid.Row="1" FontSize="14" VerticalContentAlignment="Center" >
                         <PasswordBox.InputBindings>
                             <KeyBinding Key="Return" Command="{Binding CommandLogin, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding ElementName=pswbox}" />
                         </PasswordBox.InputBindings>
                     </PasswordBox>
-                    <Button Height="32" Grid.Row="1" Grid.Column="1" Style="{DynamicResource SystemButton}" Command="{Binding CommandLogin}" CommandParameter="{Binding ElementName=pswbox}">
+                    <Button Height="44" Grid.RowSpan="2" Grid.Column="1" Style="{DynamicResource SystemButton}" Command="{Binding CommandLogin}" CommandParameter="{Binding ElementName=pswbox}">
                         <Button.Content>
                             <Path Height="9" Stretch="Uniform" Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
                         </Button.Content>

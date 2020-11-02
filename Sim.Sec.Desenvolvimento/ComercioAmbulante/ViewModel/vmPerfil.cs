@@ -97,7 +97,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         if (new mData().ExistPessoaFisica(GetCPF.TrimEnd()) != null)
                         {
                             AreaTransferencia.CPF = new mMascaras().Remove(GetCPF.TrimEnd());
-                            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Pessoa/View/pNovo.xaml", UriKind.Relative));
+                            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pNovo.xaml", UriKind.Relative));
                         }
                         else
                         {

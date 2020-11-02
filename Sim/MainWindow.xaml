@@ -39,13 +39,10 @@
                 <Button Margin="0" Content="{Binding Operador}" HorizontalAlignment="Left" Command="{Binding CommandLogOff}" Style="{StaticResource SystemButtonLink}"/>
             </StackPanel>            
             <!-- BrowseBack -->
-            <Grid Grid.Row="0" HorizontalAlignment="Left" Visibility="{Binding MenuOn}" IsVisibleChanged="Lateral_IsVisibleChanged">
-                <Grid.Background>
-                    <SolidColorBrush Color="{DynamicResource WindowBackgroundColor}"/>
-                </Grid.Background>
-                <Button ToolTip="Retornar" IsEnabled="{Binding ButtonBrowseBack}" Grid.Column="1" Height="32" Width="38" Command="{Binding CommandBrowseBack}" Style="{StaticResource SystemButtonArrow}" WindowChrome.IsHitTestVisibleInChrome="True">
+            <Grid VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Visibility="{Binding MenuOn}" IsVisibleChanged="Lateral_IsVisibleChanged">
+                <Button ToolTip="Retornar" IsEnabled="{Binding ButtonBrowseBack}" Grid.Column="1" Height="38" Width="48" Command="{Binding CommandBrowseBack}" Style="{StaticResource SystemButtonArrow}" WindowChrome.IsHitTestVisibleInChrome="True">
                     <Button.Content>
-                        <Path Stretch="Uniform" Margin="0,1,0,0" Height="14" Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        <Path Stretch="Uniform" Margin="11" Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" 
                                                   Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"  />
                     </Button.Content>
                 </Button>
