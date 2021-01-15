@@ -24,7 +24,7 @@
 
         <StackPanel Margin="0,42,0,0" Grid.Row="0">
             <WrapPanel HorizontalAlignment="Center">
-                <TextBlock Margin="2">
+                <TextBlock Margin="2" Visibility="Collapsed">
                     <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pMain.xaml">EMPRESAS</Hyperlink>
                 </TextBlock>
                 <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
@@ -36,7 +36,7 @@
                     <Hyperlink NavigateUri="pPerfil.xaml">AMBULANTES</Hyperlink>
                 </TextBlock>
                 <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
-                <TextBlock Margin="2" IsEnabled="{Binding IsAdmin}">
+                <TextBlock Margin="2" IsEnabled="{Binding IsAdmin}" Visibility="Collapsed">
                     <Hyperlink NavigateUri="pOpcoes.xaml">OPÇÕES</Hyperlink>
                 </TextBlock>
             </WrapPanel>
