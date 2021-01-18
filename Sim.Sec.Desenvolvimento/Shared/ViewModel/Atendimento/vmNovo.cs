@@ -169,6 +169,22 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                             case "CADASTRO DE COMÉRCIO AMBULANTE":
                                 Atendimento.Tipo = 12;
                                 break;
+
+                            case "D.I.A - NOVA INSCRIÇÃO":
+                                Atendimento.Tipo = 17; 
+                                break;
+
+                            case "D.I.A - RENOVAÇÃO":
+                                Atendimento.Tipo = 18;
+                                break;
+
+                            case "D.I.A - BAIXA":
+                                Atendimento.Tipo = 19;
+                                break;
+
+                            case "D.I.A - 2ª VIA":
+                                Atendimento.Tipo = 20;
+                                break;
                         }
 
                         ExecuteCommandViabilidade(null);
@@ -373,6 +389,10 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                         AreaTransferencia.CNPJ = string.Empty;
 
                     ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pNovo.xaml", UriKind.Relative));
+                    break;
+
+                case 17:
+                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/D-I-A.xaml", UriKind.Relative));
                     break;
             }
         }
@@ -729,7 +749,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
 
         private void AsyncServicosCA()
         {
-            Task.Factory.StartNew(() => new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Tipos WHERE ((Valor = 2) OR (Valor = 3) OR (Valor = 12)) AND (Ativo = True) ORDER BY Tipo")).ContinueWith(t => { if (t.IsCompleted) Servicos = t.Result; });
+            Task.Factory.StartNew(() => new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Tipos WHERE ((Valor = 0) OR (Valor = 1) OR (Valor = 2) OR (Valor = 3) OR (Valor = 12) OR (Valor = 17) OR (Valor = 18) OR (Valor = 19) OR (Valor = 20)) AND (Ativo = True) ORDER BY Tipo")).ContinueWith(t => { if (t.IsCompleted) Servicos = t.Result; });
         }
 
         private void AsyncMostrarCliente(string cpf)
