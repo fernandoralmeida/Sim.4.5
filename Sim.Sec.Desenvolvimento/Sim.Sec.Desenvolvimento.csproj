@@ -62,6 +62,7 @@
     <Compile Include="ComercioAmbulante\ViewModel\vmNovo.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmPerfil.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmPerfilPrint.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmPreviewDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmReport.cs" />
     <Compile Include="ComercioAmbulante\View\D-I-A.xaml.cs">
       <DependentUpon>D-I-A.xaml</DependentUpon>
@@ -86,6 +87,9 @@
     </Compile>
     <Compile Include="ComercioAmbulante\View\pReport.xaml.cs">
       <DependentUpon>pReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\PreviewDIA.xaml.cs">
+      <DependentUpon>PreviewDIA.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu\ViewModel\vmMenu.cs" />
     <Compile Include="Menu\View\pMenu.xaml.cs">
@@ -327,6 +331,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComercioAmbulante\View\pReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\PreviewDIA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
