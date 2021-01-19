@@ -3,11 +3,17 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Sim.Sec.Desenvolvimento.ComercioAmbulante.View"
+      xmlns:vm="clr-namespace:Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      KeepAlive="True"
+      UseLayoutRounding="True"
+      SnapsToDevicePixels="True"
       Title="D_I_A">
 
+    <Page.DataContext>
+        <vm:vmD_I_A/>
+    </Page.DataContext>
+    
     <Grid Margin="0,0,0,0">
         <Grid Margin="10,42,10,10">
             <Grid.RowDefinitions>
@@ -19,21 +25,152 @@
                 <FlowDocumentPageViewer.Effect>
                     <DropShadowEffect BlurRadius="10" Color="Black" Opacity=".4" ShadowDepth="0"/>
                 </FlowDocumentPageViewer.Effect>
-                <FlowDocument Name="xflow" ColumnWidth="768" PageWidth="768" PageHeight="1104" 
-                              FontFamily="Segoe UI" Background="White" Foreground="Black"
-                              PagePadding="40">
+                <FlowDocument Name="xflow" ColumnWidth="768" PageWidth="768"  
+                              FontFamily="Segoe UI" Foreground="Black"
+                              PagePadding="20">
+
                     <!-- Cabeçalho -->
-                    <Paragraph >
-                        <Image Source="/Resources/DIA_img.jpg" />
-                        <Bold>
-                            <Run Text="PREFEITURA DO MUNICIPIO DE JAHU" FontSize="16"/>
-                            <LineBreak />
-                            <Run Text="Fundada em 15 de Agosto de 1853" FontSize="10"/>
-                            <LineBreak />
-                            <Run Text="Secretaria de Desenvolvimento e Trabalho"/>
-                        </Bold>
-                    </Paragraph>
-                    
+
+                    <Table CellSpacing="5" Padding="15" FontFamily="Segoe UI" BorderBrush="CornflowerBlue" BorderThickness="1">
+                        <Table.Background>
+                            <ImageBrush ImageSource="/Sim.Sec.Desenvolvimento;component/Resources/DIA_img.jpg"/>
+                        </Table.Background>
+                        <Table.Columns>
+                            <TableColumn/>
+                            <TableColumn/>
+                            <TableColumn/>
+                            <TableColumn Width="180"/>
+                        </Table.Columns>
+                        <TableRowGroup>
+                            <TableRow>
+                                <TableCell ColumnSpan="4" TextAlignment="Center" LineHeight="160">
+                                    <Paragraph FontWeight="Bold"></Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">                                    
+                                    <Paragraph>
+                                        <Run Text="INSCRIÇÃO MUNICIPAL:"/>
+                                        <Run FontWeight="Bold" Text="0000001"/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderBrush="Black" >
+                                    <Paragraph>
+                                        <Run Text="EMISSÃO:"/>
+                                        <Run FontWeight="Bold" Text="10/02/2021"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
+                                    <Paragraph>
+                                        <Run Text="AUTORIZADOS A EXERCER:"/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderBrush="Black" >
+                                    <Paragraph>
+                                        <Run Text="N.:"/>
+                                        <Run FontWeight="Bold" Text="202.000.0-1"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
+                                    <Paragraph>
+                                        <Run Text="TITULAR:"/>
+                                        <Run FontWeight="Bold" Text="JOSE LEONARDO DOS SANTOS"/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderBrush="Black" >
+                                    <Paragraph>
+                                        <Run Text="R.G.:"/>
+                                        <Run FontWeight="Bold" Text="15.285.963-9"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
+                                    <Paragraph>
+                                        <Run Text="AUXILIAR:"/>
+                                        <Run FontWeight="Bold" Text="NÃO"/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderBrush="Black" >
+                                    <Paragraph>
+                                        <Run Text="R.G.:"/>
+                                        <Run FontWeight="Bold" Text="202.000.0-1"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="4" BorderBrush="Black" LineHeight="25">
+                                    <Paragraph >
+                                        <Run Text="ATIVIDADE:"/>
+                                        <Run FontWeight="Bold" Text="COMÉRCIO DE BRINQUEDOS INFANTIL, INFLÁVEL, E LUMINOSO COMÉRCIO DE BRINQUEDOS INFANTIL, INFLÁVEL, E LUMINOSO"/>                                        
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="4" BorderBrush="Black" LineHeight="25">
+                                    <Paragraph>
+                                        <Run Text="FORMA DE ATUAÇÃO:"/>
+                                        <Run FontWeight="Bold" Text="MÓVEL"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="2" BorderBrush="Black" LineHeight="25">
+                                    <Paragraph>
+                                        <Run Text="VEÍCULO/MODELO:"/>
+                                        <Run FontWeight="Bold" Text="NÃO CONSTA"/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderBrush="Black">
+                                    <Paragraph>
+                                        <Run Text="PLACA:"/>
+                                        <Run FontWeight="Bold" Text="AAA-1234"/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderBrush="Black">
+                                    <Paragraph>
+                                        <Run Text="COR:"/>
+                                        <Run FontWeight="Bold" Text="BRANCO"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
+                                    <Paragraph>
+                                        <Run Text="VALIDADE:"/>
+                                        <Run FontWeight="Bold" Text="12 MESES"/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell TextAlignment="Right" RowSpan="3" BorderBrush="Black">
+                                    <Paragraph FontWeight="Bold">
+                                        <Image Source="/Sim.Sec.Desenvolvimento;component/Resources/pmjahu_qrcode.png" Height="110" Width="110" Margin="5,5,5,20" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="30">
+                                    <Paragraph>
+                                        <Run Text="PROCESSO:"/>
+                                        <Run FontWeight="Bold" Text="12505-RP/2019"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="3" BorderBrush="Black">
+                                    <Paragraph FontWeight="Bold">                                       
+                                        <Run FontSize="9" Text="OBRIGATÓRIO PLASTIFICAR" TextDecorations="Underline"/>
+                                        <LineBreak/>
+                                        <Run FontSize="9" Text="APRESENTAR O D.I.A EM CONJUNTO DE DOCUMENTO COM FOTO" TextDecorations="Underline"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                        </TableRowGroup>
+                    </Table>
+
                 </FlowDocument>
             </FlowDocumentPageViewer>
             <Grid Grid.Row="0" >
