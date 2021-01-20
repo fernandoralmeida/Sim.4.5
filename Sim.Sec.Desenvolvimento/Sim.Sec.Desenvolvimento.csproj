@@ -66,8 +66,14 @@
     <Compile Include="ComercioAmbulante\ViewModel\vmPerfilPrint.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmPreviewDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmReport.cs" />
+    <Compile Include="ComercioAmbulante\View\ConsultaDIA.xaml.cs">
+      <DependentUpon>ConsultaDIA.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ComercioAmbulante\View\D-I-A.xaml.cs">
       <DependentUpon>D-I-A.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\MenuDIA.xaml.cs">
+      <DependentUpon>MenuDIA.xaml</DependentUpon>
     </Compile>
     <Compile Include="ComercioAmbulante\View\pConsulta.xaml.cs">
       <DependentUpon>pConsulta.xaml</DependentUpon>
@@ -92,6 +98,9 @@
     </Compile>
     <Compile Include="ComercioAmbulante\View\PreviewDIA.xaml.cs">
       <DependentUpon>PreviewDIA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\ReportDIA.xaml.cs">
+      <DependentUpon>ReportDIA.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu\ViewModel\vmMenu.cs" />
     <Compile Include="Menu\View\pMenu.xaml.cs">
@@ -300,11 +309,19 @@
     <Folder Include="SalaEmpreendedor\Model\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ComercioAmbulante\View\ConsultaDIA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ComercioAmbulante\View\D-I-A.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComercioAmbulante\View\FlowDIA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\MenuDIA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -337,6 +354,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComercioAmbulante\View\PreviewDIA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\ReportDIA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

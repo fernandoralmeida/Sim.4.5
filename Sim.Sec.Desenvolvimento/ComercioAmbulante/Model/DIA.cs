@@ -86,8 +86,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             set { _processo = value;RaisePropertyChanged("Processo"); }
         }
 
-        private bool _situacao;
-        public bool Situacao
+        private string _situacao;
+        public string Situacao
         {
             get { return _situacao; }
             set { _situacao = value;RaisePropertyChanged("Situacao"); }
