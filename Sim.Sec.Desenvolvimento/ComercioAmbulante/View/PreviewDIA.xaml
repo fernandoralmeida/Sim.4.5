@@ -57,7 +57,7 @@
                                 <TableCell BorderBrush="Black" >
                                     <Paragraph>
                                         <Run Text="EMISSÃO:"/>
-                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Emissao}"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Emissao, StringFormat=dd/MM/yyyy}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>

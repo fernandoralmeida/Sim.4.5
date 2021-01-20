@@ -81,6 +81,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         #region Commands
         public ICommand CommandSave => new RelayCommand( p=> {
+
+            Gravar_DIA(D_I_A).Wait();
+
             AreaTransferencia.Objeto = D_I_A;
             ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));
         });
@@ -108,6 +111,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             GlobalNavigation.Pagina = "D.I.A";
             BlackBox = Visibility.Collapsed;
             StartProgress = false;
+            D_I_A.Emissao = DateTime.Now;
             AsyncMostrarDados(AreaTransferencia.CPF);
         }
         #endregion
@@ -122,17 +126,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     {
                         try
                         {
-
                             if (task.Result != null)
                             {
-
                                 //Ambulante = task.Result;
                                 D_I_A.Titular.Nome = task.Result.Pessoa.NomeRazao;
                                 D_I_A.Atividade = task.Result.Atividades;
-
-
                             }
-
                         }
                         catch (Exception ex)
                         {
@@ -143,6 +142,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 System.Threading.CancellationToken.None,
                 TaskContinuationOptions.None,
                 TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private async int Gravar_DIA(DIA obj)
+        {
+            var t = Task<int>.Factory.StartNew(()=> new Repositorio.DIA().Gravar(obj));
+            
+            t.Wait();
         }
         #endregion
 
