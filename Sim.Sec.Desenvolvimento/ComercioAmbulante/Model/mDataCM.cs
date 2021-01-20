@@ -424,6 +424,7 @@ VALUES
                     ambulante.Ativo = (bool)at[21];
 
                     ambulante.Contador = 1;
+
                 }
 
                 return ambulante;

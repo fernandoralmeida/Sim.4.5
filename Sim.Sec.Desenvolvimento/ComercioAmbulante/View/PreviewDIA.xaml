@@ -51,13 +51,13 @@
                                 <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
                                         <Run Text="INSCRIÇÃO MUNICIPAL:"/>
-                                        <Run FontWeight="Bold" Text="0000001"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.InscricaoMunicipal}"/>
                                     </Paragraph>
                                 </TableCell>
                                 <TableCell BorderBrush="Black" >
                                     <Paragraph>
                                         <Run Text="EMISSÃO:"/>
-                                        <Run FontWeight="Bold" Text="10/02/2021"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Emissao}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
@@ -70,7 +70,7 @@
                                 <TableCell BorderBrush="Black" >
                                     <Paragraph>
                                         <Run Text="N.:"/>
-                                        <Run FontWeight="Bold" Text="202.000.0-1"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Autorizacao}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
@@ -78,13 +78,13 @@
                                 <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
                                         <Run Text="TITULAR:"/>
-                                        <Run FontWeight="Bold" Text="JOSE LEONARDO DOS SANTOS"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Titular.Nome}"/>
                                     </Paragraph>
                                 </TableCell>
                                 <TableCell BorderBrush="Black" >
                                     <Paragraph>
                                         <Run Text="R.G.:"/>
-                                        <Run FontWeight="Bold" Text="15.285.963-9"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Titular.RG}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
@@ -92,13 +92,13 @@
                                 <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
                                         <Run Text="AUXILIAR:"/>
-                                        <Run FontWeight="Bold" Text="NÃO"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Auxiliar.Nome}"/>
                                     </Paragraph>
                                 </TableCell>
                                 <TableCell BorderBrush="Black" >
                                     <Paragraph>
                                         <Run Text="R.G.:"/>
-                                        <Run FontWeight="Bold" Text="202.000.0-1"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Auxiliar.RG}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
@@ -106,7 +106,7 @@
                                 <TableCell ColumnSpan="4" BorderBrush="Black" LineHeight="25">
                                     <Paragraph >
                                         <Run Text="ATIVIDADE:"/>
-                                        <Run FontWeight="Bold" Text="COMÉRCIO DE BRINQUEDOS INFANTIL, INFLÁVEL, E LUMINOSO COMÉRCIO DE BRINQUEDOS INFANTIL, INFLÁVEL, E LUMINOSO"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Atividade}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
@@ -114,7 +114,7 @@
                                 <TableCell ColumnSpan="4" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
                                         <Run Text="FORMA DE ATUAÇÃO:"/>
-                                        <Run FontWeight="Bold" Text="MÓVEL"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.FormaAtuacao}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
@@ -122,19 +122,19 @@
                                 <TableCell ColumnSpan="2" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
                                         <Run Text="VEÍCULO/MODELO:"/>
-                                        <Run FontWeight="Bold" Text="NÃO CONSTA"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Veiculo.Modelo}"/>
                                     </Paragraph>
                                 </TableCell>
                                 <TableCell BorderBrush="Black">
                                     <Paragraph>
                                         <Run Text="PLACA:"/>
-                                        <Run FontWeight="Bold" Text="AAA-1234"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Veiculo.Placa}"/>
                                     </Paragraph>
                                 </TableCell>
                                 <TableCell BorderBrush="Black">
                                     <Paragraph>
                                         <Run Text="COR:"/>
-                                        <Run FontWeight="Bold" Text="BRANCO"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Veiculo.Cor}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
@@ -142,7 +142,7 @@
                                 <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
                                         <Run Text="VALIDADE:"/>
-                                        <Run FontWeight="Bold" Text="12 MESES"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Validade}"/>
                                     </Paragraph>
                                 </TableCell>
                                 <TableCell TextAlignment="Right" RowSpan="3" BorderBrush="Black">
@@ -155,7 +155,7 @@
                                 <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="30">
                                     <Paragraph>
                                         <Run Text="PROCESSO:"/>
-                                        <Run FontWeight="Bold" Text="12505-RP/2019"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Processo}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>

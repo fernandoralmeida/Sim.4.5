@@ -51,11 +51,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComercioAmbulante\Model\DIA.cs" />
     <Compile Include="ComercioAmbulante\Model\mAmbulante.cs" />
     <Compile Include="ComercioAmbulante\Model\mDataCM.cs" />
     <Compile Include="ComercioAmbulante\Model\mDataReport.cs" />
     <Compile Include="ComercioAmbulante\Model\mPeriodos.cs" />
     <Compile Include="ComercioAmbulante\Model\mReportCA.cs" />
+    <Compile Include="ComercioAmbulante\Repositorio\DIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmConsulta.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmD-I-A.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmMain.cs" />

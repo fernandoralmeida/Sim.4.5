@@ -21,7 +21,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         #region Declarations
         NavigationService ns;
-        private mAmbulante _ambulante = new mAmbulante();
+        private DIA _ambulante = new DIA();
 
         private mDataCM mdatacm = new mDataCM();
 
@@ -47,7 +47,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #endregion
 
         #region Properties
-        public mAmbulante Ambulante
+        public DIA Ambulante
         {
             get { return _ambulante; }
             set
@@ -252,7 +252,14 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             GlobalNavigation.Pagina = "D.I.A";
             BlackBox = Visibility.Collapsed;
             StartProgress = false;
-            //AsyncMostrarDados(AreaTransferencia.CadastroAmbulante);
+            AsyncMostrarDados(AreaTransferencia.Objeto);
+        }
+        #endregion
+
+        #region Functions
+        public void AsyncMostrarDados(object obj)
+        {
+            Ambulante = (DIA)obj;
         }
         #endregion
 

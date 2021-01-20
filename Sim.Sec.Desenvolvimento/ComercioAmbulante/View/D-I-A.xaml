@@ -15,21 +15,25 @@
     </Page.DataContext>
     
     <Grid Margin="0,0,0,0">
-        <Grid Margin="10,42,10,10">
+        <Grid Margin="10,42,10,10" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="10" HorizontalAlignment="Center">
+                <Label Content="DOCUMENTO DE IDENTIFICAÇÃO DE AMBULANTE - D.I.A" Margin="2" VerticalAlignment="Center"/>
+            </Grid>
             
-            <Grid Grid.Row="0" >
+            <Grid Grid.Row="1" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition MinWidth="150"/>
+                    <ColumnDefinition MinWidth="100"/>
+                    <ColumnDefinition MinWidth="100" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -50,33 +54,59 @@
                 </Grid.RowDefinitions>
 
                 <Label Content="INSCRIÇÃO MUNICIPAL" Margin="2,0" Grid.Row="0" Grid.Column="0"/>
-                <TextBox Text="" Margin="2,0" Grid.Row="1" Grid.Column="0"/>
-                <Label Content="EMISSÃO" Margin="2,0" Grid.Row="0" Grid.Column="3"/>
-                <TextBox Text="" Margin="2,0" Grid.Row="1" Grid.Column="3"/>
+                <TextBox Text="{Binding D_I_A.InscricaoMunicipal}" Margin="2,0" Grid.Row="1" Grid.Column="0"/>
+                <Label Content="EMISSÃO" Margin="2,0" Grid.Row="0" Grid.Column="2"/>
+                <TextBox Text="{Binding D_I_A.Emissao}" Margin="2,0" Grid.Row="1" Grid.Column="2"/>
 
-                <Label Content="AUTORIZADOS A EXERCER" Margin="2,0" Grid.Row="2" Grid.Column="0" />
-                <Label Content="Nº:" Margin="2,0" Grid.Row="2" Grid.Column="3"/>
-                <TextBox Text="" Margin="2,0" Grid.Row="3" Grid.Column="3"/>
+                <Label Content="AUTORIZADOS A EXERCER" Margin="2,0" Grid.Row="3" Grid.Column="0" />
+                <Label Content="Nº:" Margin="2,0" Grid.Row="2" Grid.Column="2"/>
+                <TextBox Text="{Binding D_I_A.Autorizacao}" Margin="2,0" Grid.Row="3" Grid.Column="2"/>
 
                 <Label Content="TITULAR" Margin="2,0" Grid.Row="4" Grid.Column="0" />
-                <Label Content="RG" Margin="2,0" Grid.Row="4" Grid.Column="3" />
-                <TextBox Text="" Margin="2,0" Grid.Row="5" Grid.Column="0" />
-                <TextBox Text="" Margin="2,0" Grid.Row="5" Grid.Column="3" />
+                <Label Content="RG" Margin="2,0" Grid.Row="4" Grid.Column="2" />
+                <TextBox Text="{Binding D_I_A.Titular.Nome}" Margin="2,0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" />
+                <TextBox Text="{Binding D_I_A.Titular.RG}" Margin="2,0" Grid.Row="5" Grid.Column="2" />
 
                 <Label Content="AUXILIAR" Margin="2,0" Grid.Row="6" Grid.Column="0" />
-                <Label Content="RG" Margin="2,0" Grid.Row="6" Grid.Column="3" />
-                <TextBox Text="" Margin="2,0" Grid.Row="7" Grid.Column="0" />
-                <TextBox Text="" Margin="2,0" Grid.Row="7" Grid.Column="3" />
+                <Label Content="RG" Margin="2,0" Grid.Row="6" Grid.Column="2" />
+                <TextBox Text="{Binding D_I_A.Auxiliar.Nome}" Margin="2,0" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" />
+                <TextBox Text="{Binding D_I_A.Auxiliar.RG}" Margin="2,0" Grid.Row="7" Grid.Column="2" />
 
-                <Label Content="RAMO DE ATIVIDADE" Grid.Row="8" Margin="2,0" Grid.Column="0" Grid.ColumnSpan="4"/>
-                <TextBox Text="" TextWrapping="WrapWithOverflow" Grid.Row="9" Margin="2,0" Grid.Column="0" Grid.ColumnSpan="4"/>
+                <Label Content="RAMO DE ATIVIDADE" Grid.Row="8" Margin="2,0" Grid.Column="0" Grid.ColumnSpan="3"/>
+                <TextBox Text="{Binding D_I_A.Atividade}" TextWrapping="WrapWithOverflow" Grid.Row="9" Margin="2,0" Grid.Column="0" Grid.ColumnSpan="3"/>
 
-                <Label Content="FORMA DE ATUAÇÃO" Grid.Row="10" Margin="2,0" Grid.Column="0" Grid.ColumnSpan="4"/>
-                <TextBox Text="" TextWrapping="WrapWithOverflow" Grid.Row="11" Margin="2,0" Grid.Column="0" Grid.ColumnSpan="4"/>
+                <Label Content="FORMA DE ATUAÇÃO" Grid.Row="10" Margin="2,0" Grid.Column="0" Grid.ColumnSpan="3"/>
+                <TextBox Text="{Binding D_I_A.FormaAtuacao}" TextWrapping="WrapWithOverflow" Grid.Row="11" Margin="2,0" Grid.Column="0" Grid.ColumnSpan="3"/>
 
+                <Label Content="VEÍCULO/MODELO" Grid.Row="12" Grid.Column="0" Margin="2,0"/>
+                <Label Content="PLACA" Grid.Row="12" Grid.Column="1" Margin="2,0"/>
+                <Label Content="COR" Grid.Row="12" Grid.Column="2" Margin="2,0"/>
+                <TextBox Text="{Binding D_I_A.Veiculo.Modelo}" Margin="2,0" Grid.Row="13" Grid.Column="0" />
+                <TextBox Text="{Binding D_I_A.Veiculo.Placa}" Margin="2,0" Grid.Row="13" Grid.Column="1" />
+                <TextBox Text="{Binding D_I_A.Veiculo.Cor}" Margin="2,0" Grid.Row="13" Grid.Column="2" />
+
+                <Label Content="VALIDADE" Grid.Row="14" Margin="2,0" Grid.Column="0" />
+                <TextBox Text="{Binding D_I_A.Validade}" Grid.Row="15" Margin="2,0" Grid.Column="0" />
+
+                <Label Content="PROCESSO" Grid.Row="16" Margin="2,0" Grid.Column="0" />
+                <TextBox Text="{Binding D_I_A.Processo}" Grid.Row="17" Margin="2,0" Grid.Column="0" />
+                
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="0,20,5,5"  Visibility="{Binding Corpo}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Button Content="GRAVAR CADASTRO" Grid.Column="0" Grid.Row="1" Command="{Binding CommandSave}" Margin="2"/>
+                <Button Content="CANCELAR" Grid.Column="1" Grid.Row="1" Command="{Binding CommandCancelar}" Margin="2"/>
             </Grid>
         </Grid>
-        <Grid Grid.RowSpan="2" Visibility="Collapsed">
+        <Grid Grid.RowSpan="3" Visibility="Collapsed">
             <Border Background="Black" Opacity=".5"/>
             <Grid>
                 <ProgressBar IsIndeterminate="{Binding StartProgress}" Height="15" Width="200"/>

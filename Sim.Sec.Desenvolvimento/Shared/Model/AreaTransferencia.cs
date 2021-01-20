@@ -32,9 +32,26 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         private static bool? _cadambulanteok;
         private static bool? _consambulante;
 
+        private static bool? _dia_ok;
+        private static string _numero_dia;
+
         #endregion
 
         #region Properties
+
+        public static object Objeto { get; set; }
+
+        public static string Numero_DIA
+        {
+            get { return _numero_dia; }
+            set { _numero_dia = value; OnGlobalPropertyChanged("Numero_DIA"); }
+        }
+
+        public static bool? DIA_OK
+        {
+            get { return _dia_ok; }
+            set { _dia_ok = value; OnGlobalPropertyChanged("DIA_OK"); }
+        }
 
         public static string CNPJ
         {

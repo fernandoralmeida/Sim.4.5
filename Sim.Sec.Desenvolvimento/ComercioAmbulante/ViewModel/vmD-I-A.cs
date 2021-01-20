@@ -21,21 +21,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         #region Declarations
         NavigationService ns;
-        private mAmbulante _ambulante = new mAmbulante();
+        private DIA _dia = new DIA();
 
+        private Repositorio.DIA DataDIA = new Repositorio.DIA();
         private mDataCM mdatacm = new mDataCM();
-
-        private ObservableCollection<string> _atividades = new ObservableCollection<string>();
-        private ObservableCollection<string> _periodos = new ObservableCollection<string>();
-
-        private string _outros = string.Empty;
-        private string _situacao = string.Empty;
-
-        private bool _istenda;
-        private bool _isveiculo;
-        private bool _istrailer;
-        private bool _iscarrinho;
-        private bool _isoutros;
 
         private bool _starprogress;
 
@@ -47,109 +36,16 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #endregion
 
         #region Properties
-        public mAmbulante Ambulante
-        {
-            get { return _ambulante; }
-            set
-            {
-                _ambulante = value;
-                RaisePropertyChanged("Ambulante");
-            }
-        }
 
-        public ObservableCollection<string> Atividades
+        public DIA D_I_A
         {
-            get { return _atividades; }
-            set
-            {
-                _atividades = value;
-                RaisePropertyChanged("Atividades");
-            }
-        }
-
-        public ObservableCollection<string> Periodos
-        {
-            get { return _periodos; }
-            set
-            {
-                _periodos = value;
-                RaisePropertyChanged("Periodos");
-            }
+            get { return _dia; }
+            set { _dia = value; RaisePropertyChanged("D_I_A"); }
         }
 
         public ObservableCollection<mTiposGenericos> Situações
         {
             get { return new mData().Tipos(@"SELECT * FROM SDT_CAmbulante_Situacao WHERE (Ativo = True) ORDER BY Valor"); }
-        }
-
-        public string Outros
-        {
-            get { return _outros; }
-            set
-            {
-                _outros = value;
-                RaisePropertyChanged("Outros");
-            }
-        }
-
-        public string Situacao
-        {
-            get { return _situacao; }
-            set
-            {
-                _situacao = value;
-                RaisePropertyChanged("Situacao");
-            }
-        }
-
-        public bool IsTenda
-        {
-            get { return _istenda; }
-            set
-            {
-                _istenda = value;
-                RaisePropertyChanged("IsTenda");
-            }
-        }
-
-        public bool IsVeiculo
-        {
-            get { return _isveiculo; }
-            set
-            {
-                _isveiculo = value;
-                RaisePropertyChanged("IsVeiculo");
-            }
-        }
-
-        public bool IsTrailer
-        {
-            get { return _istrailer; }
-            set
-            {
-                _istrailer = value;
-                RaisePropertyChanged("IsTrailer");
-            }
-        }
-
-        public bool IsCarrinho
-        {
-            get { return _iscarrinho; }
-            set
-            {
-                _iscarrinho = value;
-                RaisePropertyChanged("IsCarrinho");
-            }
-        }
-
-        public bool IsOutros
-        {
-            get { return _isoutros; }
-            set
-            {
-                _isoutros = value;
-                RaisePropertyChanged("IsOutros");
-            }
         }
 
         public bool StartProgress
@@ -184,53 +80,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #endregion
 
         #region Commands
-        public ICommand CommandPrint
-        {
-            get
-            {
-                if (_commandprint == null)
-                    _commandprint = new RelayCommand(p =>
-                    {
+        public ICommand CommandSave => new RelayCommand( p=> {
+            AreaTransferencia.Objeto = D_I_A;
+            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));
+        });
+        
 
-                        FlowDocument _flow = (FlowDocument)p;
-
-                        try
-                        {
-                            StartProgress = true;
-                            BlackBox = Visibility.Visible;
-
-                            // paginador
-                            //_flow.PageHeight = 768;
-                            //_flow.PageWidth = 1104;
-                            //_flow.ColumnWidth = 1104;
-                            IDocumentPaginatorSource idocument = _flow as IDocumentPaginatorSource;
-                            idocument.DocumentPaginator.ComputePageCountAsync();
-
-                            //Now print using PrintDialog
-                            var pd = new PrintDialog();
-                            //pd.UserPageRangeEnabled = true;
-                            //pd.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
-
-                            if (pd.ShowDialog().Value)
-                                pd.PrintDocument(idocument.DocumentPaginator, "Printing....");
-
-                            StartProgress = false;
-                            BlackBox = Visibility.Collapsed;
-                        }
-                        catch (Exception ex)
-                        {
-                            StartProgress = false;
-                            BlackBox = Visibility.Collapsed;
-                            MessageBox.Show(ex.Message);
-                        }
-
-                    });
-
-                return _commandprint;
-            }
-        }
-
-        public ICommand CommandSair
+        public ICommand CommandCancelar
         {
             get
             {
@@ -249,10 +105,44 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         public vmD_I_A()
         {
             ns = GlobalNavigation.NavService;
-            GlobalNavigation.Pagina = "PERFIL";
+            GlobalNavigation.Pagina = "D.I.A";
             BlackBox = Visibility.Collapsed;
             StartProgress = false;
-            //AsyncMostrarDados(AreaTransferencia.CadastroAmbulante);
+            AsyncMostrarDados(AreaTransferencia.CPF);
+        }
+        #endregion
+
+        #region Functions
+        private void AsyncMostrarDados(string _cca)
+        {
+            Task<mAmbulante>.Factory.StartNew(() => mdatacm.GetCAmbulante(_cca))
+                .ContinueWith(task =>
+                {
+                    if (task.IsCompleted)
+                    {
+                        try
+                        {
+
+                            if (task.Result != null)
+                            {
+
+                                //Ambulante = task.Result;
+                                D_I_A.Titular.Nome = task.Result.Pessoa.NomeRazao;
+                                D_I_A.Atividade = task.Result.Atividades;
+
+
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(string.Format("Erro '{0}' inesperado, informe o Suporte!", ex.Message), "Sim.Alerta!");
+                        }
+                    }
+                },
+                System.Threading.CancellationToken.None,
+                TaskContinuationOptions.None,
+                TaskScheduler.FromCurrentSynchronizationContext());
         }
         #endregion
 

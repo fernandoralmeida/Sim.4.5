@@ -392,6 +392,8 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                     break;
 
                 case 17:
+                    AreaTransferencia.DIA_OK = false;
+                    AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
                     ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/D-I-A.xaml", UriKind.Relative));
                     break;
             }
