@@ -3,10 +3,15 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:vm="clr-namespace:Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel"
       mc:Ignorable="d" 
       UseLayoutRounding="True"
       SnapsToDevicePixels="True"
       Title="Menu - DIA">
+
+    <Page.DataContext>
+        <vm:vmMenuDIA />
+    </Page.DataContext>
 
     <Grid  Margin="0,0,0,0">
         <Grid.RowDefinitions>
@@ -66,117 +71,16 @@
                 </StackPanel>
                 <DockPanel Grid.Row="1" Grid.Column="0">
                     <StackPanel Margin="10">
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding ListarCA}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding DIAList}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Contador}" ClipboardContentBinding="{x:Null}" Header="..." />
-
-                                <DataGridTextColumn Binding="{Binding Pessoa.NomeRazao}" ClipboardContentBinding="{x:Null}" Header="NOME" />
-                                <DataGridTextColumn Binding="{Binding Pessoa.Telefones}" ClipboardContentBinding="{x:Null}" Header="CONTATO" />
-                                <DataGridTextColumn Binding="{Binding Empresa.Inscricao}" ClipboardContentBinding="{x:Null}" Header="CNPJ" />
-                                <DataGridTextColumn Binding="{Binding DataCadastro, StringFormat=dd/MM/yyyy}" ClipboardContentBinding="{x:Null}" Header="DATA" />
+                                <DataGridTextColumn Binding="{Binding InscricaoMunicipal}" ClipboardContentBinding="{x:Null}" Header="IM" />
+                                <DataGridTextColumn Binding="{Binding Autorizacao}" ClipboardContentBinding="{x:Null}" Header="AUTORIZAÇÃO" />
+                                <DataGridTextColumn Binding="{Binding Titular.Nome}" ClipboardContentBinding="{x:Null}" Header="NOME" />
+                                <DataGridTextColumn Binding="{Binding Emissao, StringFormat=dd/MM/yyyy}" ClipboardContentBinding="{x:Null}" Header="EMISSÃO" />
+                                <DataGridTextColumn Binding="{Binding Validade}" ClipboardContentBinding="{x:Null}" Header="VALIDADE" />
 
                             </DataGrid.Columns>
-                            <DataGrid.RowDetailsTemplate>
-                                <DataTemplate>
-                                    <FlowDocumentScrollViewer ScrollViewer.VerticalScrollBarVisibility="Disabled" >
-                                        <FlowDocument FontFamily="Segoe UI" FontSize="12">
-                                            <Paragraph Margin="0">
-                                                <Run Text="COMERCIANTE DE RUA:" FontSize="10" Foreground="Gray"/>
-                                            </Paragraph>
-                                            <Paragraph Margin="0">
-                                                <Run Text="{Binding Cadastro}"/>
-                                                <LineBreak/>
-                                                <Run Text="ATENDIMENTO:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding Atendimento}"/>
-                                                <Run Text=" "/>
-                                                <Run Text="{Binding DataCadastro, StringFormat= dd/MM/yyyy}"/>
-                                            </Paragraph>
-                                            <Paragraph Margin="0">
-                                                <Run Text="REQUERENTE:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding Pessoa.NomeRazao}"/>
-                                                <LineBreak/>
-                                                <Run Text="CPF:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding Pessoa.Inscricao}"/>
-                                                <LineBreak/>
-                                                <Run Text="CONTATO:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding Pessoa.Telefones}"/>
-                                                <Run Text=" "/>
-                                                <Run Text="{Binding Pessoa.Email}"/>
-                                                <LineBreak/>
-                                                <Run Text="EMPRESA:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding Empresa.Inscricao}"/>
-                                                <Run Text=" "/>
-                                                <Run Text="{Binding Empresa.NomeRazao}"/>
-                                            </Paragraph>
-                                            <Paragraph Margin="0">
-                                                <Run Text="ATIVIDADE:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding Atividades}"/>
-                                                <LineBreak/>
-                                                <Run Text="DESCRIÇÃO DETALHADA DA ATIVIDADE COMERCIAL:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding DescricaoNegocio}" />
-                                                <LineBreak/>
-                                                <Run Text="TEMPO DE ATIVIDADE (MESES):" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding TempoAtividade}" />
-                                                <LineBreak/>
-                                                <Run Text="LOCAL:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding Local}"/>
-                                                <LineBreak/>
-                                                <Run Text="HORÁRIO DE TRABALHO" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding PeridoTrabalho}"/>
-                                                <LineBreak/>
-                                                <Run Text="TIPO DE INSTALAÇÕES:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding TipoInstalacoes}"/>
-                                                <LineBreak/>
-                                                <Run Text="FAZ PARTE DE ENTIDADE REPRESENTATIVA:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <CheckBox IsChecked="{Binding EntRepresentativa}" />
-                                            </Paragraph>
-                                            <Paragraph Margin="0">
-                                                <Run Text="QUER SER UM MEI?" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <CheckBox IsChecked="{Binding QuerFormalizar}"/>
-                                                <LineBreak/>
-                                                <CheckBox Margin="0,2" IsChecked="{Binding TemCadastro}"  Content="POSSUI CADASTRO?"/>
-                                                <LineBreak/>
-                                                <CheckBox Margin="0,2" IsChecked="{Binding TemLicenca}" Content="POSSUI LICENÇA?"/>
-                                                <LineBreak/>
-                                                <DatePicker Margin="0,2" SelectedDate="{Binding DataLicenca}" IsEnabled="{Binding TemLicenca}"/>
-                                            </Paragraph>
-                                            <Paragraph Margin="0">
-                                                <Run Text="SITUAÇÃO:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <ComboBox SelectedIndex="{Binding Situacao}" >
-                                                    <ComboBoxItem Content="..."/>
-                                                    <ComboBoxItem Content="EM ANÁLISE"/>
-                                                    <ComboBoxItem Content="DEFERIDO"/>
-                                                    <ComboBoxItem Content="INDEFERIDO"/>
-                                                </ComboBox>
-                                                <LineBreak/>
-                                                <Run Text="JUSTIFICATIVA:" FontSize="10" Foreground="Gray"/>
-                                                <LineBreak/>
-                                                <Run Text="{Binding Justificativa}" />
-                                                <LineBreak />
-                                                <TextBlock>
-                                                    <Hyperlink Command="{Binding DataContext.CommandPrintProfile, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Cadastro}" >
-                                                        <Run Text="IMPRIMIR"/>
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                            </Paragraph>
-                                        </FlowDocument>
-                                    </FlowDocumentScrollViewer>
-                                </DataTemplate>
-                            </DataGrid.RowDetailsTemplate>
                         </DataGrid>
                     </StackPanel>
                 </DockPanel>

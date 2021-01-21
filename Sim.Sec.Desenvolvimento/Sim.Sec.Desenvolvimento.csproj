@@ -61,6 +61,7 @@
     <Compile Include="ComercioAmbulante\ViewModel\vmConsulta.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmD-I-A.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmMain.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmMenuDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmNovo.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmPerfil.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmPerfilPrint.cs" />

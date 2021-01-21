@@ -82,11 +82,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #region Commands
         public ICommand CommandSave => new RelayCommand( p=> {
 
-            D_I_A.Situacao = "ATIVA";
+            D_I_A.Situacao = "ATIVO";            
             Gravar_DIA(D_I_A);
+            
+            ns.GoBack();
 
             AreaTransferencia.Objeto = D_I_A;
-            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));
+            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));           
         });
         
 
@@ -113,11 +115,86 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             BlackBox = Visibility.Collapsed;
             StartProgress = false;
             D_I_A.Emissao = DateTime.Now;
+            D_I_A.Autorizacao = NovaAutorização();
             AsyncMostrarDados(AreaTransferencia.CPF);
         }
         #endregion
 
         #region Functions
+        private void Looping()
+        {
+            int i = 0;
+
+            while(i < 99)
+            {
+                i++;
+            }
+        }     
+
+        private int Contador()
+        {
+            int v = 0;
+
+            var t = Task<int>.Run(() => { for (int i = 0; i < 10; i++) v = i; });
+
+            t.Wait();
+
+            return v;
+        }
+
+
+        private string NovaAutorização()
+        {
+            int ano = DateTime.Now.Year;
+            int d = 0; // 0 to 9
+            int c = 0; // 0 to 9
+            int m = 0;  // 0 to 9
+            int k = 0;  // 0 to 9
+
+            var t = Task<string>.Run(() => new Repositorio.DIA().UltimaAutorizacao());
+            t.Wait();
+
+            if (t.Result.Count() > 10)
+            {
+                string[] _d = t.ToString().Split('-');
+
+                string _rest = _d[0].Remove(0, 5);
+
+                string[] _rest_split = _rest.ToString().Split('.');
+
+                d = Convert.ToInt32(_d[1]); // 0 to 9
+                c = Convert.ToInt32(_rest_split[1]); ; // 0 to 9
+                m = Convert.ToInt32(_rest_split[0].Remove(0, 1));  // 0 to 9
+                k = Convert.ToInt32(_rest_split[0].Remove(1, 1));  // 0 to 9
+            }
+
+            d++;
+
+            if (d > 9)
+            {
+                d = 0;
+                c++;
+
+                if(c > 9)
+                {
+                    c = 0;
+                    m++;
+
+                    if (m > 9)
+                    {
+                        d = 0;
+                        k++;
+                    }
+                }
+
+            }
+
+            string _ano = ano.ToString();
+            _ano = _ano.Insert(3,".");
+
+            return string.Format("{0}{1}{2}.{3}-{4}", _ano, k, m, c, d);
+        }
+
         private void AsyncMostrarDados(string _cca)
         {
             Task<mAmbulante>.Factory.StartNew(() => mdatacm.GetCAmbulante(_cca))

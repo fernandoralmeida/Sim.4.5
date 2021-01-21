@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel"
       mc:Ignorable="d" 
-      KeepAlive="True"
       UseLayoutRounding="True"
       SnapsToDevicePixels="True"
       Title="D_I_A">

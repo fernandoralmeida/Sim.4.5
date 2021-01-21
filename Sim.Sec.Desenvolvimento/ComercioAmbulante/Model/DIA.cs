@@ -93,6 +93,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             set { _situacao = value;RaisePropertyChanged("Situacao"); }
         }
 
+        private int _contador;
+        public int Contador
+        {
+            get { return _contador; }
+            set { _contador = value; RaisePropertyChanged(Contador.ToString()); }
+        }
 
     }
 
