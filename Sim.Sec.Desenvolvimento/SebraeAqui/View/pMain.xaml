@@ -123,26 +123,7 @@
                                 -->
                                 <DataGridTextColumn Binding="{Binding Contador}" ClipboardContentBinding="{x:Null}" Header="Nº" />
                                 <DataGridTextColumn Binding="{Binding Hora, StringFormat=HH:mm}" ClipboardContentBinding="{x:Null}" Header="HORA" />
-                                <DataGridTemplateColumn Header="CLIENTE">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0" ToolTip="Visualizar" Command="{Binding DataContext.CommandPreviewBox, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                                    CommandParameter="{Binding Protocolo}" Style="{StaticResource SystemButtonIcon}">
-
-                                                    <Path Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-                                                      Data="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z" Height="15" Width="17"/>
-
-                                                </Button>
-                                                <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding Cliente.NomeRazao}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                c
                                 <!--
                                 <DataGridTextColumn Binding="{Binding Cliente.NomeRazao}" ClipboardContentBinding="{x:Null}" Header="CLIENTE" />
                                 -->

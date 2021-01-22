@@ -79,8 +79,20 @@
                                 <DataGridTextColumn Binding="{Binding Titular.Nome}" ClipboardContentBinding="{x:Null}" Header="NOME" />
                                 <DataGridTextColumn Binding="{Binding Emissao, StringFormat=dd/MM/yyyy}" ClipboardContentBinding="{x:Null}" Header="EMISSÃO" />
                                 <DataGridTextColumn Binding="{Binding Validade}" ClipboardContentBinding="{x:Null}" Header="VALIDADE" />
+                                <DataGridTemplateColumn Header="D.I.A">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Grid.Column="0" ToolTip="Visualizar" Command="{Binding DataContext.CommandPreviewBox, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
+                                                    CommandParameter="{Binding Protocolo}" Style="{StaticResource SystemButtonIcon}">
 
+                                                    <Path Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z" Height="15" Width="17"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
+                            
                         </DataGrid>
                     </StackPanel>
                 </DockPanel>

@@ -31,8 +31,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private Visibility _blackbox;
         private Visibility _temlicencaview;
 
-        private ICommand _commandprint;
-        private ICommand _commandcancelar;
         #endregion
 
         #region Properties
@@ -81,7 +79,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         #region Commands
         public ICommand CommandSave => new RelayCommand( p=> {
-
             D_I_A.Situacao = "ATIVO";            
             Gravar_DIA(D_I_A);
             
@@ -90,21 +87,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             AreaTransferencia.Objeto = D_I_A;
             ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));           
         });
-        
 
-        public ICommand CommandCancelar
+        public ICommand CommandCancelar => new RelayCommand(p =>
         {
-            get
-            {
-                if (_commandcancelar == null)
-                    _commandcancelar = new RelayCommand(p =>
-                    {
-                        ns.GoBack();
-                    });
+            ns.GoBack();
 
-                return _commandcancelar;
-            }
-        }
+        });
         #endregion
 
         #region Construtor
@@ -121,26 +109,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #endregion
 
         #region Functions
-        private void Looping()
-        {
-            int i = 0;
-
-            while(i < 99)
-            {
-                i++;
-            }
-        }     
-
-        private int Contador()
-        {
-            int v = 0;
-
-            var t = Task<int>.Run(() => { for (int i = 0; i < 10; i++) v = i; });
-
-            t.Wait();
-
-            return v;
-        }
 
         private string Autorizacao()
         {
@@ -153,8 +121,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             t = new mMascaras().Remove(t);
 
-            MessageBox.Show(t.ToString());
-
             ulong n = Convert.ToUInt64(t);
 
             n++;
@@ -166,62 +132,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             string r = string.Format("{0}{1}",DateTime.Now.Year, res);
 
-            MessageBox.Show(r.ToString());
-
             return Convert.ToUInt64(r).ToString(@"000\.000\.0\-0");
-        }
-        
-        private string NovaAutorização()
-        {
-            int ano = DateTime.Now.Year;
-            int d = 0; // 0 to 9
-            int c = 0; // 0 to 9
-            int m = 0;  // 0 to 9
-            int k = 0;  // 0 to 9
-
-            var t = string.Empty;
-
-            Task.Run(() => t = new Repositorio.DIA().UltimaAutorizacao()).Wait();
-            
-            if (t.Count() > 10)
-            {
-                string[] _d = t.ToString().Split('-');
-
-                string _rest = _d[0].Remove(0, 5);
-
-                string[] _rest_split = _rest.ToString().Split('.');
-
-                d = Convert.ToInt32(_d[1]); // 0 to 9
-                c = Convert.ToInt32(_rest_split[1]); ; // 0 to 9
-                m = Convert.ToInt32(_rest_split[0].Remove(0, 1));  // 0 to 9
-                k = Convert.ToInt32(_rest_split[0].Remove(1, 1));  // 0 to 9
-            }
-
-            d++;
-
-            if (d > 9)
-            {
-                d = 0;
-                c++;
-
-                if(c > 9)
-                {
-                    c = 0;
-                    m++;
-
-                    if (m > 9)
-                    {
-                        d = 0;
-                        k++;
-                    }
-                }
-
-            }
-
-            string _ano = ano.ToString();
-            _ano = _ano.Insert(3,".");
-
-            return string.Format("{0}{1}{2}.{3}-{4}", _ano, k, m, c, d);
         }
 
         private void AsyncMostrarDados(string _cca)
