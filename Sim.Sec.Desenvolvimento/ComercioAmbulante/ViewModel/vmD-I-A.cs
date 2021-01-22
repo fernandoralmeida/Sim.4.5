@@ -115,7 +115,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             BlackBox = Visibility.Collapsed;
             StartProgress = false;
             D_I_A.Emissao = DateTime.Now;
-            D_I_A.Autorizacao = NovaAutorização();
+            D_I_A.Autorizacao = Autorizacao();
             AsyncMostrarDados(AreaTransferencia.CPF);
         }
         #endregion
@@ -142,7 +142,35 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             return v;
         }
 
+        private string Autorizacao()
+        {
+            var t = string.Empty;
 
+            Task.Run(() => t = new Repositorio.DIA().UltimaAutorizacao()).Wait();
+
+            if (t == null || t == string.Empty)
+                t = string.Format("{0}0000", DateTime.Now.Year);
+
+            t = new mMascaras().Remove(t);
+
+            MessageBox.Show(t.ToString());
+
+            ulong n = Convert.ToUInt64(t);
+
+            n++;
+
+            string res = n.ToString();
+                       
+            for (int i = 0; i < 4; i++)
+                res = res.Remove(0, 1);
+
+            string r = string.Format("{0}{1}",DateTime.Now.Year, res);
+
+            MessageBox.Show(r.ToString());
+
+            return Convert.ToUInt64(r).ToString(@"000\.000\.0\-0");
+        }
+        
         private string NovaAutorização()
         {
             int ano = DateTime.Now.Year;
@@ -151,10 +179,11 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             int m = 0;  // 0 to 9
             int k = 0;  // 0 to 9
 
-            var t = Task<string>.Run(() => new Repositorio.DIA().UltimaAutorizacao());
-            t.Wait();
+            var t = string.Empty;
 
-            if (t.Result.Count() > 10)
+            Task.Run(() => t = new Repositorio.DIA().UltimaAutorizacao()).Wait();
+            
+            if (t.Count() > 10)
             {
                 string[] _d = t.ToString().Split('-');
 

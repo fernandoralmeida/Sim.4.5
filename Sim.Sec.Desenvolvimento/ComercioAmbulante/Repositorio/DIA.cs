@@ -145,13 +145,13 @@ VALUES
 
                 string _lastrows = string.Empty;
 
-                string sql = @"SELECT TOP 1 Autorizacao FROM SDT_CAmbulante_DIA";
+                string sql = @"SELECT TOP 1 Indice, Autorizacao FROM SDT_CAmbulante_DIA ORDER BY Indice DESC";
 
                 //string sql = @"SELECT * FROM SDT_CAmbulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND (Cadastro LIKE @Cadastro + '%') AND (Pessoa LIKE '%' +  @Pessoa + '%') AND (Empresa LIKE '%' +  @Empresa + '%') AND (Ativo = true) ORDER BY Pessoa, DataCadastro";
 
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
                 {
-                    _lastrows = (string)at[0];
+                    _lastrows = (string)at[1];
                 }
 
                 return _lastrows;
