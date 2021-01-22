@@ -34,7 +34,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #endregion
 
         #region Commands
+        public ICommand CommandGoDIA => new RelayCommand(p =>
+        {
 
+        }); 
         #endregion
 
         #region Constructor
