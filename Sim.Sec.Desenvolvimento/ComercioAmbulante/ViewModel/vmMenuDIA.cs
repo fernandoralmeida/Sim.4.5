@@ -36,7 +36,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #region Commands
         public ICommand CommandGoDIA => new RelayCommand(p =>
         {
-
+            var t = Task<Model.DIA>.Run(() => new Repositorio.DIA().GetDIA((int)p));            
+            t.Wait();
+            AreaTransferencia.Objeto = t.Result;
+            ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.RelativeOrAbsolute));
         }); 
         #endregion
 

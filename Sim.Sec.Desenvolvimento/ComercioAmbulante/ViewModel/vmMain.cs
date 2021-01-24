@@ -477,7 +477,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             _param.Add(Logged.Identificador);
 
-            _param.Add("CADASTRO DE COMÉRCIO AMBULANTE");
+            _param.Add("%");
 
             return _param;
         }

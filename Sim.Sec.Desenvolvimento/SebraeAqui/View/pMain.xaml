@@ -123,7 +123,7 @@
                                 -->
                                 <DataGridTextColumn Binding="{Binding Contador}" ClipboardContentBinding="{x:Null}" Header="Nº" />
                                 <DataGridTextColumn Binding="{Binding Hora, StringFormat=HH:mm}" ClipboardContentBinding="{x:Null}" Header="HORA" />
-                                c
+                                
                                 <!--
                                 <DataGridTextColumn Binding="{Binding Cliente.NomeRazao}" ClipboardContentBinding="{x:Null}" Header="CLIENTE" />
                                 -->

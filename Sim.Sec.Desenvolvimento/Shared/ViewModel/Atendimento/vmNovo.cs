@@ -500,7 +500,8 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         {
             ns = GlobalNavigation.NavService;
             GlobalNavigation.Pagina = "NOVO ATENDIMENTO";
-            GlobalNotifyProperty.GlobalPropertyChanged += GlobalNotifyProperty_GlobalPropertyChanged; 
+            GlobalNotifyProperty.GlobalPropertyChanged += GlobalNotifyProperty_GlobalPropertyChanged;
+            GlobalNavigation.NavService.Navigated += NavService_Navigated;
             //GlobalNavigation.BrowseBack = Visibility.Collapsed;
 
             Protocolo = NProtocolo();
@@ -522,6 +523,15 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                 AsyncServicos();
         }
 
+        private void NavService_Navigated(object sender, NavigationEventArgs e)
+        {
+            if (AreaTransferencia.Preview_DIA == true)
+            {
+                AreaTransferencia.Preview_DIA = false;
+                ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -532,6 +542,16 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         /// <param name="e"></param>
         private void GlobalNotifyProperty_GlobalPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == "DIA_OK")
+                if (AreaTransferencia.DIA_OK == true)
+                {
+                    if (Atendimento.Historico.Length > 0)
+                        Atendimento.Historico = string.Concat(Atendimento.Historico, string.Format("\nD.I.A GERADO COM SUCESSO, Nº {0}", AreaTransferencia.Numero_DIA));
+
+                    else
+                        Atendimento.Historico = string.Format(@"D.I.A GERADO COM SUCESSO, Nº {0}", AreaTransferencia.Numero_DIA);
+                }              
+
             if (e.PropertyName == "CadAmbulanteOK")
                 if (AreaTransferencia.CadAmbulanteOK == true)
                 {

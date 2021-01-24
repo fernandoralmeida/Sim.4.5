@@ -15,8 +15,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
     using Shared.Model;
     using Mvvm.Observers;
     using Mvvm.Commands;
+    using Controls.ViewModels;
 
-    public class vmD_I_A : NotifyProperty
+    public class vmD_I_A : VMBase
     {
 
         #region Declarations
@@ -24,12 +25,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private DIA _dia = new DIA();
 
         private Repositorio.DIA DataDIA = new Repositorio.DIA();
-        private mDataCM mdatacm = new mDataCM();
 
-        private bool _starprogress;
-
-        private Visibility _blackbox;
-        private Visibility _temlicencaview;
+        private bool _expander_veiculo;
+        private bool _expander_auxiliar;
 
         #endregion
 
@@ -41,51 +39,59 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             set { _dia = value; RaisePropertyChanged("D_I_A"); }
         }
 
-        public ObservableCollection<mTiposGenericos> Situações
+        public bool Expand_Auxiliar
         {
-            get { return new mData().Tipos(@"SELECT * FROM SDT_CAmbulante_Situacao WHERE (Ativo = True) ORDER BY Valor"); }
-        }
-
-        public bool StartProgress
-        {
-            get { return _starprogress; }
+            get { return _expander_auxiliar; }
             set
             {
-                _starprogress = value;
-                RaisePropertyChanged("StartProgress");
+                _expander_auxiliar = value;
+
+                if (value == true)
+                {
+                    D_I_A.Auxiliar.Nome = string.Empty;
+                    D_I_A.Auxiliar.RG = string.Empty;
+                }
+                else
+                {
+                    D_I_A.Auxiliar.Nome = "-";
+                    D_I_A.Auxiliar.RG = "-";
+                }
+
+                RaisePropertyChanged("Expand_Auxiliar");
             }
         }
 
-        public Visibility BlackBox
+        public bool Expand_Veiculo
         {
-            get { return _blackbox; }
+            get { return _expander_veiculo; }
             set
             {
-                _blackbox = value;
-                RaisePropertyChanged("BlackBox");
+                _expander_veiculo = value;
+
+                if (value == true)
+                {
+                    D_I_A.Veiculo.Modelo = string.Empty;
+                    D_I_A.Veiculo.Placa = string.Empty;
+                    D_I_A.Veiculo.Cor = string.Empty;
+                }
+                else
+                {
+                    D_I_A.Veiculo.Modelo = "-";
+                    D_I_A.Veiculo.Placa = "-";
+                    D_I_A.Veiculo.Cor = "-";
+                }
+
+                RaisePropertyChanged("Expand_Veiculo");
             }
         }
 
-        public Visibility TemLicencaView
-        {
-            get { return _temlicencaview; }
-            set
-            {
-                _temlicencaview = value;
-                RaisePropertyChanged("TemLicencaView");
-            }
-        }
         #endregion
 
         #region Commands
         public ICommand CommandSave => new RelayCommand( p=> {
-            D_I_A.Situacao = "ATIVO";            
+            D_I_A.Situacao = "ATIVO";
+            AreaTransferencia.Objeto = D_I_A; 
             Gravar_DIA(D_I_A);
-            
-            ns.GoBack();
-
-            AreaTransferencia.Objeto = D_I_A;
-            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));           
         });
 
         public ICommand CommandCancelar => new RelayCommand(p =>
@@ -101,7 +107,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             ns = GlobalNavigation.NavService;
             GlobalNavigation.Pagina = "D.I.A";
             BlackBox = Visibility.Collapsed;
+            ViewMessageBox = Visibility.Collapsed;
             StartProgress = false;
+            Expand_Auxiliar = true;
+            Expand_Veiculo = true;
             D_I_A.Emissao = DateTime.Now;
             D_I_A.Autorizacao = Autorizacao();
             AsyncMostrarDados(AreaTransferencia.CPF);
@@ -137,7 +146,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private void AsyncMostrarDados(string _cca)
         {
-            Task<mAmbulante>.Factory.StartNew(() => mdatacm.GetCAmbulante(_cca))
+            Task<mAmbulante>.Factory.StartNew(() => new mDataCM().GetCAmbulante(_cca))
                 .ContinueWith(task =>
                 {
                     if (task.IsCompleted)
@@ -169,9 +178,19 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private async void Gravar_DIA(DIA obj)
         {
-            var t = Task<int>.Factory.StartNew(()=> new Repositorio.DIA().Gravar(obj));
+            var t = Task<int>.Factory.StartNew(() => new Repositorio.DIA().Gravar(obj));
 
-            await t;                
+            await t;
+
+            if (t.Result > 0)
+            {
+                AreaTransferencia.Numero_DIA = D_I_A.Autorizacao;
+                AreaTransferencia.DIA_OK = true;
+                AreaTransferencia.Preview_DIA = true;
+                AsyncMessageBox("D.I.A Gerado!", DialogBoxColor.Green, true);
+            }
+            else
+                AsyncMessageBox("Erro inesperado!", DialogBoxColor.Red, false);
         }
         #endregion
 

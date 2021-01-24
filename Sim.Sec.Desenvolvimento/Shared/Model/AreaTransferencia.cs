@@ -19,7 +19,10 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         private static List<string> _inscricoes = new List<string>();
         private static string _evento = string.Empty;
         private static string _cad_ambulante;
-
+        
+        private static string _cad_dia;
+        private static string _numero_dia;
+        
         private static bool? _cadpf;
         private static bool? _cadpj;
         private static bool? _cpfon;
@@ -32,14 +35,27 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         private static bool? _cadambulanteok;
         private static bool? _consambulante;
 
+        private static bool? _previewdia = false;
         private static bool? _dia_ok;
-        private static string _numero_dia;
+        
 
         #endregion
 
         #region Properties
 
         public static object Objeto { get; set; }
+
+        public static bool? Preview_DIA
+        {
+            get { return _previewdia; }
+            set { _previewdia = value; OnGlobalPropertyChanged("Preview_DIA"); }
+        }
+
+        public static string Cad_DIA
+        {
+            get { return _cad_dia; }
+            set { _cad_dia = value; OnGlobalPropertyChanged(Cad_DIA.ToString()); }
+        }
 
         public static string Numero_DIA
         {

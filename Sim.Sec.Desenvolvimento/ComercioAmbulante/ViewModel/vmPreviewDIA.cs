@@ -41,9 +41,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private Visibility _blackbox;
         private Visibility _temlicencaview;
-
-        private ICommand _commandprint;
-        private ICommand _commandcancelar;
+        
         #endregion
 
         #region Properties
@@ -184,65 +182,44 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #endregion
 
         #region Commands
-        public ICommand CommandPrint
+        public ICommand CommandPrint => new RelayCommand(p =>
         {
-            get
+
+            FlowDocument _flow = (FlowDocument)p;
+
+            try
             {
-                if (_commandprint == null)
-                    _commandprint = new RelayCommand(p =>
-                    {
+                StartProgress = true;
+                BlackBox = Visibility.Visible;
 
-                        FlowDocument _flow = (FlowDocument)p;
+                // paginador
+                //_flow.PageHeight = 768;
+                //_flow.PageWidth = 1104;
+                //_flow.ColumnWidth = 1104;
+                IDocumentPaginatorSource idocument = _flow as IDocumentPaginatorSource;
+                idocument.DocumentPaginator.ComputePageCountAsync();
 
-                        try
-                        {
-                            StartProgress = true;
-                            BlackBox = Visibility.Visible;
+                //Now print using PrintDialog
+                var pd = new PrintDialog();
+                //pd.UserPageRangeEnabled = true;
+                //pd.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
 
-                            // paginador
-                            //_flow.PageHeight = 768;
-                            //_flow.PageWidth = 1104;
-                            //_flow.ColumnWidth = 1104;
-                            IDocumentPaginatorSource idocument = _flow as IDocumentPaginatorSource;
-                            idocument.DocumentPaginator.ComputePageCountAsync();
+                if (pd.ShowDialog().Value)
+                    pd.PrintDocument(idocument.DocumentPaginator, "Printing....");
 
-                            //Now print using PrintDialog
-                            var pd = new PrintDialog();
-                            //pd.UserPageRangeEnabled = true;
-                            //pd.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
-
-                            if (pd.ShowDialog().Value)
-                                pd.PrintDocument(idocument.DocumentPaginator, "Printing....");
-
-                            StartProgress = false;
-                            BlackBox = Visibility.Collapsed;
-                        }
-                        catch (Exception ex)
-                        {
-                            StartProgress = false;
-                            BlackBox = Visibility.Collapsed;
-                            MessageBox.Show(ex.Message);
-                        }
-
-                    });
-
-                return _commandprint;
+                StartProgress = false;
+                BlackBox = Visibility.Collapsed;
             }
-        }
-
-        public ICommand CommandSair
-        {
-            get
+            catch (Exception ex)
             {
-                if (_commandcancelar == null)
-                    _commandcancelar = new RelayCommand(p =>
-                    {
-                        ns.GoBack();
-                    });
-
-                return _commandcancelar;
+                StartProgress = false;
+                BlackBox = Visibility.Collapsed;
+                MessageBox.Show(ex.Message);
             }
-        }
+
+        });              
+
+        public ICommand CommandSair => new RelayCommand(p => { ns.GoBack(); });
         #endregion
 
         #region Construtor
