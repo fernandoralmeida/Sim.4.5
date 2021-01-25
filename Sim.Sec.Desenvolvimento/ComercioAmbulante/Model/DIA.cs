@@ -111,6 +111,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             set { _nome = value; RaisePropertyChanged("Nome"); }
         }
 
+        private string _cpf;
+        public string CPF
+        {
+            get { return _cpf; }
+            set { _cpf = value; RaisePropertyChanged("CPF"); }
+        }
+
         private string _rg;
         public string RG
         {
@@ -118,6 +125,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             set { _rg = value; RaisePropertyChanged("RG"); }
         }
 
+        private string _tel;
+        public string Tel
+        {
+            get { return _tel; }
+            set { _tel = value; RaisePropertyChanged("Tel"); }
+        }
     }
 
     public class Veiculo : NotifyProperty

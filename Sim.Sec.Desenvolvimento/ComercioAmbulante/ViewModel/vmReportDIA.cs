@@ -28,7 +28,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private mData mdata = new mData();
         private mDataCM mdatacm = new mDataCM();
         private mDataReport mdatar = new mDataReport();
-        private ObservableCollection<mAmbulante> _listaat = new ObservableCollection<mAmbulante>();
+        private ObservableCollection<Model.DIA> _dia = new ObservableCollection<Model.DIA>();
         private ObservableCollection<BarChart> _charts = new ObservableCollection<BarChart>();
         private FlowDocument flwdoc = new FlowDocument();
 
@@ -40,6 +40,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private string _getatividade = string.Empty;
         private string _getlocal = string.Empty;
         private int _getsituacao = 0;
+        private string _report_type;
 
         private Visibility _mainbox;
 
@@ -56,6 +57,19 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             }
         }
 
+        public ObservableCollection<Model.DIA> Lista_DIA
+        {
+            get { return _dia; }
+            set { _dia = value; RaisePropertyChanged("Lista_DIA"); }
+        }
+
+        public List<string> Report_Types { get { return new List<string>() {"ATIVOS","VENCIDOS","SEM DATA DE VENCIMENTO","BAIXADOS" }; } }
+
+        public string Report_Type
+        {
+            get { return _report_type; }
+            set { _report_type = value; RaisePropertyChanged("Report_Type"); }
+        }
         public ObservableCollection<BarChart> Charts
         {
             get { return _charts; }
@@ -130,9 +144,20 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #region Commands
         public ICommand CommandFiltrar => new RelayCommand(p =>
         {
+            switch (Report_Type)
+            {
+                case "ATIVOS":
+                    Report_DIA_Ativos();
+                    break;
 
-            AsyncListarAtendimento(Parametros());
+                case "VENCIDOS":
+                    Report_DIA_Vencidos();
+                    break;
 
+                case "SEM DATA DE VENCIMENTO":
+                    Report_DIA_Sem_Validade();
+                    break;
+            }
         });
 
         public ICommand CommandLimpar => new RelayCommand(p =>
@@ -181,7 +206,21 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         public ICommand CommandListar => new RelayCommand(p =>
         {
-            AsyncFlowDoc();
+            switch(Report_Type)
+            {
+                case "ATIVOS":
+                    Report_DIA_Ativos();
+                    break;
+
+                case "VENCIDOS":
+                    Report_DIA_Vencidos();
+                    break;
+
+                case "SEM DATA DE VENCIMENTO":
+                    Report_DIA_Sem_Validade();
+                    break;
+            }
+            
         });
 
         public ICommand CommandClosePrintBox => new RelayCommand(p =>
@@ -225,7 +264,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         {
             GlobalNavigation.Pagina = "RELATÓRIO";
             ns = GlobalNavigation.NavService;
-            DataI = new DateTime(DateTime.Now.Year, 1, 1);
+            DataI = new DateTime(2020, 1, 1);
             DataF = DateTime.Now;
             MainBox = Visibility.Visible;
             BlackBox = Visibility.Collapsed;
@@ -242,8 +281,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             Filtros.Clear();
 
-            //_param.Add(DataI.ToShortDateString());
-            //_param.Add(DataF.ToShortDateString());
+            _param.Add(DataI.ToShortDateString());
+            _param.Add(DataF.ToShortDateString());
 
             if (GetAtividade == string.Empty || GetAtividade == null)
             {
@@ -280,303 +319,93 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 Filtros.Add("[SITUÇÃO = " + Situações[GetSituacao].Nome + "]");
             }
 
+            Filtros.Clear();
+
+            if (Report_Type == "ATIVOS")
+            {
+                Filtros.Add("D.I.A ATIVOS");
+            }
+
+            if (Report_Type == "VENCIDOS")
+            {
+                Filtros.Add("D.I.A VENCIDOS");
+            }
+
+            if (Report_Type == "SEM DATA DE VENCIMENTO")
+            {
+                Filtros.Add("D.I.A QUE NÃO PRECISAM RENOVADOS ANUALMENTE");
+            }
+
             return _param;
         }
 
-        private async void AsyncListarAtendimento(List<string> sqlcommand)
+        private async void Report_DIA_Ativos()
         {
             BlackBox = Visibility.Visible;
             StartProgress = true;
             PrintBox = Visibility.Collapsed;
             MainBox = Visibility.Visible;
+            Filtros.Clear();            
 
-            var t = Task.Factory.StartNew(() => mdatar.ComercioAmbulante(mdatacm.RCAmbulantes(sqlcommand)))
-                .ContinueWith(task =>
-                {
-                    if (task.IsCompleted)
-                    {
-                        Charts = AsyncChart(task.Result);
-                        BlackBox = Visibility.Collapsed;
-                        StartProgress = false;
-                    }
-                    else
-                    {
-                        BlackBox = Visibility.Collapsed;
-                        StartProgress = false;
-                    }
-                });
+            var t = Task<ObservableCollection<Model.DIA>>.Run(()=> new Repositorio.DIA().DIA_Ativos(Parametros()));
+            
             await t;
+
+            if(t.IsCompleted)
+            {
+                await FlowDoc.Dispatcher.BeginInvoke(new System.Threading.ThreadStart(() => FlowDoc = PreviewInTable(t.Result)));
+                BlackBox = Visibility.Collapsed;
+                MainBox = Visibility.Collapsed;
+                PrintBox = Visibility.Visible;
+                StartProgress = false;
+            }
         }
 
-        private async void AsyncFlowDoc()
+        private async void Report_DIA_Vencidos()
         {
             BlackBox = Visibility.Visible;
             StartProgress = true;
-            mReportCA mrca = new mReportCA();
-            var t = Task.Factory.StartNew(() => mdatar.ComercioAmbulante(mdatacm.RCAmbulantes(Parametros()))).ContinueWith(task =>
-            {
+            PrintBox = Visibility.Collapsed;
+            MainBox = Visibility.Visible;
+            Filtros.Clear();
 
-                Application.Current.Dispatcher.BeginInvoke(new System.Threading.ThreadStart(() =>
-                {
-                    FlowDoc = PreviewInTable(mrca);
-                }));
+            var t = Task<ObservableCollection<Model.DIA>>.Run(() => new Repositorio.DIA().DIA_Vencidos(Parametros()));
 
-                if (task.IsCompleted)
-                {
-                    mrca = task.Result;
-                    BlackBox = Visibility.Collapsed;
-                    MainBox = Visibility.Collapsed;
-                    PrintBox = Visibility.Visible;
-                    StartProgress = false;
-                }
-            });
             await t;
+
+            if (t.IsCompleted)
+            {
+                await FlowDoc.Dispatcher.BeginInvoke(new System.Threading.ThreadStart(() => FlowDoc = PreviewInTable(t.Result)));
+                BlackBox = Visibility.Collapsed;
+                MainBox = Visibility.Collapsed;
+                PrintBox = Visibility.Visible;
+                StartProgress = false;
+            }
         }
 
-        private ObservableCollection<BarChart> AsyncChart(mReportCA obj)
+        private async void Report_DIA_Sem_Validade()
         {
-            ObservableCollection<BarChart> _chart = new ObservableCollection<BarChart>();
+            BlackBox = Visibility.Visible;
+            StartProgress = true;
+            PrintBox = Visibility.Collapsed;
+            MainBox = Visibility.Visible;
+            Filtros.Clear();
 
-            Task.Factory.StartNew(new Action(delegate ()
+            var t = Task<ObservableCollection<Model.DIA>>.Run(() => new Repositorio.DIA().DIA_Sem_Data_Vencimento(Parametros()));
+
+            await t;
+
+            if (t.IsCompleted)
             {
-                mReportCA _rp = new mReportCA();
-
-                foreach (KeyValuePair<string, int> x in obj.Ambulante)
-                {
-                    _rp.Ambulante.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Atividade)
-                {
-                    _rp.Atividade.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Local)
-                {
-                    _rp.Local.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Instalacoes)
-                {
-                    _rp.Instalacoes.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Periodos)
-                {
-                    _rp.Periodos.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Situacao)
-                {
-                    _rp.Situacao.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.TempoAtividade)
-                {
-                    _rp.TempoAtividade.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-                }
-
-                if (_rp.Ambulante.Count > 0)
-                {
-
-                    BarChart bc = new BarChart();
-
-                    bc.Title = string.Format("COMERCIO AMBULANTE");
-                    bc.ItemsSource = _rp.Ambulante;
-                    _chart.Add(bc);
-                }
-
-                if (_rp.Atividade.Count > 0)
-                {
-
-                    BarChart bc = new BarChart();
-
-                    bc.Title = string.Format("ATIVIDADES");
-                    bc.ItemsSource = _rp.Atividade;
-
-                    _chart.Add(bc);
-                }
-
-                if (_rp.TempoAtividade.Count > 0)
-                {
-
-                    BarChart bc = new BarChart();
-
-                    bc.Title = string.Format("TEMPO DE ATIVIDADES (MESES)");
-                    bc.ItemsSource = _rp.TempoAtividade;
-
-                    _chart.Add(bc);
-                }
-
-                if (_rp.Local.Count > 0)
-                {
-
-                    BarChart bc = new BarChart();
-
-                    bc.Title = string.Format("LOCAL");
-                    bc.ItemsSource = _rp.Local;
-
-                    _chart.Add(bc);
-                }
-
-                if (_rp.Periodos.Count > 0)
-                {
-
-                    BarChart bc = new BarChart();
-
-                    bc.Title = string.Format("PERIODO DE TRABALHO");
-                    bc.ItemsSource = _rp.Periodos;
-
-                    _chart.Add(bc);
-                }
-
-                if (_rp.Instalacoes.Count > 0)
-                {
-
-                    BarChart bc = new BarChart();
-
-                    bc.Title = string.Format("TIPOS DE INSTALAÇÕES");
-                    bc.ItemsSource = _rp.Instalacoes;
-
-                    _chart.Add(bc);
-                }
-
-                if (_rp.Situacao.Count > 0)
-                {
-
-                    BarChart bc = new BarChart();
-
-                    bc.Title = string.Format("SITUAÇÃO");
-                    bc.ItemsSource = _rp.Situacao;
-
-                    _chart.Add(bc);
-                }
-            }));
-
-            return _chart;
+                await FlowDoc.Dispatcher.BeginInvoke(new System.Threading.ThreadStart(() => FlowDoc = PreviewInTable(t.Result)));
+                BlackBox = Visibility.Collapsed;
+                MainBox = Visibility.Collapsed;
+                PrintBox = Visibility.Visible;
+                StartProgress = false;
+            }
         }
 
-        private ObservableCollection<BarChart> Chart(mReportCA obj)
-        {
-            ObservableCollection<BarChart> _chart = new ObservableCollection<BarChart>();
-
-            mReportCA _rp = new mReportCA();
-
-            foreach (KeyValuePair<string, int> x in obj.Ambulante)
-            {
-                _rp.Ambulante.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-            }
-
-            foreach (KeyValuePair<string, int> x in obj.Atividade)
-            {
-                _rp.Atividade.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-            }
-
-            foreach (KeyValuePair<string, int> x in obj.Local)
-            {
-                _rp.Local.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-            }
-
-            foreach (KeyValuePair<string, int> x in obj.Instalacoes)
-            {
-                _rp.Instalacoes.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-            }
-
-            foreach (KeyValuePair<string, int> x in obj.Periodos)
-            {
-                _rp.Periodos.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-            }
-
-            foreach (KeyValuePair<string, int> x in obj.Situacao)
-            {
-                _rp.Situacao.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-            }
-
-            foreach (KeyValuePair<string, int> x in obj.TempoAtividade)
-            {
-                _rp.TempoAtividade.Add(new KeyValuePair<string, int>(x.Key.ToUpper(), x.Value));
-            }
-
-            if (_rp.Ambulante.Count > 0)
-            {
-
-                BarChart bc = new BarChart();
-
-                bc.Title = string.Format("COMERCIO AMBULANTE");
-                bc.ItemsSource = _rp.Ambulante;
-                _chart.Add(bc);
-            }
-
-            if (_rp.Atividade.Count > 0)
-            {
-
-                BarChart bc = new BarChart();
-
-                bc.Title = string.Format("ATIVIDADES");
-                bc.ItemsSource = _rp.Atividade;
-
-                _chart.Add(bc);
-            }
-
-            if (_rp.TempoAtividade.Count > 0)
-            {
-
-                BarChart bc = new BarChart();
-
-                bc.Title = string.Format("TEMPO DE ATIVIDADES");
-                bc.ItemsSource = _rp.TempoAtividade;
-
-                _chart.Add(bc);
-            }
-
-            if (_rp.Local.Count > 0)
-            {
-
-                BarChart bc = new BarChart();
-
-                bc.Title = string.Format("LOCAL");
-                bc.ItemsSource = _rp.Local;
-
-                _chart.Add(bc);
-            }
-
-            if (_rp.Periodos.Count > 0)
-            {
-
-                BarChart bc = new BarChart();
-
-                bc.Title = string.Format("PERIODO DE TRABALHO");
-                bc.ItemsSource = _rp.Periodos;
-
-                _chart.Add(bc);
-            }
-
-            if (_rp.Instalacoes.Count > 0)
-            {
-
-                BarChart bc = new BarChart();
-
-                bc.Title = string.Format("TIPOS DE INSTALAÇÕES");
-                bc.ItemsSource = _rp.Instalacoes;
-
-                _chart.Add(bc);
-            }
-
-            if (_rp.Situacao.Count > 0)
-            {
-
-                BarChart bc = new BarChart();
-
-                bc.Title = string.Format("SITUAÇÃO");
-                bc.ItemsSource = _rp.Situacao;
-
-                _chart.Add(bc);
-            }
-
-            return _chart;
-        }
-
-        private FlowDocument PreviewInTable(mReportCA obj)
+        private FlowDocument PreviewInTable(ObservableCollection<DIA> obj)
         {
 
             FlowDocument flow = new FlowDocument();
@@ -590,451 +419,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             flow.PageHeight = 768;
             flow.PageWidth = 1104;
             flow.ColumnWidth = 1104;
-            flow.FontFamily = new FontFamily("Segoe UI");
-            flow.FontSize = 11;
-            flow.PagePadding = new Thickness(40, 20, 40, 20);
-            flow.TextAlignment = TextAlignment.Left;
-
-            Paragraph pH = new Paragraph(new Run(new mFlowHeader().NameOrg));
-            pH.Typography.Capitals = FontCapitals.SmallCaps;
-            pH.Foreground = Brushes.Black;
-            pH.FontSize = 16;
-            pH.FontWeight = FontWeights.Bold;
-            pH.Margin = new Thickness(0);
-
-            Paragraph pH1 = new Paragraph(new Run(new mFlowHeader().SloganOrg));
-            pH1.Foreground = Brushes.Black;
-            pH1.FontSize = 9;
-            pH1.Margin = new Thickness(2, 0, 0, 0);
-
-            Paragraph pH2 = new Paragraph(new Run(new mFlowHeader().DepOrg));
-            pH2.Typography.Capitals = FontCapitals.SmallCaps;
-            pH2.Foreground = Brushes.Black;
-            pH2.FontWeight = FontWeights.Bold;
-            pH2.FontSize = 12;
-            pH2.Margin = new Thickness(0, 10, 0, 0);
-
-            Paragraph pH3 = new Paragraph(new Run(new mFlowHeader().SetorOrg));
-            pH3.Typography.Capitals = FontCapitals.SmallCaps;
-            pH3.FontWeight = FontWeights.Bold;
-            pH3.Foreground = Brushes.Black;
-            pH3.Margin = new Thickness(0, 0, 0, 20);
-
-            flow.Blocks.Add(pH);
-            flow.Blocks.Add(pH1);
-            flow.Blocks.Add(pH2);
-            flow.Blocks.Add(pH3);
-
-            string f = string.Empty;
-            foreach (string filtro in Filtros)
-                f += filtro;
-
-            Paragraph p = new Paragraph();
-            p.Padding = new Thickness(5);
-            p = new Paragraph(new Run(string.Format("FILTROS: {0}", f)));
-            flow.Blocks.Add(p);
-
-            #region  Total Ambulante
-            if (obj.Ambulante.Count > 0 || obj != null)
-            {
-
-                Table tb = new Table();
-                tb.CellSpacing = 0;
-                tb.BorderThickness = new Thickness(0.5);
-                tb.BorderBrush = Brushes.Black;
-
-                tb.Columns.Add(new TableColumn() { Width = GridLength.Auto });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(70) });
-
-                flow.Blocks.Add(tb);
-
-                TableRowGroup rg = new TableRowGroup();
-
-                tb.RowGroups.Add(rg);
-
-                TableRow header = new TableRow();
-                rg.Rows.Add(header);
-                rg.Foreground = Brushes.Black;
-                header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("Ambulantes"))) { Padding = new Thickness(5) }) { ColumnSpan = 3, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                int t = 0;
-
-                foreach (KeyValuePair<string, int> x in obj.Ambulante)
-                {
-                    t += x.Value;
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Ambulante)
-                {
-                    TableRow row = new TableRow();
-                    rg.Foreground = Brushes.Black;
-                    rg.Rows.Add(row);
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Key)) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Value.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                    double v1 = x.Value;
-                    double v2 = t;
-
-                    double res = v1 / v2;
-
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(res.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                }
-
-                TableRow row_t = new TableRow();
-                rg.Foreground = Brushes.Black;
-                rg.Rows.Add(row_t);
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run("Total")) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(t.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                double res_t = t / t;
-
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(res_t.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-
-                flow.Blocks.Add(tb);
-            }
-            #endregion
-
-            #region  Local
-            if (obj.Local.Count > 0 || obj != null)
-            {
-
-                Table tb = new Table();
-                tb.CellSpacing = 0;
-                tb.BorderThickness = new Thickness(0.5);
-                tb.BorderBrush = Brushes.Black;
-
-                tb.Columns.Add(new TableColumn() { Width = GridLength.Auto });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(70) });
-
-                flow.Blocks.Add(tb);
-
-                TableRowGroup rg = new TableRowGroup();
-
-                tb.RowGroups.Add(rg);
-
-                TableRow header = new TableRow();
-                rg.Rows.Add(header);
-                rg.Foreground = Brushes.Black;
-                header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("Local da Atividade"))) { Padding = new Thickness(5) }) { ColumnSpan = 3, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                int t = 0;
-
-                foreach (KeyValuePair<string, int> x in obj.Local)
-                {
-                    t += x.Value;
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Local)
-                {
-                    TableRow row = new TableRow();
-                    rg.Foreground = Brushes.Black;
-                    rg.Rows.Add(row);
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Key)) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Value.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                    double v1 = x.Value;
-                    double v2 = t;
-
-                    double res = v1 / v2;
-
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(res.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                }
-
-                TableRow row_t = new TableRow();
-                rg.Foreground = Brushes.Black;
-                rg.Rows.Add(row_t);
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run("Total")) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(t.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                double res_t = t / t;
-
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(res_t.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-
-                flow.Blocks.Add(tb);
-            }
-            #endregion
-
-            #region  Atividades
-            if (obj.Atividade.Count > 0 || obj != null)
-            {
-
-                Table tb = new Table();
-                tb.CellSpacing = 0;
-                tb.BorderThickness = new Thickness(0.5);
-                tb.BorderBrush = Brushes.Black;
-
-                tb.Columns.Add(new TableColumn() { Width = GridLength.Auto });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(70) });
-
-                flow.Blocks.Add(tb);
-
-                TableRowGroup rg = new TableRowGroup();
-
-                tb.RowGroups.Add(rg);
-
-                TableRow header = new TableRow();
-                rg.Rows.Add(header);
-                rg.Foreground = Brushes.Black;
-                header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("Atividade"))) { Padding = new Thickness(5) }) { ColumnSpan = 3, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                int t = 0;
-
-                foreach (KeyValuePair<string, int> x in obj.Atividade)
-                {
-                    t += x.Value;
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Atividade)
-                {
-                    TableRow row = new TableRow();
-                    rg.Foreground = Brushes.Black;
-                    rg.Rows.Add(row);
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Key)) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Value.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                    double v1 = x.Value;
-                    double v2 = t;
-
-                    double res = v1 / v2;
-
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(res.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                }
-
-                TableRow row_t = new TableRow();
-                rg.Foreground = Brushes.Black;
-                rg.Rows.Add(row_t);
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run("Total")) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(t.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                double res_t = t / t;
-
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(res_t.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                flow.Blocks.Add(tb);
-            }
-            #endregion
-
-            #region  Tempo de Atividade
-            if (obj.TempoAtividade.Count > 0 || obj != null)
-            {
-
-                Table tb = new Table();
-                tb.CellSpacing = 0;
-                tb.BorderThickness = new Thickness(0.5);
-                tb.BorderBrush = Brushes.Black;
-
-                tb.Columns.Add(new TableColumn() { Width = GridLength.Auto });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(70) });
-
-                flow.Blocks.Add(tb);
-
-                TableRowGroup rg = new TableRowGroup();
-
-                tb.RowGroups.Add(rg);
-
-                TableRow header = new TableRow();
-                rg.Rows.Add(header);
-                rg.Foreground = Brushes.Black;
-                header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("Tempo de Atividade"))) { Padding = new Thickness(5) }) { ColumnSpan = 3, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                int t = 0;
-
-                foreach (KeyValuePair<string, int> x in obj.TempoAtividade)
-                {
-                    t += x.Value;
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.TempoAtividade)
-                {
-                    TableRow row = new TableRow();
-                    rg.Foreground = Brushes.Black;
-                    rg.Rows.Add(row);
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Key + " meses")) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Value.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                    double v1 = x.Value;
-                    double v2 = t;
-
-                    double res = v1 / v2;
-
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(res.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                }
-
-                TableRow row_t = new TableRow();
-                rg.Foreground = Brushes.Black;
-                rg.Rows.Add(row_t);
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run("Total")) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(t.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                double res_t = t / t;
-
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(res_t.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                flow.Blocks.Add(tb);
-            }
-            #endregion
-
-            #region  Periodos
-            if (obj.Periodos.Count > 0 || obj != null)
-            {
-
-                Table tb = new Table();
-                tb.CellSpacing = 0;
-                tb.BorderThickness = new Thickness(0.5);
-                tb.BorderBrush = Brushes.Black;
-
-                tb.Columns.Add(new TableColumn() { Width = GridLength.Auto });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(70) });
-
-                flow.Blocks.Add(tb);
-
-                TableRowGroup rg = new TableRowGroup();
-
-                tb.RowGroups.Add(rg);
-
-                TableRow header = new TableRow();
-                rg.Rows.Add(header);
-                rg.Foreground = Brushes.Black;
-                header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("Horário de trabalho"))) { Padding = new Thickness(5) }) { ColumnSpan = 3, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                int t = 0;
-
-                foreach (KeyValuePair<string, int> x in obj.Periodos)
-                {
-                    t += x.Value;
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Periodos)
-                {
-                    TableRow row = new TableRow();
-                    rg.Foreground = Brushes.Black;
-                    rg.Rows.Add(row);
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Key)) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Value.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                    double v1 = x.Value;
-                    double v2 = t;
-
-                    double res = v1 / v2;
-
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(res.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                }
-
-                TableRow row_t = new TableRow();
-                rg.Foreground = Brushes.Black;
-                rg.Rows.Add(row_t);
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run("Total")) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(t.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                double res_t = t / t;
-
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(res_t.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                flow.Blocks.Add(tb);
-            }
-            #endregion
-
-            #region  Instalações
-            if (obj.Instalacoes.Count > 0 || obj != null)
-            {
-
-                Table tb = new Table();
-                tb.CellSpacing = 0;
-                tb.BorderThickness = new Thickness(0.5);
-                tb.BorderBrush = Brushes.Black;
-
-                tb.Columns.Add(new TableColumn() { Width = GridLength.Auto });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-                tb.Columns.Add(new TableColumn() { Width = new GridLength(70) });
-
-                flow.Blocks.Add(tb);
-
-                TableRowGroup rg = new TableRowGroup();
-
-                tb.RowGroups.Add(rg);
-
-                TableRow header = new TableRow();
-                rg.Rows.Add(header);
-                rg.Foreground = Brushes.Black;
-                header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("Tipo de Instalações"))) { Padding = new Thickness(5) }) { ColumnSpan = 3, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                int t = 0;
-
-                foreach (KeyValuePair<string, int> x in obj.Instalacoes)
-                {
-                    t += x.Value;
-                }
-
-                foreach (KeyValuePair<string, int> x in obj.Instalacoes)
-                {
-                    TableRow row = new TableRow();
-                    rg.Foreground = Brushes.Black;
-                    rg.Rows.Add(row);
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Key)) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(x.Value.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                    double v1 = x.Value;
-                    double v2 = t;
-
-                    double res = v1 / v2;
-
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(res.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                }
-
-                TableRow row_t = new TableRow();
-                rg.Foreground = Brushes.Black;
-                rg.Rows.Add(row_t);
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run("Total")) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(t.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                double res_t = t / t;
-
-                row_t.Cells.Add(new TableCell(new Paragraph(new Run(res_t.ToString("0.00%"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-
-                flow.Blocks.Add(tb);
-            }
-            #endregion
-
-            Paragraph r = new Paragraph();
-            r.Margin = new Thickness(0, 0, 0, 0);
-            r.FontSize = 10;
-
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            string version = fvi.FileVersion;
-
-            r.Inlines.Add(new Run(AppDomain.CurrentDomain.FriendlyName.ToUpper()));
-            r.Inlines.Add(new Run(" / V" + version + " / "));
-            r.Inlines.Add(new Bold(new Run(Logged.Nome)));
-            r.Inlines.Add(new Run(" / " + DateTime.Now.ToString("dd.MM.yyyy")));
-            r.Inlines.Add(new Run(" / " + DateTime.Now.ToLongTimeString()));
-
-
-            flow.Blocks.Add(r);
-
-            return flow;
-        }
-
-        private FlowDocument PreviwChart(ObservableCollection<BarChart> obj)
-        {
-            FlowDocument flow = new FlowDocument();
-
-            flow.ColumnGap = 0;
-            flow.Background = Brushes.White;
-            //flow.ColumnWidth = 8.5 * 96.0;
-            flow.ColumnWidth = 96.0 * 8.5;
-            flow.PageHeight = 11.5 * 96.0;
-            flow.PageWidth = 8.5 * 96.0;
-            //flow.PageHeight = 768;
-            //flow.PageWidth = 1104;
-            //flow.ColumnWidth = 1104;
             flow.FontFamily = new FontFamily("Segoe UI");
             flow.FontSize = 11;
             flow.PagePadding = new Thickness(40, 20, 40, 20);
@@ -1094,6 +478,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             tb.Columns.Add(new TableColumn() { Width = GridLength.Auto });
             tb.Columns.Add(new TableColumn() { Width = new GridLength(120) });
             tb.Columns.Add(new TableColumn() { Width = new GridLength(120) });
+            //tb.Columns.Add(new TableColumn() { Width = new GridLength(200) });
+
+            //tb.Columns.Add(new TableColumn() { Width = new GridLength(10, GridUnitType.Star) }); 
 
             TableRowGroup rg = new TableRowGroup();
 
@@ -1102,8 +489,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 f += filtro;
 
             TableRow pheader = new TableRow();
-            pheader.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("FILTROS: {0}", f))) { Padding = new Thickness(5) }) { ColumnSpan = 4, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-            pheader.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("GRÁFICOS: {0}", obj.Count))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+            pheader.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("RELATÓRIO: {0}", f))) { Padding = new Thickness(5) }) { ColumnSpan = 4, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+            pheader.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("REGISTROS: {0}", obj.Count))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
 
             tb.RowGroups.Add(rg);
 
@@ -1114,20 +501,44 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             rg.Rows.Add(pheader);
             rg.Rows.Add(header);
             rg.Foreground = Brushes.Black;
+            //rw2.Background = bgc1;
+            header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run(""))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+            header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("D.I.A"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+            header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("AMBULANTE"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+            header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("SITUAÇÃO"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+            header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("I.M."))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+            //header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run("ASSINATURA"))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(1, 0, 0, 0), BorderBrush = Brushes.Black });
 
-            //header.Cells.Add(new TableCell(new Paragraph(new Bold(new Run(""))) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+            int alt = 0;
 
             if (obj != null)
             {
 
-                int alt = 1;
-
-                foreach (BarChart bc in obj)
+                foreach (Model.DIA a in obj)
                 {
+
                     TableRow row = new TableRow();
+                    rg.Foreground = Brushes.Black;
                     rg.Rows.Add(row);
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(alt.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new BlockUIContainer(bc)) { ColumnSpan = 4, BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+                    row.Cells.Add(new TableCell(new Paragraph(new Run(a.Contador.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+                    row.Cells.Add(new TableCell(new Paragraph(new Run(a.Autorizacao + "\nDE: " + a.Emissao.ToShortDateString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+
+                    Paragraph np = new Paragraph();
+                    np.Padding = new Thickness(5);
+                    np.Inlines.Add(new Run(string.Format("TITULAR: {0}", a.Titular.Nome)));
+                    np.Inlines.Add(new LineBreak());
+                    np.Inlines.Add(new Run(string.Format("AUXILIAR: {0}", a.Auxiliar.Nome)));
+                    np.Inlines.Add(new LineBreak());
+                    np.Inlines.Add(new Run(string.Format("ATIVIDADE: {0}", a.Atividade)));
+                    np.Inlines.Add(new LineBreak());
+                    np.Inlines.Add(new Run(string.Format("VALIDADE: {0}, PROCESSO: {1}", data_string(a.Validade, a.Emissao), a.Processo)));
+                    np.Inlines.Add(new LineBreak());
+                    np.Inlines.Add(new Run(string.Format("LOCAL: {0}", a.FormaAtuacao)));
+
+                    row.Cells.Add(new TableCell(np) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+                    row.Cells.Add(new TableCell(new Paragraph(new Run(a.Situacao)) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+                    row.Cells.Add(new TableCell(new Paragraph(new Run(a.InscricaoMunicipal.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+
                     alt++;
                 }
             }
@@ -1154,6 +565,33 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             return flow;
         }
 
+        private string data_string(DateTime? dateV, DateTime dateE)
+        {
+            if (dateV == new DateTime(2001, 1, 1))
+                return "-";
+            else
+            {
+                DateTime d = Convert.ToDateTime(dateV);
+
+                var dif = d.Date - dateE.Date;
+
+                //dif.TotalDays;
+                var mes = dif.TotalDays / 30;
+
+                if (mes < 1)
+                {
+                    var dia = mes * 30;
+                    if (dia > 1)
+                        return Convert.ToInt32(dia).ToString() + " DIAS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                    else
+                        return Convert.ToInt32(dia).ToString() + " DIA"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                }
+                else if (mes < 2)
+                    return Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                else
+                    return Convert.ToInt32(mes).ToString() + " MESES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+            }
+        }
         #endregion
     }
 }

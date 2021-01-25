@@ -106,7 +106,7 @@
                         <DataGridTextColumn Binding="{Binding Titular.Nome}" ClipboardContentBinding="{x:Null}" Header="TITULAR" />
                         <DataGridTextColumn Binding="{Binding Atividade}" ClipboardContentBinding="{x:Null}" Header="ATIVODADE" />
                         <DataGridTextColumn Binding="{Binding Emissao, StringFormat=dd/MM/yyyy}" ClipboardContentBinding="{x:Null}" Header="EMITIDO" />
-
+                        <DataGridTextColumn Binding="{Binding Situacao}" ClipboardContentBinding="{x:Null}" Header="SITUAÇÃO" />
                         <DataGridTemplateColumn Header="">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

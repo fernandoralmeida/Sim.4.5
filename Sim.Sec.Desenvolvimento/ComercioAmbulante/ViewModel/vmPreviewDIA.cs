@@ -272,7 +272,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 else if (mes < 2)
                     Validade = Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
                 else
-                    Validade = Convert.ToInt32(mes).ToString() + " MÊSES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                    Validade = Convert.ToInt32(mes).ToString() + " MESES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
             }
         }
         #endregion

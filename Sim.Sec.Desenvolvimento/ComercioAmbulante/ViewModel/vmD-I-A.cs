@@ -85,7 +85,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         {
             get
             {
-                return new ObservableCollection<string>() { "DIA(S)", "MÊS(ES)", "ANO(S)" };
+                return new ObservableCollection<string>() { "DIA", "MÊS", "ANO" };
             }
         }
 
@@ -206,7 +206,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             Expand_Veiculo = true;
             Expand_Validade = true;
             D_I_A.Emissao = DateTime.Now;
-            D_I_A.Autorizacao = Autorizacao();
+            D_I_A.Autorizacao = Autorizacao2020();
             AsyncMostrarDados(AreaTransferencia.CPF);
         }
         #endregion
@@ -215,13 +215,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private void SomaDatas()
         {
-            if (Unidade_Tempo == "DIA(S)")
+            if (Unidade_Tempo == "DIA")
                 D_I_A.Validade = Convert.ToDateTime( D_I_A.Emissao.AddDays(Unidade).ToShortDateString());
 
-            if (Unidade_Tempo == "MÊS(ES)")
+            if (Unidade_Tempo == "MÊS")
                 D_I_A.Validade = Convert.ToDateTime(D_I_A.Emissao.AddMonths(Unidade).ToShortDateString());
 
-            if (Unidade_Tempo == "ANO(S)")
+            if (Unidade_Tempo == "ANO")
                 D_I_A.Validade = Convert.ToDateTime(D_I_A.Emissao.AddYears(Unidade).ToShortDateString());
         }
 
@@ -232,54 +232,83 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             Task.Run(() => t = new Repositorio.DIA().UltimaAutorizacao()).Wait();
 
             if (t == null || t == string.Empty)
-                t = string.Format("{0}0000", DateTime.Now.Year);
+                t = string.Format("{0}00000", DateTime.Now.Year);
 
-            t = new mMascaras().Remove(t);
+            //t = new mMascaras().Remove(t);
+
+            System.Windows.MessageBox.Show(t);
 
             ulong n = Convert.ToUInt64(t);
 
             n++;
+
+            System.Windows.MessageBox.Show(n.ToString());
+
+            string res = n.ToString();
+
+            for (int i = 0; i < 4; i++)
+                res = res.Remove(0, 1);
+
+            string r = string.Format("{0}{1}", DateTime.Now.Year, res);
+
+            return Convert.ToUInt64(r).ToString(@"000\.000\.0\-00");
+        }
+
+        private string Autorizacao2020()
+        {
+            var t = string.Empty;
+
+            Task.Run(() => t = new Repositorio.DIA().UltimaAutorizacao()).Wait();
+
+            if (t == null || t == string.Empty)
+                t = string.Format("{0}00000", 2020);
+
+            //t = new mMascaras().Remove(t);
+
+            System.Windows.MessageBox.Show(t);
+
+            ulong n = Convert.ToUInt64(t);
+
+            n++;
+
+            System.Windows.MessageBox.Show(n.ToString());
 
             string res = n.ToString();
                        
             for (int i = 0; i < 4; i++)
                 res = res.Remove(0, 1);
 
-            string r = string.Format("{0}{1}",DateTime.Now.Year, res);
+            string r = string.Format("{0}{1}", 2020, res);
 
-            return Convert.ToUInt64(r).ToString(@"000\.000\.0\-0");
+            return Convert.ToUInt64(r).ToString(@"000\.000\.0\-00");
         }
-
-        private void AsyncMostrarDados(string _cca)
+         
+        private async void AsyncMostrarDados(string _cca)
         {
-            Task<mAmbulante>.Factory.StartNew(() => new mDataCM().GetCAmbulante(_cca))
-                .ContinueWith(task =>
+            var t = Task<mAmbulante>.Run(() => new mDataCM().GetCAmbulante(_cca));
+
+            await t;
+            if (t.IsCompleted)
+            {
+                try
                 {
-                    if (task.IsCompleted)
+                    if (t.Result != null)
                     {
-                        try
-                        {
-                            if (task.Result != null)
-                            {
-                                //Ambulante = task.Result;
-                                D_I_A.Titular.Nome = task.Result.Pessoa.NomeRazao;
-                                D_I_A.Atividade = task.Result.Atividades;
+                        //Ambulante = task.Result;
+                        D_I_A.Titular.Nome = t.Result.Pessoa.NomeRazao;
+                        D_I_A.Titular.CPF = t.Result.Pessoa.Inscricao;
+                        D_I_A.Titular.Tel = t.Result.Pessoa.Telefones;
+                        D_I_A.Atividade = t.Result.Atividades;
 
-                                if (D_I_A.Atividade == string.Empty || D_I_A.Atividade == null)
-                                    D_I_A.Atividade = task.Result.DescricaoNegocio;
+                        if (D_I_A.Atividade == string.Empty || D_I_A.Atividade == null)
+                            D_I_A.Atividade = t.Result.DescricaoNegocio;
 
-                                D_I_A.FormaAtuacao = task.Result.TipoInstalacoes;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(string.Format("Erro '{0}' inesperado, informe o Suporte!", ex.Message), "Sim.Alerta!");
-                        }
+                        D_I_A.FormaAtuacao = t.Result.TipoInstalacoes;
                     }
-                },
-                System.Threading.CancellationToken.None,
-                TaskContinuationOptions.None,
-                TaskScheduler.FromCurrentSynchronizationContext());
+                }
+                catch (Exception ex)
+                {  }
+            }
         }
 
         private async void Gravar_DIA(DIA obj)

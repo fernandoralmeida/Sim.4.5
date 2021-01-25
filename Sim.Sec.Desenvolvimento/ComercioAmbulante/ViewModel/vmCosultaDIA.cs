@@ -223,8 +223,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                 if (Logged.Acesso == (int)AccountAccess.Master)
                 {
-                    ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pNovo.xaml", UriKind.Relative));
-                    AreaTransferencia.CPF = (string)p;
+                    ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Edit.xaml", UriKind.Relative));
+                    AreaTransferencia.Indice = (int)p;
                 }
                 else
                 {
@@ -234,8 +234,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         {
                             if (m.Acesso > (int)SubModuloAccess.Consulta)
                             {
-                                ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pNovo.xaml", UriKind.Relative));
-                                AreaTransferencia.CPF = (string)p;
+                                ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Edit.xaml", UriKind.Relative));
+                                AreaTransferencia.Indice = (int)p;
                             }
                         }
                     }
@@ -566,7 +566,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 else if (mes < 2)
                     return Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
                 else
-                    return Convert.ToInt32(mes).ToString() + " MÊSES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                    return Convert.ToInt32(mes).ToString() + " MESES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
             }
         }
 

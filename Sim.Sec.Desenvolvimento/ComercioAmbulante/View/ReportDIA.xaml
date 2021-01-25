@@ -12,7 +12,7 @@
       Title="pRCAmbulante">
 
     <Page.DataContext>
-        <vm:vmReport />
+        <vm:vmReportDIA />
     </Page.DataContext>
 
     <Grid Margin="0,0,0,0">
@@ -27,18 +27,38 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Row="1" Margin="5,10" >
-                <StackPanel Margin="0,2">
-                    <Label Content="ATIVIDADE/DES.NEGÓCIO" FontSize="10" Margin="2,0"/>
-                    <TextBox Text="{Binding GetAtividade}"  Margin="2,0" />
-                </StackPanel>
-                <StackPanel Margin="0,2">
-                    <Label Content="LOCAL DE ATUAÇÃO" FontSize="10" Margin="2,0"/>
-                    <TextBox Text="{Binding GetLocal}" Margin="2,0" />
-                </StackPanel>
-                <StackPanel Margin="0,2">
-                    <Label Content="SITUAÇÃO" FontSize="10" Margin="2,0"/>
-                    <ComboBox ItemsSource="{Binding Situações}" SelectedValue="{Binding GetSituacao}" DisplayMemberPath="Nome" SelectedValuePath="Valor" Margin="2,0" />
-                </StackPanel>
+                <Expander Header="ESPECÍFICOS" IsExpanded="True">
+                    <StackPanel>
+                        <StackPanel Margin="0,2">
+                            <Label Content="DATA INICIAL" FontSize="10" Margin="2,0"/>
+                            <TextBox Text="{Binding DataI, StringFormat=dd/MM/yyyy}"  Margin="2,0" />
+                        </StackPanel>
+                        <StackPanel Margin="0,2">
+                            <Label Content="DATA FINAL" FontSize="10" Margin="2,0"/>
+                            <TextBox Text="{Binding DataF, StringFormat=dd/MM/yyyy}" Margin="2,0" />
+                        </StackPanel>
+                        <StackPanel Margin="0,2">
+                            <Label Content="OPÇOES DO RELATÓRIO" FontSize="10" Margin="2,0"/>
+                            <ComboBox ItemsSource="{Binding Report_Types}" SelectedValue="{Binding Report_Type}" Margin="2,0" />
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+                <Expander Visibility="Collapsed" Header="GERAL" IsExpanded="False">
+                    <StackPanel>
+                        <StackPanel Margin="0,2">
+                            <Label Content="ATIVIDADE/DES.NEGÓCIO" FontSize="10" Margin="2,0"/>
+                            <TextBox Text="{Binding GetAtividade}"  Margin="2,0" />
+                        </StackPanel>
+                        <StackPanel Margin="0,2">
+                            <Label Content="LOCAL DE ATUAÇÃO" FontSize="10" Margin="2,0"/>
+                            <TextBox Text="{Binding GetLocal}" Margin="2,0" />
+                        </StackPanel>
+                        <StackPanel Margin="0,2">
+                            <Label Content="SITUAÇÃO" FontSize="10" Margin="2,0"/>
+                            <ComboBox ItemsSource="{Binding Situações}" SelectedValue="{Binding GetSituacao}" DisplayMemberPath="Nome" SelectedValuePath="Valor" Margin="2,0" />
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
                 <Grid Margin="0,2">
                     <Grid.RowDefinitions>
                         <RowDefinition />

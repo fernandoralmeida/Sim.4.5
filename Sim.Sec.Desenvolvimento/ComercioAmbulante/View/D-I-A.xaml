@@ -60,26 +60,47 @@
 
                 <Label Content="AUTORIZADOS A EXERCER" Margin="2,0" Grid.Row="3" Grid.Column="0" />
 
-                <Label Content="TITULAR" Margin="2,0" Grid.Row="4" Grid.Column="0" />
-                <Label Content="RG" Margin="2,0" Grid.Row="4" Grid.Column="2" />
-                <TextBox Text="{Binding D_I_A.Titular.Nome}" CharacterCasing="Upper" Margin="2,0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" />
-                <TextBox Text="{Binding D_I_A.Titular.RG}" CharacterCasing="Upper" Margin="2,0" Grid.Row="5" Grid.Column="2" />
+                <Grid Grid.Row="4" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto" MinWidth="100"/>
+                        <ColumnDefinition Width="Auto" MinWidth="100"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="TITULAR" Margin="2,0" Grid.Row="0" Grid.Column="0" />
+                    <Label Content="CPF" Margin="2,0" Grid.Row="0" Grid.Column="1" />
+                    <Label Content="RG" Margin="2,0" Grid.Row="0" Grid.Column="2" />
+                    <TextBox Text="{Binding D_I_A.Titular.Nome}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="0" />
+                    <TextBox Text="{Binding D_I_A.Titular.CPF}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="1" />
+                    <TextBox Text="{Binding D_I_A.Titular.RG}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="2" />
+                </Grid>
+                
+                <Label Content="TEL" Margin="2,0" Grid.Row="4" Grid.Column="2" />
+                <TextBox Text="{Binding D_I_A.Titular.Tel}" CharacterCasing="Upper" Margin="2,0" Grid.Row="5" Grid.Column="2" />
 
                 <Expander Margin="2,10,2,0" Header="{Binding AuxiliarSimNao}" IsExpanded="{Binding Expand_Auxiliar}" Grid.Row="6" Grid.ColumnSpan="3">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto" MinWidth="100"/>
+                            <ColumnDefinition Width="Auto" MinWidth="100"/>
+                            <ColumnDefinition Width="Auto" MinWidth="100"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Label Content="AUXILIAR" Margin="2,0" Grid.Row="0" Grid.Column="0" />
+                        <Label Content="CPF" Margin="2,0" Grid.Row="0" Grid.Column="1" />
                         <Label Content="RG" Margin="2,0" Grid.Row="0" Grid.Column="2" />
-                        <TextBox Text="{Binding D_I_A.Auxiliar.Nome}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+                        <Label Content="TEL" Margin="2,0" Grid.Row="0" Grid.Column="3" />
+                        <TextBox Text="{Binding D_I_A.Auxiliar.Nome}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="0" />
+                        <TextBox Text="{Binding D_I_A.Auxiliar.CPF}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="1" />
                         <TextBox Text="{Binding D_I_A.Auxiliar.RG}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="2" />
+                        <TextBox Text="{Binding D_I_A.Auxiliar.Tel}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="3" />
                     </Grid>
                 </Expander>
                 
@@ -118,7 +139,7 @@
                         </Grid.ColumnDefinitions>
                         <ComboBox ItemsSource="{Binding Unidades}" SelectedIndex="0" SelectedItem="{Binding Unidade}" Margin="2,0" Grid.Column="0"/>
                         <ComboBox ItemsSource="{Binding Unidades_Tempo}" SelectedIndex="0" SelectedItem="{Binding Unidade_Tempo}" Margin="2,0" Grid.Column="1"/>
-                        <TextBox Text="{Binding D_I_A.Validade, StringFormat=dd/MM/yyyy}" Margin="2,0" IsEnabled="False" CharacterCasing="Upper" Grid.Column="2" />
+                        <TextBox Text="{Binding D_I_A.Validade, StringFormat=dd/MM/yyyy}" Margin="2,0" CharacterCasing="Upper" Grid.Column="2" />
                     </Grid>
                 </Expander>
                
