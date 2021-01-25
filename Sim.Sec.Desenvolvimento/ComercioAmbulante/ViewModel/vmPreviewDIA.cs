@@ -30,12 +30,14 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private string _outros = string.Empty;
         private string _situacao = string.Empty;
+        private string _validade = string.Empty;
 
         private bool _istenda;
         private bool _isveiculo;
         private bool _istrailer;
         private bool _iscarrinho;
         private bool _isoutros;
+
 
         private bool _starprogress;
 
@@ -97,6 +99,16 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             {
                 _situacao = value;
                 RaisePropertyChanged("Situacao");
+            }
+        }
+
+        public string Validade
+        {
+            get { return _validade; }
+            set
+            {
+                _validade = value;
+                RaisePropertyChanged("Validade");
             }
         }
 
@@ -237,6 +249,31 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         public void AsyncMostrarDados(object obj)
         {
             Ambulante = (DIA)obj;
+
+            if (Ambulante.Validade == new DateTime(2001, 1, 1))
+                Validade = "-";
+            else
+            {
+                DateTime d = Convert.ToDateTime(Ambulante.Validade);
+
+                var dif = d.Date - Ambulante.Emissao.Date;
+
+                //dif.TotalDays;
+                var mes = dif.TotalDays / 30;
+
+                if (mes < 1)
+                {
+                    var dia = mes * 30;
+                    if (dia > 1)
+                        Validade = Convert.ToInt32(dia).ToString() + " DIAS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                    else
+                        Validade = Convert.ToInt32(dia).ToString() + " DIA"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                }
+                else if (mes < 2)
+                    Validade = Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                else
+                    Validade = Convert.ToInt32(mes).ToString() + " MÊSES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+            }
         }
         #endregion
 

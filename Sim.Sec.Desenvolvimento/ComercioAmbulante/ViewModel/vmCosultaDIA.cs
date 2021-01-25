@@ -508,7 +508,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     np.Inlines.Add(new LineBreak());
                     np.Inlines.Add(new Run(string.Format("ATIVIDADE: {0}", a.Atividade)));
                     np.Inlines.Add(new LineBreak());
-                    np.Inlines.Add(new Run(string.Format("VALIDADE: {0} MESES, PROCESSO: {1}", a.Validade, a.Processo)));
+                    np.Inlines.Add(new Run(string.Format("VALIDADE: {0}, PROCESSO: {1}", data_string( a.Validade, a.Emissao), a.Processo)));
                     np.Inlines.Add(new LineBreak());
                     np.Inlines.Add(new Run(string.Format("LOCAL: {0}", a.FormaAtuacao)));
 
@@ -540,6 +540,34 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             flow.Blocks.Add(r);
 
             return flow;
+        }
+
+        private string data_string(DateTime? dateV, DateTime dateE)
+        {
+            if (dateV == new DateTime(2001, 1, 1))
+                return "-";
+            else
+            {
+                DateTime d = Convert.ToDateTime(dateV);
+
+                var dif = d.Date - dateE.Date;
+
+                //dif.TotalDays;
+                var mes = dif.TotalDays / 30;
+
+                if (mes < 1)
+                {
+                    var dia = mes * 30;
+                    if (dia > 1)
+                        return Convert.ToInt32(dia).ToString() + " DIAS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                    else
+                        return Convert.ToInt32(dia).ToString() + " DIA"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                }
+                else if (mes < 2)
+                    return Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                else
+                    return Convert.ToInt32(mes).ToString() + " MÊSES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+            }
         }
 
         #endregion

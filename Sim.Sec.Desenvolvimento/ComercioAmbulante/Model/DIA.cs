@@ -72,8 +72,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             set { _emissao = value;RaisePropertyChanged("Emissao"); }
         }
 
-        private string _validade;
-        public string Validade
+        private DateTime? _validade;
+        public DateTime? Validade
         {
             get { return _validade; }
             set { _validade = value;RaisePropertyChanged("Validade"); }

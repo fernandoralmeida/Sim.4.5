@@ -56,9 +56,9 @@ VALUES
                 else
                     return 0;
             }
-            catch
-            {
-                return 0;
+            catch (Exception ex )
+            {               
+                throw new Exception(ex.Message);
             }
         }
 
@@ -100,7 +100,7 @@ VALUES
 
 
                     dia.Emissao = (DateTime)at[8];
-                    dia.Validade = (string)at[9];
+                    dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = (string)at[11];
                     dia.Contador = cont;
@@ -154,7 +154,7 @@ VALUES
                     dia.Veiculo = new Model.Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
 
                     dia.Emissao = (DateTime)at[8];
-                    dia.Validade = (string)at[9];
+                    dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = (string)at[11];
                     dia.Contador = cont;
@@ -209,17 +209,6 @@ VALUES
 
                 var _lista = new ObservableCollection<Model.DIA>();
 
-                string ss = "LISTA";
-                int i = 0;
-
-                foreach(string s in _command)
-                {
-                    i++;
-                    ss = ss + "\n" + s + "[" + i + "]";
-                }
-
-                System.Windows.MessageBox.Show(ss);
-
                 dataAccess.AddParameters("@EmissaoI", _command[0]);
                 dataAccess.AddParameters("@EmissaoF", _command[1]);
                 dataAccess.AddParameters("@Autorizacao", _command[2]);
@@ -252,7 +241,7 @@ VALUES
                     dia.Veiculo = new Model.Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
 
                     dia.Emissao = (DateTime)at[8];
-                    dia.Validade = (string)at[9];
+                    dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = (string)at[11];
                     dia.Contador = cont;

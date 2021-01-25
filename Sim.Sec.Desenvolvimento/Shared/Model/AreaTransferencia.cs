@@ -37,13 +37,20 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
 
         private static bool? _previewdia = false;
         private static bool? _dia_ok;
-        
+
+        private static int _indice;
 
         #endregion
 
         #region Properties
 
         public static object Objeto { get; set; }
+
+        public static int Indice
+        {
+            get { return _indice; }
+            set { _indice = value; OnGlobalPropertyChanged("Indice"); }
+        }
 
         public static bool? Preview_DIA
         {

@@ -142,7 +142,7 @@
                                 <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
                                         <Run Text="VALIDADE:"/>
-                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Validade}"/>
+                                        <Run FontWeight="Bold" Text="{Binding Validade}"/>
                                     </Paragraph>
                                 </TableCell>
                                 <TableCell TextAlignment="Right" RowSpan="3" BorderBrush="Black">
