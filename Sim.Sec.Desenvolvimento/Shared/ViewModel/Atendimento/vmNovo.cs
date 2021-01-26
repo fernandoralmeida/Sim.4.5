@@ -388,7 +388,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                     else
                         AreaTransferencia.CNPJ = string.Empty;
 
-                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pNovo.xaml", UriKind.Relative));
+                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/CadAmbulante.xaml", UriKind.Relative));
                     break;
 
                 case 17:

@@ -51,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComercioAmbulante\Model\Ambulante.cs" />
     <Compile Include="ComercioAmbulante\Model\DIA.cs" />
     <Compile Include="ComercioAmbulante\Model\mAmbulante.cs" />
     <Compile Include="ComercioAmbulante\Model\mDataCM.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="ComercioAmbulante\Model\mPeriodos.cs" />
     <Compile Include="ComercioAmbulante\Model\mReportCA.cs" />
     <Compile Include="ComercioAmbulante\Repositorio\DIA.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmCadAmbulante.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmConsulta.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmCosultaDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmD-I-A.cs" />
@@ -70,6 +72,9 @@
     <Compile Include="ComercioAmbulante\ViewModel\vmPreviewDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmReport.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmReportDIA.cs" />
+    <Compile Include="ComercioAmbulante\View\CadAmbulante.xaml.cs">
+      <DependentUpon>CadAmbulante.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ComercioAmbulante\View\ConsultaDIA.xaml.cs">
       <DependentUpon>ConsultaDIA.xaml</DependentUpon>
     </Compile>
@@ -316,6 +321,10 @@
     <Folder Include="SalaEmpreendedor\Model\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ComercioAmbulante\View\CadAmbulante.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ComercioAmbulante\View\ConsultaDIA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
