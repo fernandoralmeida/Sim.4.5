@@ -233,16 +233,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             if (t == null || t == string.Empty)
                 t = string.Format("{0}00000", DateTime.Now.Year);
-
-            //t = new mMascaras().Remove(t);
-
-            System.Windows.MessageBox.Show(t);
-
+            
             ulong n = Convert.ToUInt64(t);
 
             n++;
-
-            System.Windows.MessageBox.Show(n.ToString());
 
             string res = n.ToString();
 
@@ -263,16 +257,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             if (t == null || t == string.Empty)
                 t = string.Format("{0}00000", 2020);
 
-            //t = new mMascaras().Remove(t);
-
-            System.Windows.MessageBox.Show(t);
-
             ulong n = Convert.ToUInt64(t);
 
             n++;
-
-            System.Windows.MessageBox.Show(n.ToString());
-
+           
             string res = n.ToString();
                        
             for (int i = 0; i < 4; i++)

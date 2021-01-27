@@ -84,23 +84,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         #region Properties
 
-        public ObservableCollection<mTiposGenericos> Situacaoes
-        {
-            get { return new mData().Tipos(@"SELECT * FROM SDT_CAmbulante_Situacao WHERE (Ativo = True) ORDER BY Situacao"); }
-        }
-
-        public ObservableCollection<mCNAE> ListaAtividades
-        {
-            get { return _listaatividade; }
-            set { _listaatividade = value; RaisePropertyChanged("ListaAtividades"); }
-        }
-
-        public ObservableCollection<mCNAE> ListaCNAE
-        {
-            get { return _listacnae; }
-            set { _listacnae = value; RaisePropertyChanged("ListaCNAE"); }
-        }
-
         public ObservableCollection<mPeriodos> ListarTimeWork
         {
             get { return _listartimework; }
@@ -119,31 +102,26 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 _ambulante = value;
 
                 RaisePropertyChanged("Ambulante");
-
-                if (value.TemLicenca)
-                    TemLicenca = Visibility.Visible;
-                else
-                    TemLicenca = Visibility.Collapsed;
             }
         }
 
-        public ObservableCollection<mCliente> PF
+        public ObservableCollection<mCliente> Titular
         {
             get { return _pf; }
             set
             {
                 _pf = value;
-                RaisePropertyChanged("PF");
+                RaisePropertyChanged("Titular");
             }
         }
 
-        public ObservableCollection<mCliente> PJ
+        public ObservableCollection<mCliente> Auxiliar
         {
             get { return _pj; }
             set
             {
                 _pj = value;
-                RaisePropertyChanged("PJ");
+                RaisePropertyChanged("Auxiliar");
             }
         }
 
@@ -157,16 +135,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             {
                 _lpj = value;
                 RaisePropertyChanged("ListaPJ");
-            }
-        }
-
-        public string GetCNAE
-        {
-            get { return _cnae; }
-            set
-            {
-                _cnae = value;
-                RaisePropertyChanged("GetCNAE");
             }
         }
 
@@ -246,16 +214,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             }
         }
 
-        public Visibility CnaeBox
-        {
-            get { return _cnaebox; }
-            set
-            {
-                _cnaebox = value;
-                RaisePropertyChanged("CnaeBox");
-            }
-        }
-
         public Visibility TemEmpresa
         {
             get { return _temempresa; }
@@ -280,64 +238,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         {
             get { return _viewinfo; }
             set { _viewinfo = value; RaisePropertyChanged("ViewInfo"); }
-        }
-
-        public Visibility TemLicenca
-        {
-            get { return _temlicenca; }
-            set
-            {
-                _temlicenca = value;
-                if (value == Visibility.Collapsed)
-                    Ambulante.DataLicenca = new DateTime(1, 1, 1);
-                RaisePropertyChanged("TemLicenca");
-            }
-        }
-
-        public bool DataLicencaView
-        {
-            get { return _datalicencaview; }
-            set
-            {
-                _datalicencaview = value;
-
-                if (_datalicencaview)
-                    TemLicenca = Visibility.Visible;
-                else
-                    TemLicenca = Visibility.Collapsed;
-
-                RaisePropertyChanged("DataLicencaView");
-            }
-        }
-
-        public bool Manha
-        {
-            get { return _manha; }
-            set
-            {
-                _manha = value;
-                RaisePropertyChanged("Manha");
-            }
-        }
-
-        public bool Tarde
-        {
-            get { return _tarde; }
-            set
-            {
-                _tarde = value;
-                RaisePropertyChanged("Tarde");
-            }
-        }
-
-        public bool Noite
-        {
-            get { return _noite; }
-            set
-            {
-                _noite = value;
-                RaisePropertyChanged("Noite");
-            }
         }
 
         public bool SomentePF
@@ -465,7 +365,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                         try
                         {
-                            if (PF.Count < 0)
+                            if (Titular.Count < 0)
                                 return;
 
                             string identificador = new mMascaras().Remove((string)p);
@@ -477,13 +377,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                             switch (identificador.Length)
                             {
                                 case 11:
-                                    ns.Navigate(new Uri("/Sim.Modulo.Empreendedor;component/View/pAddPF.xaml", UriKind.Relative));
+                                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Pessoa/pNovo.xaml", UriKind.Relative));
                                     AreaTransferencia.CPF = (string)p;// Atendimento.Cliente.Inscricao;
                                     AreaTransferencia.CadPF = true;
                                     break;
 
                                 case 14:
-                                    ns.Navigate(new Uri("/Sim.Modulo.Empreendedor;component/View/pAddPJ.xaml", UriKind.Relative));
+                                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
                                     AreaTransferencia.CNPJ = (string)p; // Atendimento.Cliente.Inscricao;
                                     AreaTransferencia.CadPJ = true;
                                     break;
@@ -540,8 +440,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         {
                             if (task_two.IsCompleted)
                             {
-                                PJ = new ObservableCollection<mCliente>();
-                                PJ.Add(new mCliente()
+                                Auxiliar = new ObservableCollection<mCliente>();
+                                Auxiliar.Add(new mCliente()
                                 {
                                     Inscricao = task_two.Result.CNPJ,
                                     NomeRazao = task_two.Result.RazaoSocial,
@@ -570,7 +470,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         string _per = string.Empty;
 
                         var cbx = (ComboBox)p;
-
+                        /*
                         if (Manha) _per += "MANHÃ;";
                         if (Tarde) _per += "TARDE;";
                         if (Noite) _per += "NOITE;";
@@ -584,7 +484,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                         Manha = false;
                         Tarde = false;
-                        Noite = false;
+                        Noite = false;*/
                         cbx.SelectedIndex = 0;
 
                     });
@@ -605,6 +505,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             }
         }
 
+        /*
         public ICommand CommandCNAE
         {
             get
@@ -657,10 +558,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 if (_commandgetcnae == null)
                     _commandgetcnae = new RelayCommand(p => {
 
-                        if (PJ.Count > 0)
+                        if (Auxiliar.Count > 0)
                         {
-                            if (PJ[0].Inscricao != string.Empty)
-                                AsyncGetAtividades(PJ[0].Inscricao);
+                            if (Auxiliar[0].Inscricao != string.Empty)
+                                AsyncGetAtividades(Auxiliar[0].Inscricao);
                         }
 
                     });
@@ -679,7 +580,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         try
                         {
                             CnaeBox = Visibility.Visible;
-                            //AsyncCNAE();
+                            AsyncCNAE();
                         }
                         catch (Exception ex)
                         { MessageBox.Show(ex.Message, "Sim.Alerta!"); }
@@ -698,12 +599,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                 return _commandclosecnaebox;
             }
-        }
+        }*/
 
         #endregion
 
         #region Constructor
-        public vmNovo()
+        public vmCadAmbulante()
         {
             ns = GlobalNavigation.NavService;
             GlobalNavigation.Pagina = "CADASTRO";
@@ -716,14 +617,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             ViewInfo = Visibility.Collapsed;
             ViewMessageBox = Visibility.Collapsed;
             IsOutros = false;
-            CnaeBox = Visibility.Collapsed;
+            
             StartProgress = false;
             Ambulante.Cadastro = Codigo();
             Ambulante.Situacao = 1;
             AsyncMostrarDados(AreaTransferencia.CPF);
             SomentePF = true;
             IsActive = true;
-            AsyncCNAE();
         }
 
         #endregion
@@ -767,19 +667,20 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             //Ambulante.Cadastro = Codigo();
             Ambulante.Atendimento = string.Empty;
-            Ambulante.TemLicenca = DataLicencaView;
+            //Ambulante.TemLicenca = DataLicencaView;
 
-            Ambulante.Pessoa = PF[0];
+            Ambulante.Pessoa = Titular[0];
 
-            if (PJ.Count > 0)
-                Ambulante.Empresa = PJ[0];
+            if (Auxiliar.Count > 0)
+                Ambulante.Empresa = Auxiliar[0];
 
             string _ativ = string.Empty;
 
+            /*
             foreach (mCNAE a in ListaAtividades)
             {
                 _ativ += string.Format("{0} - {1};", new mMascaras().CNAE(a.CNAE), a.Ocupacao);
-            }
+            }*/
 
             Ambulante.Atividades = _ativ;
 
@@ -850,17 +751,17 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     {
                         if (task.IsCompleted)
                         {
-                            PF = new ObservableCollection<mCliente>();
-                            PF.Add(new mCliente()
+                            Titular = new ObservableCollection<mCliente>();
+                            Titular.Add(new mCliente()
                             {
                                 Inscricao = task.Result.CPF,
                                 NomeRazao = task.Result.Nome,
-                                Telefones = task.Result.Telefones,
-                                Email = task.Result.Email
+                                Telefones = task.Result.RG,
+                                Email = task.Result.Telefones
                             });
 
                             ListaPJ.Clear();
-                            PJ.Clear();
+                            Auxiliar.Clear();
 
                             if (task.Result.ColecaoVinculos.Count < 1)
                             {
@@ -894,8 +795,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                                         else
                                         {
 
-                                            PJ = new ObservableCollection<mCliente>();
-                                            PJ.Add(new mCliente()
+                                            Auxiliar = new ObservableCollection<mCliente>();
+                                            Auxiliar.Add(new mCliente()
                                             {
                                                 Inscricao = task_two.Result.CNPJ,
                                                 NomeRazao = task_two.Result.RazaoSocial,
@@ -933,8 +834,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                             if (task_two != null)
                             {
-                                PJ = new ObservableCollection<mCliente>();
-                                PJ.Add(new mCliente()
+                                Auxiliar = new ObservableCollection<mCliente>();
+                                Auxiliar.Add(new mCliente()
                                 {
                                     Inscricao = task_two.Result.CNPJ,
                                     NomeRazao = task_two.Result.RazaoSocial,
@@ -949,39 +850,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     TaskScheduler.FromCurrentSynchronizationContext());
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-        }
-
-        private void AsyncCNAE()
-        {
-            try
-            {
-
-                string sql = @"SELECT * FROM SDT_SE_PJ_CNAE_MEI WHERE (Ativo = True) AND (Indice > 1) ORDER BY Ocupacao";
-
-                Task.Factory.StartNew(() => new mData().CNAES(sql))
-                    .ContinueWith(task =>
-                    {
-                        if (task.IsCompleted)
-                        {
-                            ListaCNAE = task.Result;
-                            BlackBox = Visibility.Collapsed;
-                            StartProgress = false;
-                        }
-                        else
-                        {
-                            CnaeBox = Visibility.Collapsed;
-                            BlackBox = Visibility.Collapsed;
-                            StartProgress = false;
-                        }
-                    },
-                    System.Threading.CancellationToken.None,
-                    TaskContinuationOptions.None,
-                    TaskScheduler.FromCurrentSynchronizationContext());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
         }
 
         private void AsyncGetAtividades(string _cnpj)
@@ -999,7 +867,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                                 _cnae = task.Result.AtividadePrincipal.Substring(0, 10);
 
-                                ListaAtividades.Add(new mData().ConsultaCNAE(new mMascaras().CNAE_V(_cnae)));
+                                //ListaAtividades.Add(new mData().ConsultaCNAE(new mMascaras().CNAE_V(_cnae)));
                             }
                             catch
                             {
@@ -1036,14 +904,14 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                                     {
 
                                         Ambulante = task.Result;
-                                        PF.Clear();
-                                        PJ.Clear();
-                                        PF.Add(task.Result.Pessoa);
-                                        PJ.Add(task.Result.Empresa);
+                                        Titular.Clear();
+                                        Auxiliar.Clear();
+                                        Titular.Add(task.Result.Pessoa);
+                                        Auxiliar.Add(task.Result.Empresa);
 
-                                        DataLicencaView = Ambulante.TemLicenca;
+                                        //DataLicencaView = Ambulante.TemLicenca;
 
-                                        if (PJ[0].Inscricao == string.Empty)
+                                        if (Auxiliar[0].Inscricao == string.Empty)
                                         {
                                             SomentePF = true;
                                             TemEmpresa = Visibility.Visible;
@@ -1056,15 +924,16 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
 
                                         if (task.Result.Empresa.Inscricao == string.Empty)
-                                            PJ.Clear();
+                                            Auxiliar.Clear();
 
                                         string[] _atv = task.Result.Atividades.Split(';');
 
+                                        /*
                                         foreach (string atv in _atv)
                                         {
                                             if (atv != string.Empty)
                                                 ListaAtividades.Add(new mCNAE() { CNAE = atv.Substring(0, 10), Ocupacao = atv.Remove(0, 13) });
-                                        }
+                                        }*/
 
                                         if (task.Result.TipoInstalacoes.Contains("TENDA;"))
                                             IsTenda = true;

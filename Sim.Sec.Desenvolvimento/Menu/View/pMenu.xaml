@@ -182,6 +182,7 @@
                                     </Grid>
                                 </Button.Content>
                             </Button>
+                            <!--
                             <Button Width="250"
                                 Visibility="{Binding Path=AcessoComAmbulante, Converter={StaticResource BoolToVis}}"
                                 Height="120"                                
@@ -200,7 +201,7 @@
                                         <TextBlock Grid.Row="1" TextElement.FontWeight="Bold" Text="COMÉRCIO AMBULANTE" Margin="5,10,5,0" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </Button.Content>
-                            </Button>
+                            </Button>-->
                         </WrapPanel>
                     </ItemsControl.Items>
                 </ItemsControl>
