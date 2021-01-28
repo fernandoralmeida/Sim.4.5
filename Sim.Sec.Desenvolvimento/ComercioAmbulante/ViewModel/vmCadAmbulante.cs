@@ -18,21 +18,18 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
     using Mvvm.Observers;
     using Mvvm.Commands;
     using Controls.ViewModels;
+    using Repositorio;
+
     public class vmCadAmbulante : VMBase
     {
         #region Declarations
         NavigationService ns;
-        private mData mdata = new mData();
-        private mDataCM mdatacm = new mDataCM();
 
-        private mAmbulante _ambulante = new mAmbulante();
+        private Ambulante _ambulante = new Ambulante();
 
-        ObservableCollection<mCliente> _lpj = new ObservableCollection<mCliente>();
-        ObservableCollection<mCliente> _pf = new ObservableCollection<mCliente>();
-        ObservableCollection<mCliente> _pj = new ObservableCollection<mCliente>();
+        ObservableCollection<Autorizados> _titular = new ObservableCollection<Autorizados>();
+        ObservableCollection<Autorizados> _auxiliar = new ObservableCollection<Autorizados>();
 
-        private ObservableCollection<mCNAE> _listacnae = new ObservableCollection<mCNAE>();
-        private ObservableCollection<mCNAE> _listaatividade = new ObservableCollection<mCNAE>();
         private ObservableCollection<mPeriodos> _listartimework = new ObservableCollection<mPeriodos>();
 
         private Visibility _viewlistaeventos;
@@ -40,46 +37,25 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private Visibility _vieweventos;
         private Visibility _viewbutton;
         private Visibility _viewlistapj;
-        private Visibility _cnaebox;
         private Visibility _temempresa;
         private Visibility _textboxoutrosview;
         private Visibility _viewinfo;
-        private Visibility _temlicenca = Visibility.Collapsed;
+        private Visibility _existeauxiliar;
 
         private bool _isactive;
         private bool _somentepf;
-
-        private bool _manha;
-        private bool _tarde;
-        private bool _noite;
 
         private bool _istenda;
         private bool _isveiculo;
         private bool _istrailer;
         private bool _iscarrinho;
         private bool _isoutros;
-        private bool _datalicencaview;
 
         private string _getoutros = string.Empty;
-        private string _cnae = string.Empty;
         private int _selectedrow = 0;
         private int _selectedrow2 = 0;
+        private string _getcpf;
 
-        private ICommand _commandsave;
-        private ICommand _commandcancelar;
-        private ICommand _commandgoback;
-        private ICommand _commandremoveevento;
-        private ICommand _commandselectedcnpj;
-
-        private ICommand _commandcnae;
-        private ICommand _commandremovecnae;
-        private ICommand _commandaddcnae;
-        private ICommand _commandclosecnaebox;
-        private ICommand _commandlistarcnaebox;
-        private ICommand _commandaddtimework;
-        private ICommand _commandremovetimework;
-        private ICommand _commandalterar;
-        private ICommand _commandgetcnae;
         #endregion
 
         #region Properties
@@ -94,7 +70,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             }
         }
 
-        public mAmbulante Ambulante
+        public Ambulante Ambulante
         {
             get { return _ambulante; }
             set
@@ -105,36 +81,33 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             }
         }
 
-        public ObservableCollection<mCliente> Titular
+        public ObservableCollection<Autorizados> Titular
         {
-            get { return _pf; }
+            get { return _titular; }
             set
             {
-                _pf = value;
+                _titular = value;
                 RaisePropertyChanged("Titular");
             }
         }
 
-        public ObservableCollection<mCliente> Auxiliar
+        public ObservableCollection<Autorizados> Auxiliar
         {
-            get { return _pj; }
+            get { return _auxiliar; }
             set
             {
-                _pj = value;
+                _auxiliar = value;
                 RaisePropertyChanged("Auxiliar");
             }
         }
 
-        public ObservableCollection<mCliente> ListaPJ
+        public string GetCPF
         {
-            get
-            {
-                return _lpj;
-            }
+            get { return _getcpf; }
             set
             {
-                _lpj = value;
-                RaisePropertyChanged("ListaPJ");
+                _getcpf = value;
+                RaisePropertyChanged("GetCPF");
             }
         }
 
@@ -165,6 +138,14 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             {
                 _selectedrow2 = value;
                 RaisePropertyChanged("SelectedRow2");
+            }
+        }
+
+        public Visibility ExisteAuxiliar
+        {
+            get { return _existeauxiliar; }
+            set { _existeauxiliar = value;
+                RaisePropertyChanged("ExisteAuxiliar");
             }
         }
 
@@ -330,123 +311,91 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #endregion
 
         #region Commands
-        public ICommand CommandSave
+        public ICommand CommandSave => new RelayCommand(p => { AsyncGravar(); });
+
+        public ICommand CommandCancelar => new RelayCommand(p => { ns.GoBack(); });
+
+
+        public ICommand CommandAlterar => new RelayCommand(p =>
         {
-            get
+
+            try
             {
-                if (_commandsave == null)
-                    _commandsave = new RelayCommand(p =>
-                    {
-                        AsyncGravar();
-                    });
-                return _commandsave;
+                if (Titular.Count < 0)
+                    return;
+
+                string identificador = new mMascaras().Remove((string)p);
+
+                switch (identificador.Length)
+                {
+                    case 11:
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Pessoa/pNovo.xaml", UriKind.Relative));
+                        AreaTransferencia.CPF = (string)p;// Atendimento.Cliente.Inscricao;
+                        AreaTransferencia.CadPF = true;
+                        break;
+
+                    case 14:
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
+                        AreaTransferencia.CNPJ = (string)p; // Atendimento.Cliente.Inscricao;
+                        AreaTransferencia.CadPJ = true;
+                        break;
+                }
             }
-        }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
 
-        public ICommand CommandCancelar
+        });
+
+        public ICommand CommandGoBack => new RelayCommand(p =>
         {
-            get
+
+            ViewListaEventos = Visibility.Collapsed;
+
+        });
+
+        public ICommand CommandRemoveEvento => new RelayCommand(p =>
+        {
+
+            ViewEventos = Visibility.Collapsed;
+            ViewButton = Visibility.Visible;
+
+        });
+
+        public ICommand CommandGetCPF => new RelayCommand(p =>
+        {
+
+            if (GetCPF != string.Empty && new mMascaras().Remove(GetCPF.TrimEnd()).Length == 11)
             {
-                if (_commandcancelar == null)
-                    _commandcancelar = new RelayCommand(p =>
-                    {
-                        ns.GoBack();
-                    });
-                return _commandcancelar;
+                if (new mData().ExistPessoaFisica(GetCPF.TrimEnd()) != null)
+                {
+
+                    AsyncAuxiliar(GetCPF.TrimEnd());
+                    
+                }
+                else
+                {
+                    MessageBox.Show("CPF não encontrado!", "Sim.Alerta!");
+                    AreaTransferencia.CPF = new mMascaras().Remove(GetCPF.TrimEnd());
+                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Pessoa/pNovo.xaml", UriKind.Relative));
+                }
             }
-        }
 
-        public ICommand CommandAlterar
-        {
-            get
-            {
-                if (_commandalterar == null)
-                    _commandalterar = new RelayCommand(p => {
+        });
 
-                        try
-                        {
-                            if (Titular.Count < 0)
-                                return;
-
-                            string identificador = new mMascaras().Remove((string)p);
-
-                            //Cliente.Clear();
-                            //PJ.Clear();
-                            //PF.Clear();
-
-                            switch (identificador.Length)
-                            {
-                                case 11:
-                                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Pessoa/pNovo.xaml", UriKind.Relative));
-                                    AreaTransferencia.CPF = (string)p;// Atendimento.Cliente.Inscricao;
-                                    AreaTransferencia.CadPF = true;
-                                    break;
-
-                                case 14:
-                                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
-                                    AreaTransferencia.CNPJ = (string)p; // Atendimento.Cliente.Inscricao;
-                                    AreaTransferencia.CadPJ = true;
-                                    break;
-                            }
-                        }
-                        catch (Exception ex)
-                        { MessageBox.Show(ex.Message); }
-
-                    });
-                return _commandalterar;
-            }
-        }
-
-        public ICommand CommandGoBack
-        {
-            get
-            {
-                if (_commandgoback == null)
-                    _commandgoback = new RelayCommand(p => {
-
-                        ViewListaEventos = Visibility.Collapsed;
-
-                    });
-
-                return _commandgoback;
-            }
-        }
-
-        public ICommand CommandRemoveEvento
-        {
-            get
-            {
-                if (_commandremoveevento == null)
-                    _commandremoveevento = new RelayCommand(p => {
-
-                        ViewEventos = Visibility.Collapsed;
-                        ViewButton = Visibility.Visible;
-
-                    });
-
-                return _commandremoveevento;
-            }
-        }
-
-        public ICommand CommandSelectedCNPJ
-        {
-            get
-            {
-                if (_commandselectedcnpj == null)
-                    _commandselectedcnpj = new RelayCommand(p =>
+        public ICommand CommandSelectedCNPJ => new RelayCommand(p =>
                     {
 
-                        Task<mPJ_Ext>.Factory.StartNew(() => mdata.ExistPessoaJuridica((string)p)).ContinueWith(task_two =>
+                        Task<mPF_Ext>.Factory.StartNew(() => new mData().ExistPessoaFisica((string)p)).ContinueWith(task_two =>
                         {
                             if (task_two.IsCompleted)
                             {
-                                Auxiliar = new ObservableCollection<mCliente>();
-                                Auxiliar.Add(new mCliente()
+                                Auxiliar = new ObservableCollection<Autorizados>();
+                                Auxiliar.Add(new Autorizados()
                                 {
-                                    Inscricao = task_two.Result.CNPJ,
-                                    NomeRazao = task_two.Result.RazaoSocial,
-                                    Telefones = task_two.Result.Telefones,
-                                    Email = task_two.Result.Email
+                                    CPF = task_two.Result.CPF,
+                                    Nome = task_two.Result.Nome,
+                                    RG = task_two.Result.RG,
+                                    Tel = task_two.Result.Telefones
                                 });
 
                             }
@@ -456,150 +405,42 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         TaskScheduler.FromCurrentSynchronizationContext());
                     });
 
-                return _commandselectedcnpj;
-            }
-        }
-
-        public ICommand CommandAddTimeWork
+        public ICommand CommandAddTimeWork => new RelayCommand(p =>
         {
-            get
+
+            string _per = string.Empty;
+
+            var cbx = (ComboBox)p;
+            /*
+            if (Manha) _per += "MANHÃ;";
+            if (Tarde) _per += "TARDE;";
+            if (Noite) _per += "NOITE;";
+
+            ListarTimeWork.Add(new mPeriodos()
             {
-                if (_commandaddtimework == null)
-                    _commandaddtimework = new RelayCommand(p => {
+                Ativo = true,
+                Periodos = _per,
+                Dias = cbx.Text
+            });
 
-                        string _per = string.Empty;
+            Manha = false;
+            Tarde = false;
+            Noite = false;*/
+            cbx.SelectedIndex = 0;
 
-                        var cbx = (ComboBox)p;
-                        /*
-                        if (Manha) _per += "MANHÃ;";
-                        if (Tarde) _per += "TARDE;";
-                        if (Noite) _per += "NOITE;";
+        });
 
-                        ListarTimeWork.Add(new mPeriodos()
-                        {
-                            Ativo = true,
-                            Periodos = _per,
-                            Dias = cbx.Text
-                        });
-
-                        Manha = false;
-                        Tarde = false;
-                        Noite = false;*/
-                        cbx.SelectedIndex = 0;
-
-                    });
-                return _commandaddtimework;
-            }
-        }
-
-        public ICommand CommandRemoveTimeWork
+        public ICommand CommandRemoveTimeWork => new RelayCommand(p =>
         {
-            get
-            {
-                if (_commandremovetimework == null)
-                    _commandremovetimework = new RelayCommand(p => {
-                        ListarTimeWork.RemoveAt(SelectedRow2);
-                    });
+            ListarTimeWork.RemoveAt(SelectedRow2);
+        });
 
-                return _commandremovetimework;
-            }
-        }
+        public ICommand CommandRemoveAuxiliar => new RelayCommand(p => {
 
-        /*
-        public ICommand CommandCNAE
-        {
-            get
-            {
-                if (_commandcnae == null)
-                    _commandcnae = new RelayCommand(p => {
-                        ListaAtividades.Add(new mData().ConsultaCNAE(new mMascaras().CNAE_V(GetCNAE)));
-                    });
-
-                return _commandcnae;
-            }
-        }
-
-        public ICommand CommandAddCNAE
-        {
-            get
-            {
-                if (_commandaddcnae == null)
-                    _commandaddcnae = new RelayCommand(p =>
-                    {
-                        mCNAE _cnae = new mCNAE();
-
-                        var objetos = (object[])p;
-                        _cnae.CNAE = new mMascaras().CNAE((string)objetos[0]);
-                        _cnae.Descricao = (string)objetos[1];
-                        _cnae.Ocupacao = (string)objetos[2];
-
-                        ListaAtividades.Add(_cnae);
-                    });
-                return _commandaddcnae;
-            }
-        }
-
-        public ICommand CommandRemoveCNAE
-        {
-            get
-            {
-                if (_commandremovecnae == null)
-                    _commandremovecnae = new RelayCommand(p => {
-                        ListaAtividades.RemoveAt(SelectedRow);
-                    });
-                return _commandremovecnae;
-            }
-        }
-
-        public ICommand CommandGetCNAE
-        {
-            get
-            {
-                if (_commandgetcnae == null)
-                    _commandgetcnae = new RelayCommand(p => {
-
-                        if (Auxiliar.Count > 0)
-                        {
-                            if (Auxiliar[0].Inscricao != string.Empty)
-                                AsyncGetAtividades(Auxiliar[0].Inscricao);
-                        }
-
-                    });
-
-                return _commandgetcnae;
-            }
-        }
-
-        public ICommand CommandListarCnaeBox
-        {
-            get
-            {
-                if (_commandlistarcnaebox == null)
-                    _commandlistarcnaebox = new RelayCommand(p =>
-                    {
-                        try
-                        {
-                            CnaeBox = Visibility.Visible;
-                            AsyncCNAE();
-                        }
-                        catch (Exception ex)
-                        { MessageBox.Show(ex.Message, "Sim.Alerta!"); }
-                    });
-
-                return _commandlistarcnaebox;
-            }
-        }
-
-        public ICommand CommandCloseCnaeBox
-        {
-            get
-            {
-                if (_commandclosecnaebox == null)
-                    _commandclosecnaebox = new RelayCommand(p => { CnaeBox = Visibility.Collapsed; });
-
-                return _commandclosecnaebox;
-            }
-        }*/
+            Auxiliar.Clear();
+            ExisteAuxiliar = Visibility.Visible;
+        
+        });
 
         #endregion
 
@@ -616,11 +457,11 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             ViewListaPJ = Visibility.Collapsed;
             ViewInfo = Visibility.Collapsed;
             ViewMessageBox = Visibility.Collapsed;
+            ExisteAuxiliar = Visibility.Visible;
             IsOutros = false;
-            
+
             StartProgress = false;
             Ambulante.Cadastro = Codigo();
-            Ambulante.Situacao = 1;
             AsyncMostrarDados(AreaTransferencia.CPF);
             SomentePF = true;
             IsActive = true;
@@ -633,11 +474,11 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         {
             if (e.PropertyName == "CadPF")
                 if (AreaTransferencia.CadPF == false)
-                    AsyncPessoa(AreaTransferencia.CPF);
+                    AsyncTitular(AreaTransferencia.CPF);
 
             if (e.PropertyName == "CadPJ")
                 if (AreaTransferencia.CadPJ == false)
-                    AsyncEmpresa(AreaTransferencia.CNPJ);
+                    AsyncAuxiliar(AreaTransferencia.CPF);
         }
         #endregion
 
@@ -660,19 +501,15 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             return r;
         }
 
-        private void AsyncGravar()
+        private async void AsyncGravar()
         {
             BlackBox = Visibility.Visible;
             StartProgress = true;
 
-            //Ambulante.Cadastro = Codigo();
-            Ambulante.Atendimento = string.Empty;
-            //Ambulante.TemLicenca = DataLicencaView;
-
-            Ambulante.Pessoa = Titular[0];
+            Ambulante.Titular = Titular[0];
 
             if (Auxiliar.Count > 0)
-                Ambulante.Empresa = Auxiliar[0];
+                Ambulante.Auxiliar = Auxiliar[0];
 
             string _ativ = string.Empty;
 
@@ -682,7 +519,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 _ativ += string.Format("{0} - {1};", new mMascaras().CNAE(a.CNAE), a.Ocupacao);
             }*/
 
-            Ambulante.Atividades = _ativ;
+            Ambulante.Atividade = _ativ;
 
             string _instalacao = string.Empty;
 
@@ -692,7 +529,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             if (IsTrailer) _instalacao += "TRAILER;";
             if (IsOutros) _instalacao += string.Format("OUTROS[{0}]", GetOutros);
 
-            Ambulante.TipoInstalacoes = _instalacao;
+            Ambulante.FormaAtuacao = _instalacao;
 
             string _pwork = string.Empty;
 
@@ -701,296 +538,166 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 _pwork += string.Format("{0} - {1}/", p.Dias.ToUpper(), p.Periodos.ToUpper());
             }
 
-            Ambulante.PeridoTrabalho = _pwork;
+            Ambulante.HorarioTrabalho = _pwork;
 
             //Ambulante.DataCadastro = DateTime.Now;
-            Ambulante.DataAlteracao = DateTime.Now;
+            Ambulante.UltimaAlteracao = DateTime.Now;
             Ambulante.Ativo = true;
 
-            Task<bool>.Factory.StartNew(() => mdatacm.GravarAmbulante(Ambulante))
-                .ContinueWith(task =>
-                {
-                    if (task.Result)
-                    {
+            var t = Task<bool>.Factory.StartNew(() => new RAmbulante().GravarAmbulante(Ambulante));
 
-                        BlackBox = Visibility.Collapsed;
-                        StartProgress = false;
+            await t;
 
-                        Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(delegate {
+            if (t.Result)
+            {
+                BlackBox = Visibility.Collapsed;
+                StartProgress = false;
+                AreaTransferencia.CadastroAmbulante = Ambulante.Cadastro;
+                AreaTransferencia.CadAmbulanteOK = true;
+                AsyncMessageBox("Comerciante Cadastrado!", DialogBoxColor.Green, true);
 
-                            AreaTransferencia.CadastroAmbulante = Ambulante.Cadastro;
-                            AreaTransferencia.CadAmbulanteOK = true;
-                            AsyncMessageBox("Comerciante Cadastrado!", DialogBoxColor.Green, true);
+            }
+            else
+            {
+                BlackBox = Visibility.Collapsed;
+                StartProgress = false;
+                AsyncMessageBox("Erro no cadastro!", DialogBoxColor.Red, false);
+            }
 
-                        }));
-                    }
-                    else
-                    {
-                        BlackBox = Visibility.Collapsed;
-                        StartProgress = false;
-
-                        Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(delegate {
-
-                            AsyncMessageBox("Erro no cadastro!", DialogBoxColor.Red, false);
-
-                        }));
-                    }
-                },
-                System.Threading.CancellationToken.None,
-                TaskContinuationOptions.None,
-                TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private void AsyncPessoa(string cpf)
+        private async void AsyncTitular(string cpf)
         {
             try
             {
+                var t = Task<mPF_Ext>.Factory.StartNew(() => new mData().ExistPessoaFisica(cpf));
 
-                Task<mPF_Ext>.Factory.StartNew(() => mdata.ExistPessoaFisica(cpf))
-                    .ContinueWith(task =>
+                await t;
+
+                if (t.IsCompleted)
+                {
+                    Titular = new ObservableCollection<Autorizados>();
+                    Titular.Add(new Autorizados()
                     {
-                        if (task.IsCompleted)
-                        {
-                            Titular = new ObservableCollection<mCliente>();
-                            Titular.Add(new mCliente()
-                            {
-                                Inscricao = task.Result.CPF,
-                                NomeRazao = task.Result.Nome,
-                                Telefones = task.Result.RG,
-                                Email = task.Result.Telefones
-                            });
-
-                            ListaPJ.Clear();
-                            Auxiliar.Clear();
-
-                            if (task.Result.ColecaoVinculos.Count < 1)
-                            {
-                                SomentePF = true;
-                                TemEmpresa = Visibility.Visible;
-                            }
-                            else
-                            {
-                                SomentePF = false;
-                                TemEmpresa = Visibility.Collapsed;
-                            }
-
-                            foreach (mVinculos v in task.Result.ColecaoVinculos)
-                            {
-                                Task<mPJ_Ext>.Factory.StartNew(() => mdata.ExistPessoaJuridica(v.CNPJ)).ContinueWith(task_two =>
-                                {
-                                    if (task_two.IsCompleted)
-                                    {
-                                        if (task.Result.ColecaoVinculos.Count > 1)
-                                        {
-                                            ListaPJ.Add(new mCliente()
-                                            {
-                                                Inscricao = task_two.Result.CNPJ,
-                                                NomeRazao = task_two.Result.RazaoSocial,
-                                                Telefones = task_two.Result.Telefones,
-                                                Email = task_two.Result.Email
-                                            });
-
-                                            ViewListaPJ = Visibility.Visible;
-                                        }
-                                        else
-                                        {
-
-                                            Auxiliar = new ObservableCollection<mCliente>();
-                                            Auxiliar.Add(new mCliente()
-                                            {
-                                                Inscricao = task_two.Result.CNPJ,
-                                                NomeRazao = task_two.Result.RazaoSocial,
-                                                Telefones = task_two.Result.Telefones,
-                                                Email = task_two.Result.Email
-                                            });
-                                        }
-                                    }
-                                },
-                                System.Threading.CancellationToken.None,
-                                TaskContinuationOptions.None,
-                                TaskScheduler.FromCurrentSynchronizationContext());
-                            }
-
-                        }
-                    },
-                    System.Threading.CancellationToken.None,
-                    TaskContinuationOptions.None,
-                    TaskScheduler.FromCurrentSynchronizationContext());
+                        CPF = t.Result.CPF,
+                        Nome = t.Result.Nome,
+                        RG = t.Result.RG,
+                        Tel = t.Result.Telefones
+                    });                    
+                }
             }
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }
         }
 
-        private void AsyncEmpresa(string _cnpj)
+        private async void AsyncAuxiliar(string cpf)
         {
             try
             {
-                if (_cnae != string.Empty)
-                    Task<mPJ_Ext>.Factory.StartNew(() => mdata.ExistPessoaJuridica(_cnpj))
-                    .ContinueWith(task_two =>
+                var t = Task<mPF_Ext>.Factory.StartNew(() => new mData().ExistPessoaFisica(cpf));
+
+                await t;
+
+                if (t.IsCompleted)
+                {
+                    Auxiliar = new ObservableCollection<Autorizados>();
+                    Auxiliar.Add(new Autorizados()
                     {
-                        if (task_two.IsCompleted)
-                        {
+                        CPF = t.Result.CPF,
+                        Nome = t.Result.Nome,
+                        RG = t.Result.RG,
+                        Tel = t.Result.Telefones
+                    });
 
-                            if (task_two != null)
-                            {
-                                Auxiliar = new ObservableCollection<mCliente>();
-                                Auxiliar.Add(new mCliente()
-                                {
-                                    Inscricao = task_two.Result.CNPJ,
-                                    NomeRazao = task_two.Result.RazaoSocial,
-                                    Telefones = task_two.Result.Telefones,
-                                    Email = task_two.Result.Email
-                                });
-                            }
-                        }
-                    },
-                    System.Threading.CancellationToken.None,
-                    TaskContinuationOptions.None,
-                    TaskScheduler.FromCurrentSynchronizationContext());
-            }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
-        }
-
-        private void AsyncGetAtividades(string _cnpj)
-        {
-            try
-            {
-                Task<mPJ_Ext>.Factory.StartNew(() => mdata.ExistPessoaJuridica(_cnpj))
-                    .ContinueWith(task =>
-                    {
-                        if (task.IsCompleted)
-                        {
-                            try
-                            {
-                                string _cnae = string.Empty;
-
-                                _cnae = task.Result.AtividadePrincipal.Substring(0, 10);
-
-                                //ListaAtividades.Add(new mData().ConsultaCNAE(new mMascaras().CNAE_V(_cnae)));
-                            }
-                            catch
-                            {
-                                MessageBox.Show(string.Format("CNAE {0} não encontrado, informe manualmente!", _cnae), "Sim.Alerta!");
-                            }
-                        }
-                    },
-                    System.Threading.CancellationToken.None,
-                    TaskContinuationOptions.None,
-                    TaskScheduler.FromCurrentSynchronizationContext());
+                    ExisteAuxiliar = Visibility.Collapsed;
+                }
             }
             catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            { MessageBox.Show(ex.Message); }
         }
 
-        private void AsyncMostrarDados(string _cpf)
+        private async void AsyncMostrarDados(string _cpf)
         {
             try
             {
-                Task<mAmbulante>.Factory.StartNew(() => mdatacm.GetCAmbulante(_cpf))
-                    .ContinueWith(task =>
+                var t = Task<Ambulante>.Factory.StartNew(() => new RAmbulante().GetAmbulante(_cpf));
+
+                await t;
+
+                if (t.IsCompleted)
+                {
+
+
+                    if (t.Result != null)
                     {
-                        if (task.IsCompleted)
+
+                        Ambulante = t.Result;
+                        Titular.Clear();
+                        Auxiliar.Clear();
+                        Titular.Add(t.Result.Titular);
+                        Auxiliar.Add(t.Result.Auxiliar);
+
+                        if (Auxiliar[0].CPF == string.Empty)
                         {
-                            try
+                            SomentePF = true;
+                            TemEmpresa = Visibility.Visible;
+                        }
+                        else
+                        {
+                            SomentePF = false;
+                            TemEmpresa = Visibility.Collapsed;
+                        }
+
+
+                        if (t.Result.Auxiliar.CPF == string.Empty)
+                            Auxiliar.Clear();
+
+
+                        if (t.Result.FormaAtuacao.Contains("TENDA;"))
+                            IsTenda = true;
+
+                        if (t.Result.FormaAtuacao.Contains("VEÍCULO;"))
+                            IsVeiculo = true;
+
+                        if (t.Result.FormaAtuacao.Contains("CARRINHO;"))
+                            IsCarrinho = true;
+
+                        if (t.Result.FormaAtuacao.Contains("TRAILER;"))
+                            IsTrailer = true;
+
+                        if (t.Result.FormaAtuacao.Contains("OUTROS"))
+                        {
+                            IsOutros = true;
+
+                            string input = t.Result.FormaAtuacao;
+                            string[] testing = Regex.Matches(input, @"\[(.+?)\]")
+                                                        .Cast<Match>()
+                                                        .Select(s => s.Groups[1].Value).ToArray();
+
+                            GetOutros = testing[0];
+                        }
+
+                        string[] _twk = t.Result.HorarioTrabalho.Split('/');
+
+                        foreach (string wk in _twk)
+                        {
+                            if (wk != string.Empty)
                             {
-
-                                if (task.Result != null)
-                                {
-
-                                    if (task.Result.Pessoa.Inscricao == _cpf || task.Result.Cadastro == _cpf)
-                                    {
-
-                                        Ambulante = task.Result;
-                                        Titular.Clear();
-                                        Auxiliar.Clear();
-                                        Titular.Add(task.Result.Pessoa);
-                                        Auxiliar.Add(task.Result.Empresa);
-
-                                        //DataLicencaView = Ambulante.TemLicenca;
-
-                                        if (Auxiliar[0].Inscricao == string.Empty)
-                                        {
-                                            SomentePF = true;
-                                            TemEmpresa = Visibility.Visible;
-                                        }
-                                        else
-                                        {
-                                            SomentePF = false;
-                                            TemEmpresa = Visibility.Collapsed;
-                                        }
-
-
-                                        if (task.Result.Empresa.Inscricao == string.Empty)
-                                            Auxiliar.Clear();
-
-                                        string[] _atv = task.Result.Atividades.Split(';');
-
-                                        /*
-                                        foreach (string atv in _atv)
-                                        {
-                                            if (atv != string.Empty)
-                                                ListaAtividades.Add(new mCNAE() { CNAE = atv.Substring(0, 10), Ocupacao = atv.Remove(0, 13) });
-                                        }*/
-
-                                        if (task.Result.TipoInstalacoes.Contains("TENDA;"))
-                                            IsTenda = true;
-
-                                        if (task.Result.TipoInstalacoes.Contains("VEÍCULO;"))
-                                            IsVeiculo = true;
-
-                                        if (task.Result.TipoInstalacoes.Contains("CARRINHO;"))
-                                            IsCarrinho = true;
-
-                                        if (task.Result.TipoInstalacoes.Contains("TRAILER;"))
-                                            IsTrailer = true;
-
-                                        if (task.Result.TipoInstalacoes.Contains("OUTROS"))
-                                        {
-                                            IsOutros = true;
-
-                                            string input = task.Result.TipoInstalacoes;
-                                            string[] testing = Regex.Matches(input, @"\[(.+?)\]")
-                                                                        .Cast<Match>()
-                                                                        .Select(s => s.Groups[1].Value).ToArray();
-
-                                            GetOutros = testing[0];
-                                        }
-
-                                        string[] _twk = task.Result.PeridoTrabalho.Split('/');
-
-                                        foreach (string wk in _twk)
-                                        {
-                                            if (wk != string.Empty)
-                                            {
-                                                string[] iwk = wk.Split('-');
-                                                ListarTimeWork.Add(new mPeriodos() { Dias = iwk[0].TrimEnd(), Periodos = iwk[1].TrimStart() });
-                                            }
-                                        }
-
-                                        ViewInfo = Visibility.Visible;
-
-                                    }
-                                    else
-                                    {
-                                        AsyncPessoa(AreaTransferencia.CPF);
-                                        AsyncEmpresa(AreaTransferencia.CNPJ);
-                                    }
-
-                                }
-
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(string.Format("Erro '{0}' inesperado, informe o Suporte!", ex.Message), "Sim.Alerta!");
+                                string[] iwk = wk.Split('-');
+                                ListarTimeWork.Add(new mPeriodos() { Dias = iwk[0].TrimEnd(), Periodos = iwk[1].TrimStart() });
                             }
                         }
-                    },
-                    System.Threading.CancellationToken.None,
-                    TaskContinuationOptions.None,
-                    TaskScheduler.FromCurrentSynchronizationContext());
+
+                        ViewInfo = Visibility.Visible;
+
+
+                    }
+                    else
+                        AsyncTitular(AreaTransferencia.CPF);
+                    
+
+                }
+
             }
             catch (Exception ex)
             {

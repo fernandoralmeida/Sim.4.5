@@ -45,10 +45,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             get { return _formaatuacao; }
             set { _formaatuacao = value; RaisePropertyChanged("TipoInstalacoes"); }
         }
-        public string PeridoTrabalho
+        public string HorarioTrabalho
         {
             get { return _periodotrabalho; }
-            set { _periodotrabalho = value; RaisePropertyChanged("PeriodoTrabalho"); }
+            set { _periodotrabalho = value; RaisePropertyChanged("HorarioTrabalho"); }
         }
         public string Local
         {
@@ -66,10 +66,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             get { return _datacadastro; }
             set { _datacadastro = value; RaisePropertyChanged("DataCadastro"); }
         }
-        public DateTime DataAlteracao
+        public DateTime UltimaAlteracao
         {
             get { return _dataalteracao; }
-            set { _dataalteracao = value; RaisePropertyChanged("DataAlteracao"); }
+            set { _dataalteracao = value; RaisePropertyChanged("UltimaAlteracao"); }
         }
         public bool Ativo
         {

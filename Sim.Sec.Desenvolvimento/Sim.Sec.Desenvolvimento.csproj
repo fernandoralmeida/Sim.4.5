@@ -59,6 +59,7 @@
     <Compile Include="ComercioAmbulante\Model\mPeriodos.cs" />
     <Compile Include="ComercioAmbulante\Model\mReportCA.cs" />
     <Compile Include="ComercioAmbulante\Repositorio\DIA.cs" />
+    <Compile Include="ComercioAmbulante\Repositorio\RAmbulante.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmCadAmbulante.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmConsulta.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmCosultaDIA.cs" />
