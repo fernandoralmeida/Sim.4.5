@@ -273,7 +273,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
          
         private async void AsyncMostrarDados(string _cca)
         {
-            var t = Task<mAmbulante>.Run(() => new mDataCM().GetCAmbulante(_cca));
+            var t = Task<Ambulante>.Run(() => new Repositorio.RAmbulante().GetAmbulante(_cca));
 
             await t;
             if (t.IsCompleted)
@@ -283,15 +283,15 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     if (t.Result != null)
                     {
                         //Ambulante = task.Result;
-                        D_I_A.Titular.Nome = t.Result.Pessoa.NomeRazao;
-                        D_I_A.Titular.CPF = t.Result.Pessoa.Inscricao;
-                        D_I_A.Titular.Tel = t.Result.Pessoa.Telefones;
-                        D_I_A.Atividade = t.Result.Atividades;
+                        D_I_A.Titular = t.Result.Titular;
+
+                        if (t.Result.Auxiliar != null)
+                            D_I_A.Auxiliar = t.Result.Auxiliar;
 
                         if (D_I_A.Atividade == string.Empty || D_I_A.Atividade == null)
-                            D_I_A.Atividade = t.Result.DescricaoNegocio;
+                            D_I_A.Atividade = t.Result.Atividade;
 
-                        D_I_A.FormaAtuacao = t.Result.TipoInstalacoes;
+                        D_I_A.FormaAtuacao = t.Result.FormaAtuacao;
                     }
                 }
                 catch (Exception ex)

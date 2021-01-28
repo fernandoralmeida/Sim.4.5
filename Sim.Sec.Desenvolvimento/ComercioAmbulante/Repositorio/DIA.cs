@@ -49,7 +49,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
                 dataAccess.AddParameters("@Processo", obj.Processo);
                 dataAccess.AddParameters("@Situacao", obj.Situacao);
 
-                string _novo = @"INSERT INTO SDT_CAmbulante_DIA 
+                string _novo = @"INSERT INTO SDT_Ambulante_DIA 
 ([InscricaoMunicipal], [Autorizacao], [Titular], [Auxiliar], [Atividade], [FormaAtuacao], [Veiculo], [Emissao], [Validade], [Processo], [Situacao]) 
 VALUES 
 (@InscricaoMunicipal, @Autorizacao, @Titular, @Auxiliar, @Atividade, @FormaAtuacao, @Veiculo, @Emissao, @Validade, @Processo, @Situacao)";
@@ -104,7 +104,7 @@ VALUES
                 dataAccess.AddParameters("@Situacao", obj.Situacao);
                 dataAccess.AddParameters("@Original_Indice", obj.Indice);
 
-                string _novo = @"INSERT INTO SDT_CAmbulante_DIA 
+                string _novo = @"INSERT INTO SDT_Ambulante_DIA 
 ([InscricaoMunicipal], [Autorizacao], [Titular], [Auxiliar], [Atividade], [FormaAtuacao], [Veiculo], [Emissao], [Validade], [Processo], [Situacao]) 
 VALUES 
 (@InscricaoMunicipal, @Autorizacao, @Titular, @Auxiliar, @Atividade, @FormaAtuacao, @Veiculo, @Emissao, @Validade, @Processo, @Situacao)";
@@ -135,7 +135,7 @@ VALUES
 
                 dataAccess.ClearParameters();
 
-                string sql = @"SELECT TOP 10 * FROM SDT_CAmbulante_DIA";
+                string sql = @"SELECT TOP 10 * FROM SDT_Ambulante_DIA";
 
                 //string sql = @"SELECT * FROM SDT_CAmbulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND (Cadastro LIKE @Cadastro + '%') AND (Pessoa LIKE '%' +  @Pessoa + '%') AND (Empresa LIKE '%' +  @Empresa + '%') AND (Ativo = true) ORDER BY Pessoa, DataCadastro";
 
@@ -192,7 +192,7 @@ VALUES
 
                 dataAccess.AddParameters("@Indice", _indice);
 
-                string sql = @"SELECT * FROM SDT_CAmbulante_DIA WHERE (Indice = @Indice)";
+                string sql = @"SELECT * FROM SDT_Ambulante_DIA WHERE (Indice = @Indice)";
 
                 //string sql = @"SELECT * FROM SDT_CAmbulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND (Cadastro LIKE @Cadastro + '%') AND (Pessoa LIKE '%' +  @Pessoa + '%') AND (Empresa LIKE '%' +  @Empresa + '%') AND (Ativo = true) ORDER BY Pessoa, DataCadastro";
 
@@ -244,7 +244,7 @@ VALUES
 
                 string _lastrows = string.Empty;
 
-                string sql = @"SELECT TOP 1 Indice, Autorizacao FROM SDT_CAmbulante_DIA ORDER BY Indice DESC";
+                string sql = @"SELECT TOP 1 Indice, Autorizacao FROM SDT_Ambulante_DIA ORDER BY Indice DESC";
 
                 //string sql = @"SELECT * FROM SDT_CAmbulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND (Cadastro LIKE @Cadastro + '%') AND (Pessoa LIKE '%' +  @Pessoa + '%') AND (Empresa LIKE '%' +  @Empresa + '%') AND (Ativo = true) ORDER BY Pessoa, DataCadastro";
 
@@ -281,7 +281,7 @@ VALUES
                 dataAccess.AddParameters("@FormaAtuacao", _command[5]);
                 dataAccess.AddParameters("@Situacao", _command[6]);
 
-                string sql = @"SELECT * FROM SDT_CAmbulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Autorizacao LIKE @Autorizacao) AND ((Titular LIKE '%' + @Titular + '%') OR (Auxiliar LIKE '%' + @Auxiliar + '%')) AND (Atividade LIKE '%' + @Atividade + '%') AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (Situacao LIKE @Situacao) ORDER BY Emissao DESC";
+                string sql = @"SELECT * FROM SDT_Ambulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Autorizacao LIKE @Autorizacao) AND ((Titular LIKE '%' + @Titular + '%') OR (Auxiliar LIKE '%' + @Auxiliar + '%')) AND (Atividade LIKE '%' + @Atividade + '%') AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (Situacao LIKE @Situacao) ORDER BY Emissao DESC";
 
                 int cont = 1;
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
@@ -323,7 +323,6 @@ VALUES
             }
         }
 
-
         #region Reports
         public ObservableCollection<Model.DIA> DIA_Ativos(List<string> _command)
         {
@@ -339,7 +338,7 @@ VALUES
                 dataAccess.AddParameters("@DateNow", DateTime.Now.ToShortDateString());
                 dataAccess.AddParameters("@DateNow2", new DateTime(2001,1,1));
 
-                string sql = @"SELECT * FROM SDT_CAmbulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Situacao LIKE 'ATIVO') AND ((Validade > @DateNow) OR (Validade = @DateNow2)) ORDER BY Emissao, Validade DESC";
+                string sql = @"SELECT * FROM SDT_Ambulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Situacao LIKE 'ATIVO') AND ((Validade > @DateNow) OR (Validade = @DateNow2)) ORDER BY Emissao, Validade DESC";
 
                 int cont = 1;
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
@@ -392,7 +391,7 @@ VALUES
                 dataAccess.AddParameters("@EmissaoI", _command[0]);
                 dataAccess.AddParameters("@EmissaoF", _command[1]);
 
-                string sql = @"SELECT * FROM SDT_CAmbulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Situacao LIKE 'BAIXADO') ORDER BY Emissao DESC";
+                string sql = @"SELECT * FROM SDT_Ambulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Situacao LIKE 'BAIXADO') ORDER BY Emissao DESC";
 
                 int cont = 1;
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
@@ -448,7 +447,7 @@ VALUES
                 dataAccess.AddParameters("@DateNow2", DateTime.Now.ToShortDateString());
                 
 
-                string sql = @"SELECT * FROM SDT_CAmbulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Situacao LIKE 'ATIVO') AND ((Validade > @DateNow1) AND (Validade < @DateNow2)) ORDER BY Emissao, Validade DESC";
+                string sql = @"SELECT * FROM SDT_Ambulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Situacao LIKE 'ATIVO') AND ((Validade > @DateNow1) AND (Validade < @DateNow2)) ORDER BY Emissao, Validade DESC";
 
                 int cont = 1;
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
@@ -503,7 +502,7 @@ VALUES
                 dataAccess.AddParameters("@EmissaoF", _command[1]);
                 dataAccess.AddParameters("@DateNow", new DateTime(2001,1,1).ToShortDateString());
 
-                string sql = @"SELECT * FROM SDT_CAmbulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Situacao LIKE 'ATIVO') AND (Validade = @DateNow) ORDER BY Emissao, Validade DESC";
+                string sql = @"SELECT * FROM SDT_Ambulante_DIA WHERE (Emissao BETWEEN @EmissaoI AND @EmissaoF) AND (Situacao LIKE 'ATIVO') AND (Validade = @DateNow) ORDER BY Emissao, Validade DESC";
 
                 int cont = 1;
                 foreach (DataRow at in dataAccess.Read(sql).Rows)

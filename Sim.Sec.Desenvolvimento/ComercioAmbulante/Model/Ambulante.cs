@@ -43,7 +43,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
         public string FormaAtuacao
         {
             get { return _formaatuacao; }
-            set { _formaatuacao = value; RaisePropertyChanged("TipoInstalacoes"); }
+            set { _formaatuacao = value; RaisePropertyChanged("FormaAtuacao"); }
         }
         public string HorarioTrabalho
         {

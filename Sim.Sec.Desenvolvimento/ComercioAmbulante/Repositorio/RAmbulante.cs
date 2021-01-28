@@ -25,7 +25,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
                 dataAccess.ClearParameters();
                 dataAccess.AddParameters("@Cadastro", obj.Cadastro);
 
-                if (dataAccess.Read(@"SELECT * FROM SDT_CAmbulante WHERE (Cadastro = @Cadastro) ORDER BY DataCadastro DESC").Rows.Count > 0)
+                if (dataAccess.Read(@"SELECT * FROM SDT_Ambulante WHERE (Cadastro = @Cadastro) ORDER BY DataCadastro DESC").Rows.Count > 0)
                     _exist = true;
 
                 string _pessoa = string.Format(@"{0}/{1}/{2}/{3}",
@@ -173,7 +173,7 @@ VALUES
 
                 //System.Windows.MessageBox.Show(sb.ToString());
 
-                string sql = @"SELECT * FROM SDT_CAmbulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND ((Titular LIKE '%' +  @Titular + '%') OR (Auxiliar LIKE '%' +  @Auxiliar + '%')) AND ((Atividade LIKE '%' + @Atividade + '%') OR (Local LIKE '%' + @Local + '%')) AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (Ativo = true) ORDER BY Titular, DataCadastro";
+                string sql = @"SELECT * FROM SDT_Ambulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND ((Titular LIKE '%' +  @Titular + '%') OR (Auxiliar LIKE '%' +  @Auxiliar + '%')) AND ((Atividade LIKE '%' + @Atividade + '%') OR (Local LIKE '%' + @Local + '%')) AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (Ativo = true) ORDER BY Titular, DataCadastro";
 
                 //System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
 
@@ -232,7 +232,7 @@ VALUES
                 dataAccess.AddParameters("@Cadastro", _cpf_or_ca);
                 dataAccess.AddParameters("@Titular", _cpf_or_ca);
 
-                string sql = @"SELECT * FROM SDT_CAmbulante WHERE ((Cadastro LIKE @Cadastro) OR (Titular LIKE '%' +  @Titular + '%')) AND (Ativo = true) ORDER BY Titular, DataCadastro";
+                string sql = @"SELECT * FROM SDT_Ambulante WHERE ((Cadastro LIKE @Cadastro) OR (Titular LIKE '%' +  @Titular + '%')) AND (Ativo = true) ORDER BY Titular, DataCadastro";
 
                 var ambulante = new Ambulante();
 
@@ -288,7 +288,7 @@ VALUES
                 dataAccess.AddParameters("@FormaAtuacao", _cmd[2]);
                 dataAccess.AddParameters("@HorarioTrabalho", _cmd[3]);
 
-                string sql = @"SELECT * FROM SDT_CAmbulante WHERE (Atividade LIKE '%' + @Atividade + '%') AND (Local LIKE '%' + @Local + '%') AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (HorarioTrabalho LIKE '%' + @HorarioTrabalho + '%') AND (Ativo = true) ORDER BY Titular, DataCadastro";
+                string sql = @"SELECT * FROM SDT_Ambulante WHERE (Atividade LIKE '%' + @Atividade + '%') AND (Local LIKE '%' + @Local + '%') AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (HorarioTrabalho LIKE '%' + @HorarioTrabalho + '%') AND (Ativo = true) ORDER BY Titular, DataCadastro";
 
                 //System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
 

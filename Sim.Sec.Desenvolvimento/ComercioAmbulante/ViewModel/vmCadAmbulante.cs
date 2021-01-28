@@ -576,6 +576,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                 if (t.IsCompleted)
                 {
+
                     Titular = new ObservableCollection<Autorizados>();
                     Titular.Add(new Autorizados()
                     {
@@ -600,6 +601,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                 if (t.IsCompleted)
                 {
+
+                    
                     Auxiliar = new ObservableCollection<Autorizados>();
                     Auxiliar.Add(new Autorizados()
                     {
@@ -627,6 +630,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 if (t.IsCompleted)
                 {
 
+                    System.Windows.MessageBox.Show(t.Result.Contador.ToString());
 
                     if (t.Result != null)
                     {
