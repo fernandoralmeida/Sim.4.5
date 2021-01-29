@@ -24,20 +24,20 @@
 
         <StackPanel Margin="0,42,0,0" Grid.Row="0">
             <WrapPanel HorizontalAlignment="Center">
-                <TextBlock Margin="2" Visibility="Collapsed">
-                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pMain.xaml">EMPRESAS</Hyperlink>
-                </TextBlock>
-                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
                 <TextBlock Margin="2">
                     <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/Shared/View/Pessoa/pMain.xaml">PESSOAS</Hyperlink>
                 </TextBlock>
                 <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
-                <TextBlock Margin="2" >
-                    <Hyperlink NavigateUri="pPerfil.xaml">AMBULANTES</Hyperlink>
+                <TextBlock Margin="2">
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/Ambulantes.xaml">AMBULANTES</Hyperlink>
                 </TextBlock>
                 <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
                 <TextBlock Margin="2" >
                     <Hyperlink NavigateUri="MenuDIA.xaml">D.I.A</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock ToolTip="Cadastro antigo, somente para eventuais consultas!" Margin="2">
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pPerfil.xaml">AMBULANTES - LEGADO</Hyperlink>
                 </TextBlock>
             </WrapPanel>
         </StackPanel>

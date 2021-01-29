@@ -443,8 +443,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 Dias = cbx.Text
             });
 
-            HoraInicio = "0000";
-            HoraFim = "0000";
+            HoraInicio = "00:00";
+            HoraFim = "00:00";
 
             cbx.SelectedIndex = 0;
 

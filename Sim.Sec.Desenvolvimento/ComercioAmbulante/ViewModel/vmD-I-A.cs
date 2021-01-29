@@ -208,6 +208,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             D_I_A.Emissao = DateTime.Now;
             D_I_A.Autorizacao = Autorizacao2020();
             AsyncMostrarDados(AreaTransferencia.CPF);
+            Exits_Dia(AreaTransferencia.CPF);
         }
         #endregion
 
@@ -233,6 +234,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             if (t == null || t == string.Empty)
                 t = string.Format("{0}00000", DateTime.Now.Year);
+            else
+                t = new mMascaras().Remove(t);
             
             ulong n = Convert.ToUInt64(t);
 
@@ -256,6 +259,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             if (t == null || t == string.Empty)
                 t = string.Format("{0}00000", 2020);
+            else
+                t = new mMascaras().Remove(t);
+            
 
             ulong n = Convert.ToUInt64(t);
 
@@ -270,7 +276,33 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             return Convert.ToUInt64(r).ToString(@"000\.000\.0\-00");
         }
-         
+        
+        /// <summary>
+        /// Verifica se o numero do CPF ja tem um D.I.A ativo.
+        /// </summary>
+        /// <param name="_cpf"></param>
+        private async void Exits_Dia(string _cpf)
+        {
+            // retorna um objeto DIA caso haja um cadastrado, [condição: precisa estar ativo ou vencido, se estiver baixado, retorno é nulo]
+            var t = Task<Model.DIA>.Factory.StartNew(() => new Repositorio.DIA().DIA_Existe(_cpf));
+            await t;
+
+            if(t.IsCompleted)
+            {
+                if (_cpf.Contains(t.Result.Titular.CPF))
+                {
+
+                    System.Windows.MessageBox.Show("Ambulante já tem D.I.A ativo no momento!", "Sim.Alerta!");
+                    
+                    AreaTransferencia.DIA_OK = false;
+                    AreaTransferencia.DIA_Cancel_Service = true;
+                    ns.GoBack();
+                }
+
+                //AsyncMessageBox("Ambulante já tem D.I.A ativo no momento", DialogBoxColor.Orange, false);                
+            }
+        }
+
         private async void AsyncMostrarDados(string _cca)
         {
             var t = Task<Ambulante>.Run(() => new Repositorio.RAmbulante().GetAmbulante(_cca));

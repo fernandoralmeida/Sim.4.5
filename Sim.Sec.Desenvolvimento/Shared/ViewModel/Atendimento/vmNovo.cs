@@ -543,6 +543,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         private void GlobalNotifyProperty_GlobalPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DIA_OK")
+            {
                 if (AreaTransferencia.DIA_OK == true)
                 {
                     if (Atendimento.Historico.Length > 0)
@@ -550,7 +551,15 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
 
                     else
                         Atendimento.Historico = string.Format(@"D.I.A GERADO COM SUCESSO, Nº {0}", AreaTransferencia.Numero_DIA);
-                }              
+                }
+                else
+                {
+                    if (AreaTransferencia.DIA_Cancel_Service == true)
+                    {
+                        ServicoRemovido = "D.I.A - NOVA INSCRIÇÃO";
+                    }
+                }
+            }
 
             if (e.PropertyName == "CadAmbulanteOK")
                 if (AreaTransferencia.CadAmbulanteOK == true)

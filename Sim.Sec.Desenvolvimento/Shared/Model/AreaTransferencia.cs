@@ -22,6 +22,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         
         private static string _cad_dia;
         private static string _numero_dia;
+        private static bool _dia_cancel_service = false;
         
         private static bool? _cadpf;
         private static bool? _cadpj;
@@ -68,6 +69,12 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         {
             get { return _numero_dia; }
             set { _numero_dia = value; OnGlobalPropertyChanged("Numero_DIA"); }
+        }
+
+        public static bool DIA_Cancel_Service
+        {
+            get { return _dia_cancel_service; }
+            set { _dia_cancel_service = value; OnGlobalPropertyChanged("DIA_Cancel_Service"); }
         }
 
         public static bool? DIA_OK

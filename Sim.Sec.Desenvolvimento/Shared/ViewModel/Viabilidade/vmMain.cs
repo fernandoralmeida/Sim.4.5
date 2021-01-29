@@ -512,7 +512,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Viabilidade
 
         private async void AsyncViabilidades(List<string> sqlcommand)
         {
-            await Task.Run(() =>
+            await Task.Factory.StartNew(() =>
             {
                 ListarViabilidades = mdata.ViabilidadesNow(sqlcommand);
             });
@@ -523,7 +523,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Viabilidade
 
             string _cliente = new mMascaras().Remove((string)cliente);
 
-            await Task.Run(() =>
+            await Task.Factory.StartNew(() =>
             {
                 FlowDoc.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(delegate ()
                 {

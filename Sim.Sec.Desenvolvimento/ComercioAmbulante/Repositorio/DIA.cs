@@ -235,6 +235,61 @@ VALUES
 
         }
 
+        public Model.DIA DIA_Existe(string _cpf)
+        {
+
+            var dataAccess = Data.Factory.Connecting(DataBase.Base.Desenvolvimento);
+            try
+            {
+                dataAccess.ClearParameters();
+
+                var dia = new Model.DIA();
+
+                dataAccess.AddParameters("@Titular", _cpf);
+
+                string sql = @"SELECT * FROM SDT_Ambulante_DIA WHERE (Titular LIKE '%' + @Titular + '%') AND ((Situacao LIKE 'ATIVO') OR (Situacao LIKE 'VENCIDO')) ";
+
+                //string sql = @"SELECT * FROM SDT_CAmbulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND (Cadastro LIKE @Cadastro + '%') AND (Pessoa LIKE '%' +  @Pessoa + '%') AND (Empresa LIKE '%' +  @Empresa + '%') AND (Ativo = true) ORDER BY Pessoa, DataCadastro";
+
+                int cont = 1;
+                foreach (DataRow at in dataAccess.Read(sql).Rows)
+                {
+                    dia.Indice = (int)at[0];
+                    dia.InscricaoMunicipal = (int)at[1];
+                    dia.Autorizacao = (string)at[2];
+
+                    string[] _titular = at[3].ToString().Split(';');
+                    dia.Titular = new Model.Autorizados() { Nome = _titular[0], CPF = _titular[1], RG = _titular[2], Tel = _titular[3] };
+
+                    string[] _auxiliar = at[4].ToString().Split(';');
+                    dia.Auxiliar = new Model.Autorizados() { Nome = _auxiliar[0], CPF = _auxiliar[1], RG = _auxiliar[2], Tel = _auxiliar[3] };
+
+
+                    dia.Atividade = (string)at[5];
+                    dia.FormaAtuacao = (string)at[6];
+
+                    string[] _veiculo = at[7].ToString().Split(';');
+                    dia.Veiculo = new Model.Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
+
+                    dia.Emissao = (DateTime)at[8];
+                    dia.Validade = (DateTime?)at[9];
+                    dia.Processo = (string)at[10];
+                    dia.Situacao = (string)at[11];
+                    dia.Contador = cont;
+                    cont++;
+                }
+
+                return dia;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                return null;
+                throw new Exception(ex.Message);
+            }
+
+        }
+
         public string UltimaAutorizacao()
         {
             var dataAccess = Data.Factory.Connecting(DataBase.Base.Desenvolvimento);

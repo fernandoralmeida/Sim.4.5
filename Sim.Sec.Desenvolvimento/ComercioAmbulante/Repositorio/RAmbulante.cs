@@ -229,13 +229,13 @@ VALUES
 
                 var ambulante = new Ambulante();
 
-                string ss = string.Empty;
+                //string ss = string.Empty;
 
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
                 {
-
+                    /*
                     for (int i = 0; i < 11; i++)
-                        ss = ss + at[i].ToString();
+                        ss = ss + at[i].ToString();*/
                     
 
                     ambulante.Indice = (int)at[0];
@@ -258,7 +258,7 @@ VALUES
                     ambulante.Contador = 1;
                 }
 
-                System.Windows.MessageBox.Show(ss);
+                //System.Windows.MessageBox.Show(ss);
                 
 
                 return ambulante;
