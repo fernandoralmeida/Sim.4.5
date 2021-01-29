@@ -28,22 +28,17 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
                 if (dataAccess.Read(@"SELECT * FROM SDT_Ambulante WHERE (Cadastro = @Cadastro) ORDER BY DataCadastro DESC").Rows.Count > 0)
                     _exist = true;
 
-                string _pessoa = string.Format(@"{0}/{1}/{2}/{3}",
+                string _pessoa = string.Format(@"{0};{1};{2};{3}",
                     new mMascaras().Remove(obj.Titular.CPF),
                     obj.Titular.Nome,
                     obj.Titular.RG,
                     obj.Titular.Tel);
 
-                string _empresa = string.Empty;
-                if (obj.Auxiliar.CPF != null)
-                {
-                    _empresa = string.Format(@"{0}/{1}/{2}/{3}",
-                        new mMascaras().Remove(obj.Auxiliar.CPF),
-                        obj.Auxiliar.Nome,
-                        obj.Auxiliar.RG,
-                        obj.Auxiliar.Tel);
-                }
-
+                string _empresa = string.Format(@"{0};{1};{2};{3}",
+                       new mMascaras().Remove(obj.Auxiliar.CPF),
+                       obj.Auxiliar.Nome,
+                       obj.Auxiliar.RG,
+                       obj.Auxiliar.Tel);
                 
                 dataAccess.ClearParameters();
 
@@ -127,14 +122,13 @@ VALUES
                     string[] _empresa = at[3].ToString().Split(';');
                     ambulante.Auxiliar = new Autorizados() { CPF = _empresa[0], Nome = _empresa[1], RG = _empresa[2], Tel = _empresa[3] };
 
-                    ambulante.Atividade = (string)at[5];
-                    ambulante.Local = (string)at[6];
-                    ambulante.FormaAtuacao = (string)at[7];
-                    ambulante.HorarioTrabalho = (string)at[8];
-                    ambulante.Local = (string)at[9];
-                    ambulante.DataCadastro = (DateTime)at[14];
-                    ambulante.UltimaAlteracao = (DateTime)at[15];
-                    ambulante.Ativo = (bool)at[21];
+                    ambulante.Atividade = (string)at[4];
+                    ambulante.Local = (string)at[5];
+                    ambulante.FormaAtuacao = (string)at[6];
+                    ambulante.HorarioTrabalho = (string)at[7];
+                    ambulante.DataCadastro = (DateTime)at[8];
+                    ambulante.UltimaAlteracao = (DateTime)at[9];
+                    ambulante.Ativo = (bool)at[10];
 
                     ambulante.Contador = cont;
                     cont++;
@@ -191,14 +185,13 @@ VALUES
                     string[] _empresa = at[3].ToString().Split(';');
                     ambulante.Auxiliar = new Autorizados() { CPF = _empresa[0], Nome = _empresa[1], RG = _empresa[2], Tel = _empresa[3] };
 
-                    ambulante.Atividade = (string)at[5];
-                    ambulante.Local = (string)at[6];
-                    ambulante.FormaAtuacao = (string)at[7];
-                    ambulante.HorarioTrabalho = (string)at[8];
-                    ambulante.Local = (string)at[9];
-                    ambulante.DataCadastro = (DateTime)at[14];
-                    ambulante.UltimaAlteracao = (DateTime)at[15];
-                    ambulante.Ativo = (bool)at[21];
+                    ambulante.Atividade = (string)at[4];
+                    ambulante.Local = (string)at[5];
+                    ambulante.FormaAtuacao = (string)at[6];
+                    ambulante.HorarioTrabalho = (string)at[7];
+                    ambulante.DataCadastro = (DateTime)at[8];
+                    ambulante.UltimaAlteracao = (DateTime)at[9];
+                    ambulante.Ativo = (bool)at[10];
 
                     ambulante.Contador = cont;
                     cont++;
@@ -236,8 +229,14 @@ VALUES
 
                 var ambulante = new Ambulante();
 
+                string ss = string.Empty;
+
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
                 {
+
+                    for (int i = 0; i < 11; i++)
+                        ss = ss + at[i].ToString();
+                    
 
                     ambulante.Indice = (int)at[0];
                     ambulante.Cadastro = (string)at[1];
@@ -248,25 +247,26 @@ VALUES
                     string[] _empresa = at[3].ToString().Split(';');
                     ambulante.Auxiliar = new Autorizados() { CPF = _empresa[0], Nome = _empresa[1], RG = _empresa[2], Tel = _empresa[3] };
 
-                    ambulante.Atividade = (string)at[5];
-                    ambulante.Local = (string)at[6];
-                    ambulante.FormaAtuacao = (string)at[7];
-                    ambulante.HorarioTrabalho = (string)at[8];
-                    ambulante.Local = (string)at[9];
-                    ambulante.DataCadastro = (DateTime)at[14];
-                    ambulante.UltimaAlteracao = (DateTime)at[15];
-                    ambulante.Ativo = (bool)at[21];
+                    ambulante.Atividade = (string)at[4];
+                    ambulante.Local = (string)at[5];
+                    ambulante.FormaAtuacao = (string)at[6];
+                    ambulante.HorarioTrabalho = (string)at[7];
+                    ambulante.DataCadastro = (DateTime)at[8];
+                    ambulante.UltimaAlteracao = (DateTime)at[9];
+                    ambulante.Ativo = (bool)at[10];
 
                     ambulante.Contador = 1;
-
                 }
+
+                System.Windows.MessageBox.Show(ss);
+                
 
                 return ambulante;
             }
             catch (Exception ex)
             {
                 return null;
-                throw new Exception(ex.Message);
+               throw new Exception(ex.Message);
             }
         }
         #endregion
@@ -306,14 +306,13 @@ VALUES
                     string[] _empresa = at[3].ToString().Split(';');
                     ambulante.Auxiliar = new Autorizados() { CPF = _empresa[0], Nome = _empresa[1], RG = _empresa[2], Tel = _empresa[3] };
 
-                    ambulante.Atividade = (string)at[5];
-                    ambulante.Local = (string)at[6];
-                    ambulante.FormaAtuacao = (string)at[7];
-                    ambulante.HorarioTrabalho = (string)at[8];
-                    ambulante.Local = (string)at[9];
-                    ambulante.DataCadastro = (DateTime)at[14];
-                    ambulante.UltimaAlteracao = (DateTime)at[15];
-                    ambulante.Ativo = (bool)at[21];
+                    ambulante.Atividade = (string)at[4];
+                    ambulante.Local = (string)at[5];
+                    ambulante.FormaAtuacao = (string)at[6];
+                    ambulante.HorarioTrabalho = (string)at[7];
+                    ambulante.DataCadastro = (DateTime)at[8];
+                    ambulante.UltimaAlteracao = (DateTime)at[9];
+                    ambulante.Ativo = (bool)at[10];
 
                     ambulante.Contador = cont;
                     cont++;

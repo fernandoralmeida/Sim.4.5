@@ -104,28 +104,28 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
 
     public class Autorizados : NotifyProperty
     {
-        private string _nome;
+        private string _nome = string.Empty;
         public string Nome
         {
             get { return _nome; }
             set { _nome = value; RaisePropertyChanged("Nome"); }
         }
 
-        private string _cpf;
+        private string _cpf = string.Empty;
         public string CPF
         {
             get { return _cpf; }
             set { _cpf = value; RaisePropertyChanged("CPF"); }
         }
 
-        private string _rg;
+        private string _rg = string.Empty;
         public string RG
         {
             get { return _rg; }
             set { _rg = value; RaisePropertyChanged("RG"); }
         }
 
-        private string _tel;
+        private string _tel = string.Empty;
         public string Tel
         {
             get { return _tel; }
@@ -135,21 +135,21 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
 
     public class Veiculo : NotifyProperty
     {
-        private string _modelo;
+        private string _modelo = string.Empty;
         public string Modelo
         {
             get { return _modelo; }
             set { _modelo = value;RaisePropertyChanged("Modelo"); }
         }
 
-        private string _placa;
+        private string _placa = string.Empty;
         public string Placa
         {
             get { return _placa; }
             set { _placa = value; RaisePropertyChanged("Placa"); }
         }
 
-        private string _cor;
+        private string _cor = string.Empty;
         public string Cor
         {
             get { return _cor; }

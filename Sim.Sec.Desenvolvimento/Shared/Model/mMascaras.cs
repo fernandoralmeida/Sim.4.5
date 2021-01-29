@@ -10,10 +10,13 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         public string Remove(string valor)
         {
             var str = valor;
-            str = new string((from c in str
-                              where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
-                              select c
-                   ).ToArray());
+
+            if (str != string.Empty || str != null)
+
+                return str = new string((from c in str
+                                         where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
+                                         select c
+                       ).ToArray());
 
             return str;
         }

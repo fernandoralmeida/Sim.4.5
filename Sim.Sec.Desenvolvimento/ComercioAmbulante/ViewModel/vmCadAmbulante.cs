@@ -55,6 +55,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private int _selectedrow = 0;
         private int _selectedrow2 = 0;
         private string _getcpf;
+        private string _horainicio;
+        private string _horafim;
 
         #endregion
 
@@ -118,6 +120,27 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             {
                 _getoutros = value;
                 RaisePropertyChanged("GetOutros");
+            }
+        }
+
+        public string HoraInicio
+        {
+            get { return _horainicio; }
+            set
+            {
+                _horainicio = value;
+                RaisePropertyChanged("HoraInicio");
+            }
+        }
+
+
+        public string HoraFim
+        {
+            get { return _horafim; }
+            set
+            {
+                _horafim = value;
+                RaisePropertyChanged("HoraFim");
             }
         }
 
@@ -408,14 +431,11 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         public ICommand CommandAddTimeWork => new RelayCommand(p =>
         {
 
-            string _per = string.Empty;
+            string _per = HoraInicio + ";" + HoraFim + ";";
 
             var cbx = (ComboBox)p;
-            /*
-            if (Manha) _per += "MANHÃ;";
-            if (Tarde) _per += "TARDE;";
-            if (Noite) _per += "NOITE;";
-
+            /**/
+            
             ListarTimeWork.Add(new mPeriodos()
             {
                 Ativo = true,
@@ -423,9 +443,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 Dias = cbx.Text
             });
 
-            Manha = false;
-            Tarde = false;
-            Noite = false;*/
+            HoraInicio = "0000";
+            HoraFim = "0000";
+
             cbx.SelectedIndex = 0;
 
         });
@@ -459,7 +479,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             ViewMessageBox = Visibility.Collapsed;
             ExisteAuxiliar = Visibility.Visible;
             IsOutros = false;
-
+            HoraInicio = "00:00";
+            HoraFim = "00:00";
             StartProgress = false;
             Ambulante.Cadastro = Codigo();
             AsyncMostrarDados(AreaTransferencia.CPF);
@@ -485,8 +506,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #region Functions
         private string Codigo()
         {
-            string r = string.Empty;
-
             string a = DateTime.Now.Year.ToString("0000");
             string m = DateTime.Now.Month.ToString("00");
             string d = DateTime.Now.Day.ToString("00");
@@ -495,9 +514,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             string mn = DateTime.Now.Minute.ToString("00");
             string ss = DateTime.Now.Second.ToString("00");
 
-            r = string.Format(@"CCA{0}{1}{2}{3}{4}{5}",
-                a, m, d, hs, mn, ss);
-
+            string r = string.Format(@"CCA{0}{1}{2}{3}{4}{5}",
+    a, m, d, hs, mn, ss);
+            
             return r;
         }
 
@@ -510,16 +529,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             if (Auxiliar.Count > 0)
                 Ambulante.Auxiliar = Auxiliar[0];
-
-            string _ativ = string.Empty;
-
-            /*
-            foreach (mCNAE a in ListaAtividades)
-            {
-                _ativ += string.Format("{0} - {1};", new mMascaras().CNAE(a.CNAE), a.Ocupacao);
-            }*/
-
-            Ambulante.Atividade = _ativ;
 
             string _instalacao = string.Empty;
 
@@ -540,7 +549,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             Ambulante.HorarioTrabalho = _pwork;
 
-            //Ambulante.DataCadastro = DateTime.Now;
             Ambulante.UltimaAlteracao = DateTime.Now;
             Ambulante.Ativo = true;
 
@@ -600,9 +608,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 await t;
 
                 if (t.IsCompleted)
-                {
-
-                    
+                {                    
                     Auxiliar = new ObservableCollection<Autorizados>();
                     Auxiliar.Add(new Autorizados()
                     {
@@ -628,28 +634,28 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 await t;
 
                 if (t.IsCompleted)
-                {
+                {                    
 
-                    System.Windows.MessageBox.Show(t.Result.Contador.ToString());
-
-                    if (t.Result != null)
+                    if (t.Result != null && t.Result.Cadastro != string.Empty)
                     {
-
                         Ambulante = t.Result;
                         Titular.Clear();
                         Auxiliar.Clear();
                         Titular.Add(t.Result.Titular);
                         Auxiliar.Add(t.Result.Auxiliar);
 
+
                         if (Auxiliar[0].CPF == string.Empty)
                         {
                             SomentePF = true;
                             TemEmpresa = Visibility.Visible;
+                            ExisteAuxiliar = Visibility.Collapsed;
                         }
                         else
                         {
                             SomentePF = false;
                             TemEmpresa = Visibility.Collapsed;
+                            ExisteAuxiliar = Visibility.Visible;
                         }
 
 
@@ -693,12 +699,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         }
 
                         ViewInfo = Visibility.Visible;
-
-
                     }
                     else
-                        AsyncTitular(AreaTransferencia.CPF);
-                    
+                        AsyncTitular(AreaTransferencia.CPF);                    
 
                 }
 

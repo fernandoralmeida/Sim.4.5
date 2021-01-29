@@ -88,7 +88,7 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <CheckBox IsChecked="{Binding TemEmpresa}" Content="TITULAR POSSUI EMPRESA" Margin="2"/>
+                            <CheckBox Visibility="Collapsed" IsChecked="{Binding TemEmpresa}" Content="TITULAR POSSUI EMPRESA" Margin="2"/>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding ExisteAuxiliar}">
                                 <TextBox Text="{Binding GetCPF}" Margin="2,0" MinWidth="100" Grid.Row="1" Grid.Column="0"/>
                                 <Button Command="{Binding CommandGetCPF}" Margin="2,0" Grid.Row="1" Grid.Column="1">
@@ -168,7 +168,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Content="ATIVIDADE:" Grid.Row="4" Margin="2,5,2,0" FontSize="10"/>
-                            <TextBox Grid.ColumnSpan="4" CharacterCasing="Upper" Text="{Binding Ambulante.DescricaoNegocio}" Grid.Row="5" Margin="2,0,2,2" AcceptsReturn="True" MinLines="4" />
+                            <TextBox Grid.ColumnSpan="4" CharacterCasing="Upper" Text="{Binding Ambulante.Atividade}" Grid.Row="5" Margin="2,0,2,2" AcceptsReturn="True" MinLines="4" />
 
                         </Grid>
 
@@ -186,9 +186,10 @@
                                 <CheckBox Content="TRAILER" IsChecked="{Binding IsTrailer}" FontSize="10" Margin="2"/>
                                 <CheckBox Content="CARRINHO" IsChecked="{Binding IsCarrinho}" FontSize="10" Margin="2"/>
                                 <CheckBox Content="OUTROS" IsChecked="{Binding IsOutros}" FontSize="10" Margin="2"/>
+                                <TextBox Grid.Row="3" Text="{Binding GetOutros}" Visibility="{Binding TextBoxOutrosView}" CharacterCasing="Upper" MinWidth="50" Margin="2" HorizontalAlignment="Left"/>
                             </StackPanel>
-                            <Label Grid.Row="2" Visibility="{Binding TextBoxOutrosView}" Content="DESCREVA OUTROS" Margin="2,5,2,0" FontSize="10"/>
-                            <TextBox Grid.Row="3" Text="{Binding GetOutros}" Visibility="{Binding TextBoxOutrosView}" CharacterCasing="Upper" MinWidth="50" Margin="2" HorizontalAlignment="Left"/>
+                            <Label Content="LOCAL / PONTO DE REFERENCIA" Margin="2" FontSize="10" Grid.Row="2"/>
+                            <TextBox Text="{Binding Ambulante.Local}" CharacterCasing="Upper" Grid.Row="3" Margin="2,0"/>
                         </Grid>
 
                         <Grid Grid.Row="3" Margin="2,0,2,10">
@@ -218,9 +219,9 @@
                                     <ComboBoxItem Content="DATAS FESTIVAS"/>
                                 </ComboBox>
                                 <Label Content="HORÁRIO:" Margin="2" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding HoraInicio}"  Margin="2" MinWidth="30"/>
+                                <TextBox Text="{Binding HoraInicio, StringFormat=hh:mm}"  Margin="2" MinWidth="30"/>
                                 <Label Content="ÀS" Margin="2" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding HoraFim}" Margin="2" MinWidth="30" />
+                                <TextBox Text="{Binding HoraFim, StringFormat=hh:mm}" Margin="2" MinWidth="30" />
                                 <Button ToolTip="Adicionar" Grid.Column="1" Grid.Row="1" Margin="2" Command="{Binding CommandAddTimeWork}">
                                     <Path Stretch="Uniform" Width="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                                           Data="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" />
@@ -244,20 +245,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
-
-                        <Grid Grid.Row="4" Margin="2,5" HorizontalAlignment="Left">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="LOCAL DE TRABALHO" Margin="2,5,2,0" FontSize="10" Grid.Row="2"/>
-                            <TextBox Text="{Binding Ambulante.Local}" CharacterCasing="Upper" Grid.Row="3" Margin="2,0"/>
-                            <StackPanel Grid.Row="4" Margin="2,5"/>
-                        </Grid>
-
+                        
                     </Grid>
 
                     <Grid Grid.Row="3" Margin="7,0,7,5" Visibility="{Binding ViewInfo}">
@@ -282,7 +270,7 @@
                         <DatePicker SelectedDate="{Binding Ambulante.DataCadastro, StringFormat=dd/MM/yyyy}" Grid.Column="0" Grid.Row="6" Margin="2,0" />
 
                         <Label Content="ULTIMA ALTERAÇÃO:" Grid.Row="5" Grid.Column="1"  Margin="2,5,2,0" FontSize="10"/>
-                        <DatePicker SelectedDate="{Binding Ambulante.DataAlteracao, StringFormat=dd/MM/yyyy}" Grid.Row="6" Grid.Column="1" Margin="2,0" />
+                        <DatePicker SelectedDate="{Binding Ambulante.UltimaAlteracao, StringFormat=dd/MM/yyyy}" Grid.Row="6" Grid.Column="1" Margin="2,0" />
 
                         <Label Visibility="Collapsed" Content="ATIVO" Grid.Row="1" Grid.Column="2"  Margin="20,5,20,0" FontSize="10"/>
                         <CheckBox Visibility="Collapsed" IsChecked="{Binding Atendimento.Ativo}" Grid.Row="2" Grid.Column="2" Margin="10,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
