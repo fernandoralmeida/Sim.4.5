@@ -25,7 +25,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         NavigationService ns;
         private DIA _dia = new DIA();
 
-        private Repositorio.DIA DataDIA = new Repositorio.DIA();
+        private Repositorio.RDIA DataDIA = new Repositorio.RDIA();
 
         private bool _expander_veiculo;
         private bool _expander_auxiliar;
@@ -107,12 +107,16 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     AuxiliarSimNao = "TEM AUXILIAR";
                     D_I_A.Auxiliar.Nome = string.Empty;
                     D_I_A.Auxiliar.RG = string.Empty;
+                    D_I_A.Auxiliar.Tel = string.Empty;
+                    D_I_A.Auxiliar.CPF = string.Empty;
                 }
                 else
                 {
                     AuxiliarSimNao = "NÃO TEM AUXILIAR";
                     D_I_A.Auxiliar.Nome = "-";
                     D_I_A.Auxiliar.RG = "-";
+                    D_I_A.Auxiliar.CPF = "-";
+                    D_I_A.Auxiliar.Tel = "-";
                 }
 
                 RaisePropertyChanged("Expand_Auxiliar");
@@ -230,7 +234,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         {
             var t = string.Empty;
 
-            Task.Run(() => t = new Repositorio.DIA().UltimaAutorizacao()).Wait();
+            Task.Run(() => t = new Repositorio.RDIA().UltimaAutorizacao()).Wait();
 
             if (t == null || t == string.Empty)
                 t = string.Format("{0}00000", DateTime.Now.Year);
@@ -255,7 +259,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         {
             var t = string.Empty;
 
-            Task.Run(() => t = new Repositorio.DIA().UltimaAutorizacao()).Wait();
+            Task.Run(() => t = new Repositorio.RDIA().UltimaAutorizacao()).Wait();
 
             if (t == null || t == string.Empty)
                 t = string.Format("{0}00000", 2020);
@@ -284,22 +288,22 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private async void Exits_Dia(string _cpf)
         {
             // retorna um objeto DIA caso haja um cadastrado, [condição: precisa estar ativo ou vencido, se estiver baixado, retorno é nulo]
-            var t = Task<Model.DIA>.Factory.StartNew(() => new Repositorio.DIA().DIA_Existe(_cpf));
+            var t = Task<Model.DIA>.Factory.StartNew(() => new Repositorio.RDIA().DIA_Existe(_cpf));
             await t;
 
             if(t.IsCompleted)
             {
-                if (_cpf.Contains(t.Result.Titular.CPF))
+                if (_cpf == t.Result.Titular.CPF)
                 {
-
-                    System.Windows.MessageBox.Show("Ambulante já tem D.I.A ativo no momento!", "Sim.Alerta!");
-                    
                     AreaTransferencia.DIA_OK = false;
                     AreaTransferencia.DIA_Cancel_Service = true;
-                    ns.GoBack();
+                    AsyncMessageBox("Ambulante já tem D.I.A ativo no momento", DialogBoxColor.Red, true); 
+                    //System.Windows.MessageBox.Show("Ambulante já tem D.I.A ativo no momento!", "Sim.Alerta!");              
+
+                    //ns.GoBack();
                 }
 
-                //AsyncMessageBox("Ambulante já tem D.I.A ativo no momento", DialogBoxColor.Orange, false);                
+                               
             }
         }
 
@@ -334,7 +338,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private async void Gravar_DIA(DIA obj)
         {
 
-            var t = Task<int>.Factory.StartNew(() => new Repositorio.DIA().Gravar(obj));
+            var t = Task<int>.Factory.StartNew(() => new Repositorio.RDIA().Gravar(obj));
 
             await t;
 

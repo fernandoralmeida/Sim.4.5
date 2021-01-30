@@ -347,7 +347,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             MainBox = Visibility.Visible;
             Filtros.Clear();            
 
-            var t = Task<ObservableCollection<Model.DIA>>.Run(()=> new Repositorio.DIA().DIA_Ativos(Parametros()));
+            var t = Task<ObservableCollection<Model.DIA>>.Run(()=> new Repositorio.RDIA().DIA_Ativos(Parametros()));
             
             await t;
 
@@ -369,7 +369,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             MainBox = Visibility.Visible;
             Filtros.Clear();
 
-            var t = Task<ObservableCollection<Model.DIA>>.Run(() => new Repositorio.DIA().DIA_Vencidos(Parametros()));
+            var t = Task<ObservableCollection<Model.DIA>>.Run(() => new Repositorio.RDIA().DIA_Vencidos(Parametros()));
 
             await t;
 
@@ -391,7 +391,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             MainBox = Visibility.Visible;
             Filtros.Clear();
 
-            var t = Task<ObservableCollection<Model.DIA>>.Run(() => new Repositorio.DIA().DIA_Sem_Data_Vencimento(Parametros()));
+            var t = Task<ObservableCollection<Model.DIA>>.Run(() => new Repositorio.RDIA().DIA_Sem_Data_Vencimento(Parametros()));
 
             await t;
 

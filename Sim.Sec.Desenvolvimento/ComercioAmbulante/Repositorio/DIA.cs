@@ -10,7 +10,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
     using Mvvm.Observers;
     using Shared.Model;
 
-    public class DIA : NotifyProperty
+    public class RDIA : NotifyProperty
     {
         public int Gravar(Model.DIA obj)
         {
@@ -109,7 +109,7 @@ VALUES
 VALUES 
 (@InscricaoMunicipal, @Autorizacao, @Titular, @Auxiliar, @Atividade, @FormaAtuacao, @Veiculo, @Emissao, @Validade, @Processo, @Situacao)";
 
-                string _update = @"UPDATE SDT_CAmbulante_DIA SET
+                string _update = @"UPDATE SDT_Ambulante_DIA SET
 [InscricaoMunicipal] = @PesInscricaoMunicipalsoa, [Autorizacao] = @Autorizacao, [Titular] = @Titular, [Auxiliar] = @Auxiliar, [Atividade] = @Atividade, [FormaAtuacao] = @FormaAtuacao, [Veiculo] = @Veiculo, [Emissao] = @Emissao, [Validade] = @Validade, [Processo] = @Processo, [Situacao] = @Situacao WHERE (Indice = @Original_Indice)";
 
 

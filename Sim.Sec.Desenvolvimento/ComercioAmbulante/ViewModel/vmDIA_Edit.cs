@@ -23,7 +23,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         NavigationService ns;
         private DIA _dia = new DIA();
 
-        private Repositorio.DIA DataDIA = new Repositorio.DIA();
+        private Repositorio.RDIA DataDIA = new Repositorio.RDIA();
 
         private bool _expander_veiculo;
         private bool _expander_auxiliar;
@@ -107,13 +107,17 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 if (value == true)
                 {
                     AuxiliarSimNao = "TEM AUXILIAR";
+                    D_I_A.Auxiliar.CPF = string.Empty;
                     D_I_A.Auxiliar.Nome = string.Empty;
+                    D_I_A.Auxiliar.Tel = string.Empty;
                     D_I_A.Auxiliar.RG = string.Empty;
                 }
                 else
                 {
                     AuxiliarSimNao = "NÃO TEM AUXILIAR";
+                    D_I_A.Auxiliar.CPF = "-";
                     D_I_A.Auxiliar.Nome = "-";
+                    D_I_A.Auxiliar.Tel = "-";
                     D_I_A.Auxiliar.RG = "-";
                 }
 
@@ -203,9 +207,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             BlackBox = Visibility.Collapsed;
             ViewMessageBox = Visibility.Collapsed;
             StartProgress = false;
-            Expand_Auxiliar = true;
-            Expand_Veiculo = true;
-            Expand_Validade = true;
             D_I_A.Emissao = DateTime.Now;
             AsyncMostrarDados(AreaTransferencia.Indice);
         }
@@ -227,7 +228,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private async void AsyncMostrarDados(int indice)
         {
-            var t = Task<Model.DIA>.Run(() => new Repositorio.DIA().GetDIA(indice));
+            var t = Task<Model.DIA>.Run(() => new Repositorio.RDIA().GetDIA(indice));
 
             await t;
 
@@ -265,6 +266,16 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                             Unidade = Convert.ToInt32(_anos);
                             Unidade_Tempo = "ANO";
                         }
+
+                        if (D_I_A.Auxiliar.Nome == "-")
+                            Expand_Auxiliar = false;
+
+                        if (D_I_A.Veiculo.Modelo == "-")
+                            Expand_Veiculo = false;
+
+                        if (D_I_A.Validade == new DateTime(2001, 1, 1))
+                            _expander_validade = false;
+
                     }
                 }
                 catch (Exception ex)
@@ -277,7 +288,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private async void Gravar_DIA(DIA obj)
         {
 
-            var t = Task<int>.Factory.StartNew(() => new Repositorio.DIA().Alterar(obj));
+            var t = Task<int>.Factory.StartNew(() => new Repositorio.RDIA().Alterar(obj));
 
             await t;
 

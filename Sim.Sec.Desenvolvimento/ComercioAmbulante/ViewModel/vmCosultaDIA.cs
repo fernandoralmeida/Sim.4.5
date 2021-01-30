@@ -198,7 +198,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         public ICommand CommandPrintProfile => new RelayCommand(p =>
         {
 
-            var t = Task<Model.DIA>.Run(() => new Repositorio.DIA().GetDIA((int)p));
+            var t = Task<Model.DIA>.Run(() => new Repositorio.RDIA().GetDIA((int)p));
             t.Wait();
             AreaTransferencia.Objeto = t.Result;
             ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.RelativeOrAbsolute));
@@ -337,7 +337,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             PrintBox = Visibility.Collapsed;
             MainBox = Visibility.Visible;
 
-            var t = Task.Factory.StartNew(() => new Repositorio.DIA().Consultar(sqlcommand))
+            var t = Task.Factory.StartNew(() => new Repositorio.RDIA().Consultar(sqlcommand))
                 .ContinueWith(task =>
                 {
                     if (task.IsCompleted)
