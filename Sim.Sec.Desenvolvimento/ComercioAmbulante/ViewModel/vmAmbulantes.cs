@@ -129,7 +129,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         {
             ns = GlobalNavigation.NavService;
 
-            GlobalNavigation.Pagina = "";
+            GlobalNavigation.Pagina = "PERFIL AMBULANTE";
 
             if (Logged.Acesso == (int)AccountAccess.Master)
                 IsEnable = true;

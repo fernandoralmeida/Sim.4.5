@@ -18,6 +18,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         private int _valor;
         private string _nome;
         private bool _ativo;
+        private string _origem;
         #endregion
 
         #region Properties
@@ -57,6 +58,12 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
                 RaisePropertyChanged("Ativo");
             }
         }
+
+        public string Origem
+        {
+            get { return _origem; }
+            set { _origem = value; RaisePropertyChanged("Origem"); }
+        }
         #endregion
 
         #region Functions
@@ -67,6 +74,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
             Nome = string.Empty;
             Valor = 0;
             Ativo = true;
+            Origem = string.Empty;
         }
 
         #endregion

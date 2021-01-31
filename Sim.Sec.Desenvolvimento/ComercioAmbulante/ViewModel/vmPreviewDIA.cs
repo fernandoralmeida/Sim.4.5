@@ -273,6 +273,11 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     Validade = Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
                 else
                     Validade = Convert.ToInt32(mes).ToString() + " MESES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+
+                if (Ambulante.Validade < DateTime.Now.Date)
+                {
+                    Validade = "VENCIDO";
+                }
             }
         }
         #endregion

@@ -23,27 +23,17 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         private mData mdata = new mData();
         private mAtendimento _atendimento = new mAtendimento();
         private ObservableCollection<mTiposGenericos> _origemat = new ObservableCollection<mTiposGenericos>();
-        private ObservableCollection<mTiposGenericos> _servicos = new ObservableCollection<mTiposGenericos>();
+        private ObservableCollection<string> _servicos = new ObservableCollection<string>();
         private ObservableCollection<mCliente> _pf = new ObservableCollection<mCliente>();
         private ObservableCollection<mCliente> _lpj = new ObservableCollection<mCliente>();
         private ObservableCollection<mCliente> _pj = new ObservableCollection<mCliente>();
         private ObservableCollection<string> _servicosrealizados = new ObservableCollection<string>();
-        //System.Data.DataTable _tipo = Data.Factory.Connecting(DataBase.Base.Desenvolvimento).Read("SELECT * FROM SDT_Atendimento_Tipos ORDER BY Valor");
 
         private string _protocolo = string.Empty;
-        private string _servicoselecionado = string.Empty;
-        private string _servicoremovido = string.Empty;
         private Visibility _cabecalho;
         private Visibility _corpo;
         private Visibility _viewlistapj;
         
-        private ICommand _commandpesquisarinscricao;
-        private ICommand _commandviabilidade;
-        private ICommand _commandsave;
-        private ICommand _commandcancel;
-        private ICommand _commandcancelcliente;
-        private ICommand _commandalterar;
-        private ICommand _commandselectedcnpj;
         #endregion
 
         #region Properties
@@ -52,12 +42,13 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             get { return _origemat; }
             set
             {
-                _origemat = value;
+                _origemat = value;                
+
                 RaisePropertyChanged("OrigemAtendimento");
             }
         }
 
-        public ObservableCollection<mTiposGenericos> Servicos
+        public ObservableCollection<string> Servicos
         {
             get
             {
@@ -76,6 +67,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             set
             {
                 _servicosrealizados = value;
+                
                 RaisePropertyChanged("ServicosRealizados");
             }
         }
@@ -86,7 +78,13 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             set
             {
                 _atendimento = value;
+
                 RaisePropertyChanged("Atendimento");
+
+                if (_atendimento.Origem > -1)
+                {
+                    AsyncServicos(OrigemAtendimento[Atendimento.Origem].Nome);
+                }
             }
         }
 
@@ -130,93 +128,6 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             }
         }
 
-        public string ServicoSelecionado
-        {
-            get { return _servicoselecionado; }
-            set
-            {
-                _servicoselecionado = value;
-
-                if (_servicoselecionado != string.Empty && _servicoselecionado != null && _servicoselecionado != "...")
-                {
-                    if (!ServicosRealizados.Any(l => l == _servicoselecionado) || ServicosRealizados.Any(l => l == "INSCRIÇÃO"))
-                    {
-
-                        Atendimento.Tipo = 0;
-
-                        switch (_servicoselecionado)
-                        {
-                            case "INSCRIÇÃO":
-                                Atendimento.Tipo = 3;
-                                break;
-
-                            case "MEI - FORMALIZAÇÃO":
-                                Atendimento.Tipo = 7;
-                                break;
-
-                            case "MEI - ALTERAÇÃO":
-                                Atendimento.Tipo = 8;
-                                break;
-
-                            case "MEI - BAIXA":
-                                Atendimento.Tipo = 9;
-                                break;
-
-                            case "MEI - VIABILIDADE":
-                                Atendimento.Tipo = 10;
-                                break;
-
-                            case "CADASTRO DE COMÉRCIO AMBULANTE":
-                                Atendimento.Tipo = 12;
-                                break;
-
-                            case "D.I.A - NOVA INSCRIÇÃO":
-                                Atendimento.Tipo = 17; 
-                                break;
-
-                            case "D.I.A - RENOVAÇÃO":
-                                Atendimento.Tipo = 18;
-                                break;
-
-                            case "D.I.A - BAIXA":
-                                Atendimento.Tipo = 19;
-                                break;
-
-                            case "D.I.A - 2ª VIA":
-                                Atendimento.Tipo = 20;
-                                break;
-                        }
-
-                        ExecuteCommandViabilidade(null);
-
-                        ServicosRealizados.Add(_servicoselecionado);
-                    }
-                }
-
-                RaisePropertyChanged("ServicoSelecionado");
-            }
-        }
-
-        public string ServicoRemovido
-        {
-            get { return _servicoremovido; }
-            set
-            {
-                _servicoremovido = value;
-
-                if (_servicoremovido != string.Empty)
-                {
-                    if (ServicosRealizados.Any(l => l == _servicoremovido))
-                    {
-                        ServicosRealizados.Remove(_servicoremovido);
-                        ServicoSelecionado = "...";
-                    }
-                }
-
-                RaisePropertyChanged("ServicoRemovido");
-            }
-        }
-
         public string PageName
         {
             get { return GlobalNavigation.Pagina; }
@@ -255,17 +166,131 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         #endregion
 
         #region Commands
-        public ICommand CommandPesquisarInscricao
+        public ICommand CommandAddService => new RelayCommand(p =>
         {
-            get
-            {
-                if (_commandpesquisarinscricao == null)
-                    _commandpesquisarinscricao = new DelegateCommand(ExecuteCommandPesquisarInscricao, null);
-                return _commandpesquisarinscricao;
-            }
-        }
 
-        private void ExecuteCommandPesquisarInscricao(object obj)
+        ServicosRealizados.Add(p.ToString());
+        Servicos.Remove(p.ToString());
+
+        try
+        {
+
+                switch (p.ToString())
+                {
+                    case "INSCRIÇÃO":
+                        Atendimento.Tipo = 3;
+                        AreaTransferencia.InscricaoOK = false;
+                        AreaTransferencia.CPF = Atendimento.Cliente.Inscricao;
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Agenda/pInscricao.xaml", UriKind.Relative));
+                        break;
+
+                    case "MEI - FORMALIZAÇÃO":
+                        Atendimento.Tipo = 7;
+                        AreaTransferencia.MEI_F = true;
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
+                        break;
+
+                    case "MEI - ALTERAÇÃO":
+                        Atendimento.Tipo = 8;
+                        AreaTransferencia.MEI_A = true;
+                        AreaTransferencia.CNPJ = PJ[0].Inscricao;
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
+                        break;
+
+                    case "MEI - BAIXA":
+                        Atendimento.Tipo = 9;
+                        AreaTransferencia.MEI_B = true;
+                        AreaTransferencia.CNPJ = PJ[0].Inscricao;
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
+                        break;
+
+                    case "MEI - VIABILIDADE":
+                        Atendimento.Tipo = 10;
+                        AreaTransferencia.ViabilidadeOK = false;
+                        AreaTransferencia.CPF = Atendimento.Cliente.Inscricao;
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Viabilidade/pView.xaml", UriKind.Relative));
+                        break;
+
+                    case "CADASTRO DE COMÉRCIO AMBULANTE":
+                        Atendimento.Tipo = 12;
+                        AreaTransferencia.CadAmbulanteOK = false;
+                        AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
+
+                        if (PJ.Count > 0)
+                            AreaTransferencia.CNPJ = PJ[0].Inscricao;
+                        else
+                            AreaTransferencia.CNPJ = string.Empty;
+
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/CadAmbulante.xaml", UriKind.Relative));
+                        break;
+
+                    case "D.I.A - NOVA INSCRIÇÃO":
+                        Atendimento.Tipo = 17;
+                        AreaTransferencia.DIA_OK = false;
+                        AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/D-I-A.xaml", UriKind.Relative));
+                        break;
+
+                    case "D.I.A - RENOVAÇÃO":
+                        Atendimento.Tipo = 18;
+                        AreaTransferencia.DIA_OK = false;
+                        AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
+                        AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Renov.xaml", UriKind.Relative));
+                        break;
+
+                    case "D.I.A - BAIXA":
+                        Atendimento.Tipo = 19;
+                        AreaTransferencia.DIA_OK = false;
+                        AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
+                        AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Edit.xaml", UriKind.Relative));
+                        break;
+
+                    case "D.I.A - 2ª VIA":
+                        Atendimento.Tipo = 20;
+                        AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
+
+                        var t = Task<ComercioAmbulante.Model.DIA>.Factory.StartNew(() => new ComercioAmbulante.Repositorio.RDIA().DIA_Existe(AreaTransferencia.CPF));
+                        t.Wait();
+
+                        if (t.IsCompleted)
+                        {
+
+                            if (t.Result.Titular.Nome != string.Empty)
+                            {
+                                AreaTransferencia.Objeto = t.Result;
+                                ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));
+                            }
+                            else
+                                AsyncMessageBox("Não existe D.I.A emitido", DialogBoxColor.Red, false);
+                        }
+
+                        break;
+
+                    case "D.I.A - ALTERAÇÃO":
+                        Atendimento.Tipo = 17;
+                        AreaTransferencia.DIA_OK = false;
+                        AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
+                        AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
+                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Edit.xaml", UriKind.Relative));
+                        break;
+                }
+            }
+            catch
+            {
+                AsyncMessageBox("Serviço inválido!", DialogBoxColor.Red, false);
+            }
+
+        });
+
+        public ICommand CommandRemoveService => new RelayCommand(p => {
+
+            Servicos.Add(p.ToString());
+            ServicosRealizados.Remove(p.ToString());        
+        });
+
+        public ICommand CommandPesquisarInscricao => new RelayCommand(p =>
         {
             try
             {
@@ -289,28 +314,17 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                 }
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            { AsyncMessageBox(ex.Message, DialogBoxColor.Red, false); }
+        });
 
-        }
 
-        public ICommand CommandAlterar
-        {
-            get
-            {
-                if (_commandalterar == null)
-                    _commandalterar = new DelegateCommand(ExecuteCommandAlterar, null);
-                return _commandalterar;
-            }
-        }
-
-        private void ExecuteCommandAlterar(object obj)
-        {
+        public ICommand CommandAlterar => new RelayCommand(p=> {
             try
             {
                 if (Atendimento.Cliente.Inscricao == string.Empty)
                     return;
 
-                string identificador = new mMascaras().Remove((string)obj);
+                string identificador = new mMascaras().Remove((string)p);
 
                 //Cliente.Clear();
                 //PJ.Clear();
@@ -320,114 +334,31 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                 {
                     case 11:
                         ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Pessoa/pNovo.xaml", UriKind.Relative));
-                        AreaTransferencia.CPF = (string)obj;// Atendimento.Cliente.Inscricao;
+                        AreaTransferencia.CPF = (string)p;// Atendimento.Cliente.Inscricao;
                         AreaTransferencia.CadPF = true;
                         break;
 
                     case 14:
                         ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
-                        AreaTransferencia.CNPJ = (string)obj; // Atendimento.Cliente.Inscricao;
+                        AreaTransferencia.CNPJ = (string)p; // Atendimento.Cliente.Inscricao;
                         AreaTransferencia.CadPJ = true;
                         break;
                 }
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
-        }
+            { AsyncMessageBox(ex.Message, DialogBoxColor.Red, false); }
+        });
 
-        public ICommand CommandViabilidade
-        {
-            get
-            {
-                if (_commandviabilidade == null)
-                    _commandviabilidade = new DelegateCommand(ExecuteCommandViabilidade, null);
-                return _commandviabilidade;
-            }
-        }
+        public ICommand CommandSave => new RelayCommand(p => {
 
-        private void ExecuteCommandViabilidade(object obj)
-        {
-            switch (Atendimento.Tipo)
-            {
-
-                case 3:
-                    AreaTransferencia.InscricaoOK = false;
-                    AreaTransferencia.CPF = Atendimento.Cliente.Inscricao;
-                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Agenda/pInscricao.xaml", UriKind.Relative));
-                    break;
-
-                case 10:
-                    AreaTransferencia.ViabilidadeOK = false;
-                    AreaTransferencia.CPF = Atendimento.Cliente.Inscricao;
-                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Viabilidade/pView.xaml", UriKind.Relative));
-                    break;
-
-                case 7:
-                    AreaTransferencia.MEI_F = true;
-                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
-                    break;
-
-                case 8:
-                    AreaTransferencia.MEI_A = true;
-                    AreaTransferencia.CNPJ = PJ[0].Inscricao;
-                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
-                    break;
-
-                case 9:
-                    AreaTransferencia.MEI_B = true;
-                    AreaTransferencia.CNPJ = PJ[0].Inscricao;
-                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
-                    break;
-
-                case 12:
-                    AreaTransferencia.CadAmbulanteOK = false;
-                    AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
-
-                    if (PJ.Count > 0)
-                        AreaTransferencia.CNPJ = PJ[0].Inscricao;
-                    else
-                        AreaTransferencia.CNPJ = string.Empty;
-
-                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/CadAmbulante.xaml", UriKind.Relative));
-                    break;
-
-                case 17:
-                    AreaTransferencia.DIA_OK = false;
-                    AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
-                    ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/D-I-A.xaml", UriKind.Relative));
-                    break;
-            }
-        }
-
-        public ICommand CommandSave
-        {
-            get
-            {
-                if (_commandsave == null)
-                    _commandsave = new DelegateCommand(ExecuteCommandSave, null);
-                return _commandsave;
-            }
-        }
-
-        private void ExecuteCommandSave(object obj)
-        {
             StartProgress = true;
             BlackBox = Visibility.Visible;
             Gravar();
-        }
 
-        public ICommand CommandCancel
-        {
-            get
-            {
-                if (_commandcancel == null)
-                    _commandcancel = new DelegateCommand(ExecuteCommandCancel, null);
-                return _commandcancel;
-            }
-        }
+        });
 
-        private void ExecuteCommandCancel(object obj)
-        {
+        public ICommand CommandCancel => new RelayCommand(p => {
+
             Atendimento.Clear();
             PJ.Clear();
             PF.Clear();
@@ -437,20 +368,10 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             Cabecalho = Visibility.Visible;
             if (ns.CanGoBack)
                 ns.GoBack();
-        }
+        });
 
-        public ICommand CommandCancelCliente
-        {
-            get
-            {
-                if (_commandcancelcliente == null)
-                    _commandcancelcliente = new DelegateCommand(ExecuteCommandCancelCliente, null);
-                return _commandcancelcliente;
-            }
-        }
 
-        private void ExecuteCommandCancelCliente(object obj)
-        {
+        public ICommand CommandCancelCliente => new RelayCommand(p => {
             if (MessageBox.Show(string.Format("Cancelar Atendimento do Cliente  {0}?", Atendimento.Cliente.NomeRazao), "Sim.Alerta!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
             {
                 Atendimento.Clear();
@@ -461,38 +382,35 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                 Corpo = Visibility.Collapsed;
                 Cabecalho = Visibility.Visible;
             }
-        }
+        });
 
-        public ICommand CommandSelectedCNPJ
-        {
-            get
-            {
-                if (_commandselectedcnpj == null)
-                    _commandselectedcnpj = new RelayCommand(p =>
+        public ICommand CommandSelectedCNPJ => new RelayCommand(p =>
                     {
 
-                        Task<mPJ_Ext>.Factory.StartNew(() => mdata.ExistPessoaJuridica((string)p)).ContinueWith(task_two =>
+                        var t = Task<mPJ_Ext>.Factory.StartNew(() => mdata.ExistPessoaJuridica((string)p));
+
+                        t.Wait();
+
+                        if (t.IsCompleted)
                         {
-                            if (task_two.IsCompleted)
+                            PJ.Add(new mCliente()
                             {
-                                PJ.Add(new mCliente()
-                                {
-                                    Inscricao = task_two.Result.CNPJ,
-                                    NomeRazao = task_two.Result.RazaoSocial,
-                                    Telefones = task_two.Result.Telefones,
-                                    Email = task_two.Result.Email
-                                });
-                                ViewListaPJ = Visibility.Collapsed;
-                            }
-                        },
-                        System.Threading.CancellationToken.None,
-                        TaskContinuationOptions.ExecuteSynchronously,
-                        TaskScheduler.FromCurrentSynchronizationContext());
+                                Inscricao = t.Result.CNPJ,
+                                NomeRazao = t.Result.RazaoSocial,
+                                Telefones = t.Result.Telefones,
+                                Email = t.Result.Email
+                            });
+                            ViewListaPJ = Visibility.Collapsed;
+                        }
+
                     });
 
-                return _commandselectedcnpj;
-            }
-        }
+        public ICommand CommandReloadServicos => new RelayCommand(p => {
+
+            Servicos.Clear();
+            AsyncServicos(OrigemAtendimento[Atendimento.Origem].Nome);
+
+        });
         #endregion
 
         #region Constructor
@@ -516,11 +434,6 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             ViewMessageBox = Visibility.Collapsed;
 
             AsyncOrigems();
-
-            if (GlobalNavigation.SubModulo.Contains("AMBULANTE"))
-                AsyncServicosCA();
-            else
-                AsyncServicos();
         }
 
         private void NavService_Navigated(object sender, NavigationEventArgs e)
@@ -543,7 +456,6 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         private void GlobalNotifyProperty_GlobalPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DIA_OK")
-            {
                 if (AreaTransferencia.DIA_OK == true)
                 {
                     if (Atendimento.Historico.Length > 0)
@@ -552,14 +464,6 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                     else
                         Atendimento.Historico = string.Format(@"D.I.A GERADO COM SUCESSO, Nº {0}", AreaTransferencia.Numero_DIA);
                 }
-                else
-                {
-                    if (AreaTransferencia.DIA_Cancel_Service == true)
-                    {
-                        ServicoRemovido = "D.I.A - NOVA INSCRIÇÃO";
-                    }
-                }
-            }
 
             if (e.PropertyName == "CadAmbulanteOK")
                 if (AreaTransferencia.CadAmbulanteOK == true)
@@ -750,37 +654,33 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             }
         }
 
-        private void AsyncOrigems()
+        private async void AsyncOrigems()
         {
-            Task.Factory.StartNew(() => new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Origem WHERE (Ativo = True) ORDER BY Valor"))
-                .ContinueWith(t => {
-                    if (t.IsCompleted)
-                    {
-                        OrigemAtendimento = t.Result;
+           var t = Task.Factory.StartNew(() => new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Origem WHERE (Ativo = True) ORDER BY Valor"));
+            await t;
 
-                        if (GlobalNavigation.Parametro == "1")
-                            Atendimento.Origem = 1;
+            if (t.IsCompleted)
+            {
+                OrigemAtendimento = t.Result;
 
+                Atendimento.Origem = Convert.ToInt32(GlobalNavigation.Parametro);
 
-                        if (GlobalNavigation.Parametro == "2")
-                            Atendimento.Origem = 2;
-                    }
-                });
+                AsyncServicos(OrigemAtendimento[Atendimento.Origem].Nome);
+            }
         }
 
-        private void AsyncServicos()
+        private async void AsyncServicos(string _origem)
         {
-            Task.Factory.StartNew(() => new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Tipos WHERE (Ativo = True) ORDER BY Tipo"))
-                .ContinueWith(t =>
-                {
-                    if (t.IsCompleted)
-                        Servicos = t.Result;
-                });
-        }
+            var t = Task.Factory.StartNew(() => new mData().Servicos(_origem));
 
-        private void AsyncServicosCA()
-        {
-            Task.Factory.StartNew(() => new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Tipos WHERE ((Valor = 0) OR (Valor = 1) OR (Valor = 2) OR (Valor = 3) OR (Valor = 12) OR (Valor = 17) OR (Valor = 18) OR (Valor = 19) OR (Valor = 20)) AND (Ativo = True) ORDER BY Tipo")).ContinueWith(t => { if (t.IsCompleted) Servicos = t.Result; });
+            await t;
+
+            if (t.IsCompleted)
+            {
+                foreach (mTiposGenericos s in t.Result)
+                    Servicos.Add(s.Nome);
+            }
+                
         }
 
         private void AsyncMostrarCliente(string cpf)

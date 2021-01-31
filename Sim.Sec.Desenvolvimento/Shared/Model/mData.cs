@@ -47,6 +47,37 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
             }
         }
 
+
+        public ObservableCollection<mTiposGenericos> Servicos(string _origem)
+        {
+            try
+            {
+                ObservableCollection<mTiposGenericos> list = new ObservableCollection<mTiposGenericos>();
+
+                var dataAccess = Data.Factory.Connecting(DataBase.Base.Desenvolvimento);
+
+                dataAccess.ClearParameters();
+                dataAccess.AddParameters("@Origem", _origem);
+
+                foreach (DataRow dr in dataAccess.Read(@"SELECT * FROM SDT_Atendimento_Tipos WHERE ((Origem LIKE @Origem) OR (Origem LIKE 'ALL')) AND (Ativo = True) ORDER BY Tipo").Rows)
+                {
+                    var line = new mTiposGenericos();
+
+                    line.Valor = (int)dr[2]; //Valor
+                    line.Nome = dr[1].ToString().ToUpper(); //Nome (Porte, Segmento, Situacao e UsoLocal)
+                    line.Ativo = (bool)dr[3];  //Ativo
+                    line.Origem = (string)dr[4]; //Origem
+                    list.Add(line);
+                }
+
+                return list;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public ObservableCollection<mTiposGenericos> Tipos(string commandsql)
         {
             try

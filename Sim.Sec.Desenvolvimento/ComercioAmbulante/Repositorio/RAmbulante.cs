@@ -72,12 +72,8 @@ VALUES
                 //dataAccess.WriteR(_nsql);
 
                 if (_exist == true)
-                {
-                    if (System.Windows.MessageBox.Show("Gravar Alterações?", "Sim.Alerta!", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Exclamation) == System.Windows.MessageBoxResult.Yes)
-                        return dataAccess.Write(_update);
-                    else
-                        return false;
-                }
+                    return dataAccess.Write(_update);
+                
                 else
                     return dataAccess.Write(_novo);
 

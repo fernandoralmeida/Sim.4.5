@@ -318,6 +318,38 @@ VALUES
             }
         }
 
+        public int GetIndice(string _cpf)
+        {
+            var dataAccess = Data.Factory.Connecting(DataBase.Base.Desenvolvimento);
+            try
+            {
+                dataAccess.ClearParameters();
+
+                var dia = new Model.DIA();
+
+                dataAccess.AddParameters("@Titular", _cpf);
+
+                string sql = @"SELECT Indice FROM SDT_Ambulante_DIA WHERE (Titular LIKE '%' + @Titular + '%') AND ((Situacao LIKE 'ATIVO') OR (Situacao LIKE 'VENCIDO')) ";
+
+                //string sql = @"SELECT * FROM SDT_CAmbulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND (Cadastro LIKE @Cadastro + '%') AND (Pessoa LIKE '%' +  @Pessoa + '%') AND (Empresa LIKE '%' +  @Empresa + '%') AND (Ativo = true) ORDER BY Pessoa, DataCadastro";
+
+                int cont = 1;
+                foreach (DataRow at in dataAccess.Read(sql).Rows)
+                {
+                    dia.Indice = (int)at[0];
+                    cont++;
+                }
+
+                return dia.Indice;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                return 0;
+                throw new Exception(ex.Message);
+            }
+        }
+
         public ObservableCollection<Model.DIA> Consultar(List<string> _command)
         {
             var dataAccess = Data.Factory.Connecting(DataBase.Base.Desenvolvimento);

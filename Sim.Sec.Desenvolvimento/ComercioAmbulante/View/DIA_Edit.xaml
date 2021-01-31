@@ -161,7 +161,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Button Content="SALVAR E GERAR O D.I.A" Grid.Column="0" Grid.Row="1" Command="{Binding CommandSave}" Margin="2"/>
+                <Button Content="SALVAR D.I.A" Grid.Column="0" Grid.Row="1" Command="{Binding CommandSave}" Margin="2"/>
                 <Button Content="CANCELAR" Grid.Column="1" Grid.Row="1" Command="{Binding CommandCancelar}" Margin="2"/>
             </Grid>
         </Grid>

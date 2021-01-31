@@ -25,6 +25,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private Repositorio.RDIA DataDIA = new Repositorio.RDIA();
 
+        private ObservableCollection<string> _situacoes = new ObservableCollection<string>();
+
         private bool _expander_veiculo;
         private bool _expander_auxiliar;
         private bool _expander_validade;
@@ -46,7 +48,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         }
         public ObservableCollection<string> Situacoes
         {
-            get { return new ObservableCollection<string>() { "", "ATIVO", "BAIXADO", "CANCELADO" }; }
+            get { return _situacoes; }
+            set { _situacoes = value; RaisePropertyChanged("Situacoes"); }
         }
         
         public int Unidade
@@ -206,6 +209,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             GlobalNavigation.Pagina = "D.I.A - EDIT";
             BlackBox = Visibility.Collapsed;
             ViewMessageBox = Visibility.Collapsed;
+            Situacoes = new ObservableCollection<string>() { "", "ATIVO", "BAIXADO", "CANCELADO" };
             StartProgress = false;
             D_I_A.Emissao = DateTime.Now;
             AsyncMostrarDados(AreaTransferencia.Indice);
@@ -274,8 +278,15 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                             Expand_Veiculo = false;
 
                         if (D_I_A.Validade == new DateTime(2001, 1, 1))
-                            _expander_validade = false;
+                            Expand_Validade = false;
+                        else
+                            Expand_Validade = true;
 
+                        if (D_I_A.Validade < DateTime.Now)
+                        {
+                            Situacoes.Add("VENCIDO");
+                            D_I_A.Situacao = "VENCIDO";
+                        }
                     }
                 }
                 catch (Exception ex)

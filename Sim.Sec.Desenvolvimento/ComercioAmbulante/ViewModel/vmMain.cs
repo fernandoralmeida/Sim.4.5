@@ -45,13 +45,6 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private bool _isenable;
         private int _selectedrow;
 
-        private ICommand _commandclosepreview;
-        private ICommand _commandpreviewbox;
-        private ICommand _commandpreviewbox2;
-        private ICommand _commandrefreshdate;
-        private ICommand _commandgocnpj;
-        private ICommand _commandretcpf;
-
         private string _eventoselecionado;
         #endregion
 
@@ -201,120 +194,56 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             DataI = DataI.AddDays(1);
         });
 
-        public ICommand CommandGoCNPJ
-        {
-            get
-            {
-                if (_commandgocnpj == null)
-                    _commandgocnpj = new DelegateCommand(ExecCommandGoCNPJ, null);
-                return _commandgocnpj;
-            }
-        }
+        public ICommand CommandGoCNPJ => new RelayCommand(p => {
 
-        private void ExecCommandGoCNPJ(object obj)
-        {
             _viewcnpj = true;
             _flowtemp = FlowDoc;
             FlowDoc = null;
-            FlowDoc = FlowPJ((string)obj);
-        }
+            FlowDoc = FlowPJ((string)p);
 
-        public ICommand CommandRetCPF
-        {
-            get
-            {
-                if (_commandretcpf == null)
-                    _commandretcpf = new DelegateCommand(ExecCommandRetCPF, null);
-                return _commandretcpf;
-            }
-        }
+        });
 
-        private void ExecCommandRetCPF(object obj)
-        {
+        public ICommand CommandRetCPF => new RelayCommand(p => {
+
             _viewcnpj = false;
             FlowDoc = null;
             FlowDoc = _flowtemp;
             RetVisible = Visibility.Collapsed;
-        }
+        });
 
-        public ICommand CommandClosePreview
-        {
-            get
-            {
-                if (_commandclosepreview == null)
-                    _commandclosepreview = new DelegateCommand(ExecCommandClosePreview, null);
-                return _commandclosepreview;
-            }
-        }
-
-        private void ExecCommandClosePreview(object obj)
-        {
+        public ICommand CommandClosePreview => new RelayCommand(p => {
             PreviewBox = Visibility.Collapsed;
             _viewcnpj = false;
-        }
+        });
 
-        public ICommand CommandPreviewBox
-        {
-            get
-            {
-                if (_commandpreviewbox == null)
-                    _commandpreviewbox = new DelegateCommand(ExecCommandPreviewBox, null);
-                return _commandpreviewbox;
-            }
-        }
-
-        private void ExecCommandPreviewBox(object obj)
-        {
+        public ICommand CommandPreviewBox => new RelayCommand(p => {
             try
             {
-                FlowDoc = ApresentarDados(obj);
+                FlowDoc = ApresentarDados(p);
                 PreviewBox = Visibility.Visible;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Sim.Alerta!");
             }
-        }
+        });
 
-        public ICommand CommandPreviewBox2
-        {
-            get
-            {
-                if (_commandpreviewbox2 == null)
-                    _commandpreviewbox2 = new DelegateCommand(ExecCommandPreviewBox2, null);
-                return _commandpreviewbox2;
-            }
-        }
-
-        private void ExecCommandPreviewBox2(object obj)
-        {
+        public ICommand CommandPreviewBox2 => new RelayCommand(p => {
             try
             {
-                FlowDoc = FlowAtendimento((string)obj);
+                FlowDoc = FlowAtendimento((string)p);
                 PreviewBox = Visibility.Visible;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Sim.Alerta!");
             }
-        }
-        
-        public ICommand CommandRefreshDate
-        {
-            get
-            {
-                if (_commandrefreshdate == null)
-                    _commandrefreshdate = new DelegateCommand(ExecCommandRefreshDate, null);
+        });
 
-                return _commandrefreshdate;
-            }
-        }
-
-        private void ExecCommandRefreshDate(object obj)
-        {
+        public ICommand CommandRefreshDate => new RelayCommand(p => {
             if (GlobalNavigation.Parametro != string.Empty)
                 AsyncListarAtendimentoHoje(Parametros(GlobalNavigation.Parametro));
-        }
+        });
 
         public ICommand CommandAgendaNavigate => new RelayCommand(p => { ns.Navigate(new Uri(p.ToString(), UriKind.RelativeOrAbsolute)); });
 
@@ -420,7 +349,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         public vmMain()
         {
             GlobalNavigation.SubModulo = "COMÉRCIO AMBULANTE";
-            GlobalNavigation.Parametro = "1";
+            GlobalNavigation.Parametro = "3";
             GlobalNavigation.Pagina = string.Empty;
             ns = GlobalNavigation.NavService;
             BlackBox = Visibility.Collapsed;
@@ -430,9 +359,8 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             AreaTransferencia.Limpar();
 
             EventoSelecionado = "Ativos";
-            //CommandEventoAtivo.Execute(null);
 
-            AsyncListarAtendimentoHoje(Parametros("1"));
+            AsyncListarAtendimentoHoje(Parametros("3"));
 
             IsEnable = false;
             IsAdmin = false;

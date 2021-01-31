@@ -48,7 +48,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         {
             GlobalNavigation.SubModulo = "COMÉRCIO AMBULANTE";
             GlobalNavigation.Parametro = "1";
-            GlobalNavigation.Pagina = string.Empty;
+            GlobalNavigation.Pagina = "D.I.A";
             ns = GlobalNavigation.NavService;
             //BlackBox = Visibility.Collapsed;
             //PreviewBox = Visibility.Collapsed;

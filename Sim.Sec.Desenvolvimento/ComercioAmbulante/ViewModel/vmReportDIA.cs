@@ -262,7 +262,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #region Constructor
         public vmReportDIA()
         {
-            GlobalNavigation.Pagina = "RELATÓRIO";
+            GlobalNavigation.Pagina = "RELATÓRIO D.I.A";
             ns = GlobalNavigation.NavService;
             DataI = new DateTime(2020, 1, 1);
             DataF = DateTime.Now;

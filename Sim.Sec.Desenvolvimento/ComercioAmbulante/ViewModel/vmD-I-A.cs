@@ -316,10 +316,20 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             {
                 try
                 {
+
                     if (t.Result != null)
                     {
+
+                        if (t.Result.Titular.Nome == string.Empty)
+                        {
+                            AreaTransferencia.DIA_Cancel_Service = true;
+                            AsyncMessageBox("Ambulante não cadastrado!", DialogBoxColor.Red, true);                            
+                            AreaTransferencia.DIA_OK = false;                           
+                        }
+
                         //Ambulante = task.Result;
-                        D_I_A.Titular = t.Result.Titular;
+                        D_I_A.Titular = t.Result.Titular;                      
+
 
                         if (t.Result.Auxiliar != null)
                             D_I_A.Auxiliar = t.Result.Auxiliar;

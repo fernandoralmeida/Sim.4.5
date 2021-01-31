@@ -170,36 +170,54 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="ORIGEM" Grid.Row="0" Margin="2,5,2,0" Grid.Column="0" FontSize="10"/>
-                            <ComboBox ItemsSource="{Binding OrigemAtendimento}" HorizontalAlignment="Left" DisplayMemberPath="Nome" Grid.ColumnSpan="4" SelectedValuePath="Valor" SelectedValue="{Binding Atendimento.Origem}" Grid.Row="1" Margin="2,0" />
+                            <ComboBox ItemsSource="{Binding OrigemAtendimento}" DisplayMemberPath="Nome" Grid.ColumnSpan="2" SelectedValuePath="Valor" SelectedValue="{Binding Atendimento.Origem}" Grid.Row="1" Margin="2,0" />
+                            <Button Grid.Column="2" Grid.Row="1" Command="{Binding CommandReloadServicos}" Margin="2,0" HorizontalAlignment="Left">
+                                <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                      Data="F1 M 24,13C 27.1521,13 29.9945,14.3258 32,16.4501L 32,11L 35,14L 35,22L 27,22L 24,19L 29.5903,19C 28.217,17.4656 26.2212,16.5 24,16.5C 20.1969,16.5 17.055,19.3306 16.5661,23L 13.0448,23C 13.5501,17.3935 18.262,13 24,13 Z M 24,31.5C 27.8031,31.5 30.945,28.6694 31.4339,25L 34.9552,25C 34.4499,30.6065 29.738,35 24,35C 20.8479,35 18.0055,33.6742 16,31.5499L 16,37L 13,34L 13,26L 21,26L 24,29L 18.4097,29C 19.783,30.5344 21.7787,31.5 24,31.5 Z" />
 
+                            </Button>
                             <!--
                             <Label Content="TIPO" Grid.Row="0" Margin="2,5,2,0" Grid.Column="2" FontSize="10"/>
                             <ComboBox ItemsSource="{Binding TipoAtendimento}" DisplayMemberPath="Nome" Grid.Column="2" SelectedValuePath="Valor" SelectedValue="{Binding Atendimento.Tipo}" Grid.Row="1" Margin="2,0" />
-                            <Button Grid.Column="3" Grid.Row="1" Command="{Binding CommandViabilidade}" Margin="2,0">
-                                <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-                                      Data="M2,6V8H14V6H2M2,10V12H14V10H2M20.04,10.13C19.9,10.13 19.76,10.19 19.65,10.3L18.65,11.3L20.7,13.35L21.7,12.35C21.92,12.14 21.92,11.79 21.7,11.58L20.42,10.3C20.31,10.19 20.18,10.13 20.04,10.13M18.07,11.88L12,17.94V20H14.06L20.12,13.93L18.07,11.88M2,14V16H10V14H2Z" />
-
-                            </Button>-->
-
-                <Label Content="SERVIÇOS" Grid.Row="2" Margin="2,5,2,0" Grid.Column="0" FontSize="10"/>
-                <ListView BorderThickness="1" BorderBrush="{DynamicResource InputBorder}" ItemsSource="{Binding Servicos}" DisplayMemberPath="Nome" Grid.Column="0" Grid.ColumnSpan="2" SelectedValuePath="Nome" SelectedValue="{Binding ServicoSelecionado}" Grid.Row="3" Margin="2,0" />
-
-                <!--
-                            <StackPanel Grid.Column="1" Grid.Row="3">
-                                <Button Command="{Binding CommandAddServico}" Margin="2,0">                                   
-                                    <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-                                      Data="M2,6V8H14V6H2M2,10V12H14V10H2M20.04,10.13C19.9,10.13 19.76,10.19 19.65,10.3L18.65,11.3L20.7,13.35L21.7,12.35C21.92,12.14 21.92,11.79 21.7,11.58L20.42,10.3C20.31,10.19 20.18,10.13 20.04,10.13M18.07,11.88L12,17.94V20H14.06L20.12,13.93L18.07,11.88M2,14V16H10V14H2Z" />
-                                </Button>
-                                <Button Command="{Binding CommandRemoveServico}" Margin="2,0">
-                                    <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-                                          Data="M2,6V8H14V6H2M2,10V12H14V10H2M20.04,10.13C19.9,10.13 19.76,10.19 19.65,10.3L18.65,11.3L20.7,13.35L21.7,12.35C21.92,12.14 21.92,11.79 21.7,11.58L20.42,10.3C20.31,10.19 20.18,10.13 20.04,10.13M18.07,11.88L12,17.94V20H14.06L20.12,13.93L18.07,11.88M2,14V16H10V14H2Z" />
-                                </Button>
-                                
-                            </StackPanel>      
                             -->
 
+                <Label Content="SERVIÇOS" Grid.Row="2" Margin="2,5,2,0" Grid.Column="0" FontSize="10"/>
+                            <ItemsControl BorderThickness="1" BorderBrush="{DynamicResource InputBorder}" ItemsSource="{Binding Servicos}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Margin="2,0" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="{Binding}" Margin="2" Grid.Column="0" VerticalContentAlignment="Center"/>
+                                            <Button CommandParameter="{Binding}" Margin="2" Command="{Binding DataContext.CommandAddService, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="1">
+                                                <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
                 <Label Content="SERVIÇOS REALIZADOS" Grid.Row="2" Margin="2,5,2,0" Grid.Column="2" FontSize="10"/>
-                <ListView BorderThickness="1"  BorderBrush="{DynamicResource InputBorder}" ItemsSource="{Binding ServicosRealizados}" Grid.Column="2" Grid.ColumnSpan="2" SelectedValue="{Binding ServicoRemovido}" Grid.Row="3" Margin="2,0" />
+                            <ItemsControl BorderThickness="1"  BorderBrush="{DynamicResource InputBorder}" ItemsSource="{Binding ServicosRealizados}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Margin="2,0" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="{Binding}" Margin="2" Grid.Column="1" VerticalContentAlignment="Center"/>
+                                            <Button CommandParameter="{Binding}" Margin="2" Command="{Binding DataContext.CommandRemoveService, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="0">
+                                                <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                      Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
             </Grid>
 
             <Label Content="HITÓRICO DO ATENDIMENTO" Grid.Row="3" Margin="2,5,2,0" FontSize="10"/>
