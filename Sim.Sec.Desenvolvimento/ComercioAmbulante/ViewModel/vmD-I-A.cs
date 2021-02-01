@@ -212,7 +212,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             D_I_A.Emissao = DateTime.Now;
             D_I_A.Autorizacao = Autorizacao2020();
             AsyncMostrarDados(AreaTransferencia.CPF);
-            Exits_Dia(AreaTransferencia.CPF);
+            //Exits_Dia(AreaTransferencia.CPF);
         }
         #endregion
 

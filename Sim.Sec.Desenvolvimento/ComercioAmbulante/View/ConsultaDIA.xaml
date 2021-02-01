@@ -47,7 +47,7 @@
                     <Label Content="FORMA ATUAÇÃO" FontSize="10" Margin="2,0"/>
                     <TextBox Text="{Binding FormaAtuacao}" Margin="2,0" />
                 </StackPanel>
-                <StackPanel Margin="0,2">
+                <StackPanel Margin="0,2" Visibility="Collapsed">
                     <Label Content="SITUAÇÃO" FontSize="10" Margin="2,0"/>
                     <ComboBox ItemsSource="{Binding Situacoes}" SelectedValue="{Binding Situacao}" Margin="2,0" />
                 </StackPanel>
@@ -107,6 +107,7 @@
                         <DataGridTextColumn Binding="{Binding Atividade}" ClipboardContentBinding="{x:Null}" Header="ATIVODADE" />
                         <DataGridTextColumn Binding="{Binding Emissao, StringFormat=dd/MM/yyyy}" ClipboardContentBinding="{x:Null}" Header="EMITIDO" />
                         <DataGridTextColumn Binding="{Binding Situacao}" ClipboardContentBinding="{x:Null}" Header="SITUAÇÃO" />
+                        <!--
                         <DataGridTemplateColumn Header="">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -114,7 +115,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-
+                        -->
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>

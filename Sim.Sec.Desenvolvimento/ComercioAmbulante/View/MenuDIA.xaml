@@ -31,6 +31,10 @@
                 <TextBlock Margin="2">
                     <Hyperlink NavigateUri="ReportDIA.xaml">RELATÓRIOS</Hyperlink>
                 </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                    <Hyperlink NavigateUri="EstatisticasDIA.xaml">ESTATÍSTICAS</Hyperlink>
+                </TextBlock>
             </WrapPanel>
         </StackPanel>
 
@@ -86,7 +90,7 @@
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Binding="{Binding Titular.Nome}" ClipboardContentBinding="{x:Null}" Header="TITULAR" />
                                 <DataGridTextColumn Binding="{Binding Emissao, StringFormat=dd/MM/yyyy}" ClipboardContentBinding="{x:Null}" Header="EMISSÃO" />
-                                <DataGridTextColumn Binding="{Binding Situacao}" ClipboardContentBinding="{x:Null}" Header="SITUAÇÃO" />
+                               <DataGridTextColumn Binding="{Binding Situacao}" ClipboardContentBinding="{x:Null}" Header="SITUAÇÃO" />
 
                             </DataGrid.Columns>
                             

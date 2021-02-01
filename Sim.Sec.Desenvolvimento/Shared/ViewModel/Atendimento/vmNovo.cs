@@ -172,9 +172,8 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         ServicosRealizados.Add(p.ToString());
         Servicos.Remove(p.ToString());
 
-        try
-        {
-
+            try
+            {
                 switch (p.ToString())
                 {
                     case "INSCRIÇÃO":
@@ -228,52 +227,114 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                         Atendimento.Tipo = 17;
                         AreaTransferencia.DIA_OK = false;
                         AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
-                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/D-I-A.xaml", UriKind.Relative));
+
+                        var t_cad_exist = new ComercioAmbulante.Repositorio.RAmbulante().Exist_Ambulante_Cadastrado(AreaTransferencia.CPF);
+                        var t_dia_exist = new ComercioAmbulante.Repositorio.RDIA().Exist_DIA(AreaTransferencia.CPF);
+
+                        if (t_cad_exist.Titular.CPF == AreaTransferencia.CPF)
+                        {
+
+                            if (t_dia_exist.Titular.CPF != AreaTransferencia.CPF)
+                                ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/D-I-A.xaml", UriKind.Relative));
+
+                            else
+                            {
+                                AsyncMessageBox("Ambulante já tem D.I.A ativo ou vencido no momento!", DialogBoxColor.Red, false);
+                                ServicosRealizados.Remove(p.ToString());
+                                Servicos.Add(p.ToString());
+                            }
+
+                        }
+                        else
+                        {
+                            AsyncMessageBox("Não existe Cadastro de Ambulante válido!", DialogBoxColor.Red, false);
+                            ServicosRealizados.Remove(p.ToString());
+                            Servicos.Add(p.ToString());
+                        }
+
                         break;
 
                     case "D.I.A - RENOVAÇÃO":
                         Atendimento.Tipo = 18;
                         AreaTransferencia.DIA_OK = false;
                         AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
-                        AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
-                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Renov.xaml", UriKind.Relative));
+
+                        var t_rn = new ComercioAmbulante.Repositorio.RDIA().Exist_DIA(AreaTransferencia.CPF);
+
+                        if (t_rn.Titular.CPF == AreaTransferencia.CPF)
+                        {
+                            AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
+                            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Renov.xaml", UriKind.Relative));
+                        }
+                        else
+                        {
+                            AsyncMessageBox("Não existe D.I.A válido!", DialogBoxColor.Red, false);
+                            ServicosRealizados.Remove(p.ToString());
+                            Servicos.Add(p.ToString());
+                        }
+
                         break;
 
                     case "D.I.A - BAIXA":
                         Atendimento.Tipo = 19;
                         AreaTransferencia.DIA_OK = false;
                         AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
-                        AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
-                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Edit.xaml", UriKind.Relative));
+
+                        var t_bx = new ComercioAmbulante.Repositorio.RDIA().Exist_DIA(AreaTransferencia.CPF);
+
+                        if (t_bx.Titular.CPF == AreaTransferencia.CPF)
+                        {
+                            AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
+                            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Baixa.xaml", UriKind.Relative));
+                        }
+                        else
+                        {
+                            AsyncMessageBox("Não existe D.I.A válido!", DialogBoxColor.Red, false);
+                            ServicosRealizados.Remove(p.ToString());
+                            Servicos.Add(p.ToString());
+                        }
+
                         break;
 
                     case "D.I.A - 2ª VIA":
                         Atendimento.Tipo = 20;
                         AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
 
-                        var t = Task<ComercioAmbulante.Model.DIA>.Factory.StartNew(() => new ComercioAmbulante.Repositorio.RDIA().DIA_Existe(AreaTransferencia.CPF));
-                        t.Wait();
+                        var t_2v = new ComercioAmbulante.Repositorio.RDIA().Exist_DIA(AreaTransferencia.CPF);
 
-                        if (t.IsCompleted)
+                        if (t_2v.Titular.CPF == AreaTransferencia.CPF)
                         {
-
-                            if (t.Result.Titular.Nome != string.Empty)
-                            {
-                                AreaTransferencia.Objeto = t.Result;
-                                ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));
-                            }
-                            else
-                                AsyncMessageBox("Não existe D.I.A emitido", DialogBoxColor.Red, false);
+                            AreaTransferencia.Objeto = t_2v;
+                            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/PreviewDIA.xaml", UriKind.Relative));
                         }
-
+                        else
+                        {
+                            AsyncMessageBox("Não existe D.I.A válido!", DialogBoxColor.Red, false);
+                            ServicosRealizados.Remove(p.ToString());
+                            Servicos.Add(p.ToString());
+                        }
+                        
                         break;
 
                     case "D.I.A - ALTERAÇÃO":
                         Atendimento.Tipo = 17;
                         AreaTransferencia.DIA_OK = false;
                         AreaTransferencia.CPF = new mMascaras().Remove(Atendimento.Cliente.Inscricao).TrimEnd();
-                        AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
-                        ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Edit.xaml", UriKind.Relative));
+
+                        var t_alt = new ComercioAmbulante.Repositorio.RDIA().Exist_DIA(AreaTransferencia.CPF);
+
+                        if (t_alt.Titular.CPF == AreaTransferencia.CPF)
+                        {
+                            AreaTransferencia.Indice = new ComercioAmbulante.Repositorio.RDIA().GetIndice(AreaTransferencia.CPF);
+                            ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/DIA_Edit.xaml", UriKind.Relative));
+                        }
+                        else
+                        {
+                            AsyncMessageBox("Não existe D.I.A válido!", DialogBoxColor.Red, false);
+                            ServicosRealizados.Remove(p.ToString());
+                            Servicos.Add(p.ToString());
+                        }
+
                         break;
                 }
             }

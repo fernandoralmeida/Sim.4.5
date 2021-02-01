@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
 {
@@ -141,7 +142,7 @@ VALUES
             }
         }
 
-        public ObservableCollection<Ambulante> Lista_Ambulantes(List<object> _cmd)
+        public ObservableCollection<Ambulante> Lista_Ambulantes(List<string> _cmd)
         {
             var dataAccess = Data.Factory.Connecting(DataBase.Base.Desenvolvimento);
             try
@@ -158,12 +159,16 @@ VALUES
                 dataAccess.AddParameters("@Titular", _cmd[3]);
                 dataAccess.AddParameters("@Auxiliar", _cmd[3]);
                 dataAccess.AddParameters("@Atividade", _cmd[4]);
-                dataAccess.AddParameters("@Local", _cmd[5]);
-                dataAccess.AddParameters("@FormaAtuacao", _cmd[6]);
+                dataAccess.AddParameters("@FormaAtuacao", _cmd[5]);
 
-                //System.Windows.MessageBox.Show(sb.ToString());
+                //string ss = string.Empty;
 
-                string sql = @"SELECT * FROM SDT_Ambulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND ((Titular LIKE '%' +  @Titular + '%') OR (Auxiliar LIKE '%' +  @Auxiliar + '%')) AND ((Atividade LIKE '%' + @Atividade + '%') OR (Local LIKE '%' + @Local + '%')) AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (Ativo = true) ORDER BY Titular, DataCadastro";
+                //foreach (string s in _cmd)
+                    //ss = ss + "\n" + s;
+
+                //System.Windows.MessageBox.Show(ss);
+
+                string sql = @"SELECT * FROM SDT_Ambulante WHERE (DataCadastro BETWEEN @data1 AND @data2) AND (Cadastro LIKE @Cadastro) AND ((Titular LIKE '%' +  @Titular + '%') OR (Auxiliar LIKE '%' +  @Auxiliar + '%')) AND (Atividade LIKE '%' + @Atividade + '%') AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (Ativo = true) ORDER BY DataCadastro";
 
                 //System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
 
@@ -268,6 +273,11 @@ VALUES
         #endregion
 
         #region Reports
+        /// <summary>
+        /// Retorna todos os ambulantes conforme os parametros
+        /// </summary>
+        /// <param name="_cmd"></param>
+        /// <returns></returns>
         public ObservableCollection<Ambulante> RAmbulantes(List<string> _cmd)
         {
             var dataAccess = Data.Factory.Connecting(DataBase.Base.Desenvolvimento);
@@ -277,16 +287,21 @@ VALUES
 
                 var lista = new ObservableCollection<Ambulante>();
 
-                dataAccess.ClearParameters();
-
                 dataAccess.AddParameters("@Atividade", _cmd[0]);
                 dataAccess.AddParameters("@Local", _cmd[1]);
                 dataAccess.AddParameters("@FormaAtuacao", _cmd[2]);
                 dataAccess.AddParameters("@HorarioTrabalho", _cmd[3]);
 
-                string sql = @"SELECT * FROM SDT_Ambulante WHERE (Atividade LIKE '%' + @Atividade + '%') AND (Local LIKE '%' + @Local + '%') AND (FormaAtuacao LIKE '%' + @FormaAtuacao + '%') AND (HorarioTrabalho LIKE '%' + @HorarioTrabalho + '%') AND (Ativo = true) ORDER BY Titular, DataCadastro";
+                string ss = string.Empty;
 
-                //System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
+                foreach (string s in _cmd)
+                    ss = ss + "\n" + s;
+
+                System.Windows.MessageBox.Show(ss);
+
+                string sql = @"SELECT * FROM SDT_Ambulante WHERE ([Atividade] LIKE '%' + @Atividade + '%') AND ([Local] LIKE '%' + @Local + '%') AND ([FormaAtuacao] LIKE '%' + @FormaAtuacao + '%') AND ([HorarioTrabalho] LIKE '%' + @HorarioTrabalho + '%') AND (Ativo = true) ORDER BY DataCadastro";
+
+                System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
 
                 int cont = 1;
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
@@ -323,6 +338,77 @@ VALUES
                 return null;
                 throw new Exception(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Retorna todos os ambulantes com cadastro ativo
+        /// </summary>
+        /// <param name="_cmd"></param>
+        /// <returns></returns>
+        public ObservableCollection<Ambulante> RAAmbulantes(List<string> _cmd)
+        {
+            var dataAccess = Data.Factory.Connecting(DataBase.Base.Desenvolvimento);
+            try
+            {
+                dataAccess.ClearParameters();
+
+                var lista = new ObservableCollection<Ambulante>();
+
+                string ss = string.Empty;
+
+                foreach (string s in _cmd)
+                    ss = ss + "\n" + s;
+
+                System.Windows.MessageBox.Show(ss);
+
+                string sql = @"SELECT * FROM SDT_Ambulante WHERE (Ativo = true) ORDER BY DataCadastro DESC";
+
+                System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
+
+                int cont = 1;
+                foreach (DataRow at in dataAccess.Read(sql).Rows)
+                {
+                    var ambulante = new Ambulante();
+
+                    ambulante.Indice = (int)at[0];
+                    ambulante.Cadastro = (string)at[1];
+
+                    string[] _pessoa = at[2].ToString().Split(';');
+                    ambulante.Titular = new Autorizados() { CPF = _pessoa[0], Nome = _pessoa[1], RG = _pessoa[2], Tel = _pessoa[3] };
+
+                    string[] _empresa = at[3].ToString().Split(';');
+                    ambulante.Auxiliar = new Autorizados() { CPF = _empresa[0], Nome = _empresa[1], RG = _empresa[2], Tel = _empresa[3] };
+
+                    ambulante.Atividade = (string)at[4];
+                    ambulante.Local = (string)at[5];
+                    ambulante.FormaAtuacao = (string)at[6];
+                    ambulante.HorarioTrabalho = (string)at[7];
+                    ambulante.DataCadastro = (DateTime)at[8];
+                    ambulante.UltimaAlteracao = (DateTime)at[9];
+                    ambulante.Ativo = (bool)at[10];
+
+                    ambulante.Contador = cont;
+                    cont++;
+                    lista.Add(ambulante);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                return null;
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Functions
+        public Ambulante Exist_Ambulante_Cadastrado(string _cpf_titular)
+        {
+            var t = Task<Ambulante>.Factory.StartNew(() => GetAmbulante(_cpf_titular));
+            t.Wait();
+            return t.Result;
         }
         #endregion
     }

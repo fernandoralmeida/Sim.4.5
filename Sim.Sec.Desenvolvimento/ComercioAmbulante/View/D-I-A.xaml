@@ -22,6 +22,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <Border Grid.RowSpan="3" Background="{DynamicResource WindowBackground}" Opacity=".5" BorderThickness="1" BorderBrush="{DynamicResource Accent}"/>
+
             <Grid Grid.Row="0" Margin="10" HorizontalAlignment="Center">
                 <Label Content="DOCUMENTO DE IDENTIFICAÇÃO DE AMBULANTE - D.I.A" Margin="2" VerticalAlignment="Center"/>
             </Grid>
@@ -54,7 +56,7 @@
                 <Label Content="INSCRIÇÃO MUNICIPAL" Margin="2,0" Grid.Row="0" Grid.Column="0"/>
                 <TextBox Text="{Binding D_I_A.InscricaoMunicipal}" Margin="2,0" Grid.Row="1" Grid.Column="0"/>
                 <Label Content="EMISSÃO" Margin="2,0" Grid.Row="0" Grid.Column="1"/>
-                <DatePickerTextBox Text="{Binding D_I_A.Emissao, StringFormat=dd/MM/yyyy}" Margin="2,0" Grid.Row="1" Grid.Column="1"/>
+                <DatePicker SelectedDate="{Binding D_I_A.Emissao}" Margin="2,0" Grid.Row="1" Grid.Column="1"/>
                 <Label Content="Nº D.I.A:" Margin="2,0" Grid.Row="0" Grid.Column="3"/>
                 <TextBox Text="{Binding D_I_A.Autorizacao}" CharacterCasing="Upper" Margin="2,0" Grid.Row="1" Grid.Column="3"/>
 
@@ -139,7 +141,7 @@
                         </Grid.ColumnDefinitions>
                         <ComboBox ItemsSource="{Binding Unidades}" SelectedIndex="0" SelectedItem="{Binding Unidade}" Margin="2,0" Grid.Column="0"/>
                         <ComboBox ItemsSource="{Binding Unidades_Tempo}" SelectedIndex="0" SelectedItem="{Binding Unidade_Tempo}" Margin="2,0" Grid.Column="1"/>
-                        <TextBox Text="{Binding D_I_A.Validade, StringFormat=dd/MM/yyyy}" Margin="2,0" CharacterCasing="Upper" Grid.Column="2" />
+                        <DatePicker SelectedDate="{Binding D_I_A.Validade}" Margin="2,0" Grid.Column="2" />
                     </Grid>
                 </Expander>
                

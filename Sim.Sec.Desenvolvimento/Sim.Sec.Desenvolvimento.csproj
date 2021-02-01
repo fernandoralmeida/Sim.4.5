@@ -58,16 +58,20 @@
     <Compile Include="ComercioAmbulante\Model\mDataReport.cs" />
     <Compile Include="ComercioAmbulante\Model\mPeriodos.cs" />
     <Compile Include="ComercioAmbulante\Model\mReportCA.cs" />
-    <Compile Include="ComercioAmbulante\Repositorio\DIA.cs" />
+    <Compile Include="ComercioAmbulante\Repositorio\RDIA.cs" />
     <Compile Include="ComercioAmbulante\Repositorio\RAmbulante.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmAmbulantePrint.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmAmbulantes.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmCadAmbulante.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmConsulta.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmConsultaAmbulante.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmCosultaDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmD-I-A.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmDIA_Baixa.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmDIA_Edit.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmDIA_Renov.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmEstatisticas.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmEstatisticasDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmMain.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmMenuDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmNovo.cs" />
@@ -75,6 +79,7 @@
     <Compile Include="ComercioAmbulante\ViewModel\vmPerfilPrint.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmPreviewDIA.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmReport.cs" />
+    <Compile Include="ComercioAmbulante\ViewModel\vmReportAmbulante.cs" />
     <Compile Include="ComercioAmbulante\ViewModel\vmReportDIA.cs" />
     <Compile Include="ComercioAmbulante\View\Ambulantes.xaml.cs">
       <DependentUpon>Ambulantes.xaml</DependentUpon>
@@ -85,17 +90,29 @@
     <Compile Include="ComercioAmbulante\View\CadAmbulante.xaml.cs">
       <DependentUpon>CadAmbulante.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ComercioAmbulante\View\ConsultaAmbulante.xaml.cs">
+      <DependentUpon>ConsultaAmbulante.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ComercioAmbulante\View\ConsultaDIA.xaml.cs">
       <DependentUpon>ConsultaDIA.xaml</DependentUpon>
     </Compile>
     <Compile Include="ComercioAmbulante\View\D-I-A.xaml.cs">
       <DependentUpon>D-I-A.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ComercioAmbulante\View\DIA_Baixa.xaml.cs">
+      <DependentUpon>DIA_Baixa.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ComercioAmbulante\View\DIA_Edit.xaml.cs">
       <DependentUpon>DIA_Edit.xaml</DependentUpon>
     </Compile>
     <Compile Include="ComercioAmbulante\View\DIA_Renov.xaml.cs">
       <DependentUpon>DIA_Renov.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\Estatisticas.xaml.cs">
+      <DependentUpon>Estatisticas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\EstatisticasDIA.xaml.cs">
+      <DependentUpon>EstatisticasDIA.xaml</DependentUpon>
     </Compile>
     <Compile Include="ComercioAmbulante\View\MenuDIA.xaml.cs">
       <DependentUpon>MenuDIA.xaml</DependentUpon>
@@ -123,6 +140,9 @@
     </Compile>
     <Compile Include="ComercioAmbulante\View\PreviewDIA.xaml.cs">
       <DependentUpon>PreviewDIA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComercioAmbulante\View\ReportAmbulante.xaml.cs">
+      <DependentUpon>ReportAmbulante.xaml</DependentUpon>
     </Compile>
     <Compile Include="ComercioAmbulante\View\ReportDIA.xaml.cs">
       <DependentUpon>ReportDIA.xaml</DependentUpon>
@@ -346,11 +366,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ComercioAmbulante\View\ConsultaAmbulante.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ComercioAmbulante\View\ConsultaDIA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComercioAmbulante\View\D-I-A.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\DIA_Baixa.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -362,7 +390,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ComercioAmbulante\View\FlowDIA.xaml">
+    <Page Include="ComercioAmbulante\View\Estatisticas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\EstatisticasDIA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -399,6 +431,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComercioAmbulante\View\PreviewDIA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComercioAmbulante\View\ReportAmbulante.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

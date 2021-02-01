@@ -9,7 +9,7 @@
       KeepAlive="True"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True"
-      Title="pRCAmbulante">
+      Title="Relatorio DIA">
 
     <Page.DataContext>
         <vm:vmReportDIA />

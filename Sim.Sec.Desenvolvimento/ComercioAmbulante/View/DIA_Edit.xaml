@@ -21,7 +21,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
+            <Border Grid.RowSpan="3" Background="{DynamicResource WindowBackground}" Opacity=".5" BorderThickness="1" BorderBrush="{DynamicResource Accent}"/>
             <Grid Grid.Row="0" Margin="10" HorizontalAlignment="Center">
                 <Label Content="DOCUMENTO DE IDENTIFICAÇÃO DE AMBULANTE - D.I.A" Margin="2" VerticalAlignment="Center"/>
             </Grid>

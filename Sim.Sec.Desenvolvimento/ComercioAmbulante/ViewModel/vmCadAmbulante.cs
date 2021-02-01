@@ -649,13 +649,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         {
                             SomentePF = true;
                             TemEmpresa = Visibility.Visible;
-                            ExisteAuxiliar = Visibility.Collapsed;
+                            ExisteAuxiliar = Visibility.Visible;
                         }
                         else
                         {
                             SomentePF = false;
                             TemEmpresa = Visibility.Collapsed;
-                            ExisteAuxiliar = Visibility.Visible;
+                            ExisteAuxiliar = Visibility.Collapsed;
                         }
 
 

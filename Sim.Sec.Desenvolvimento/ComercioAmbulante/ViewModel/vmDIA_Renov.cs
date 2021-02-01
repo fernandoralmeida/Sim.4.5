@@ -206,10 +206,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         public vmDIA_Renov()
         {
             ns = GlobalNavigation.NavService;
-            GlobalNavigation.Pagina = "D.I.A - EDIT";
+            GlobalNavigation.Pagina = "D.I.A - RENOVAR/LEGALIZAR";
             BlackBox = Visibility.Collapsed;
             ViewMessageBox = Visibility.Collapsed;
-            Situacoes = new ObservableCollection<string>() { "", "ATIVO", "BAIXADO", "CANCELADO" };
+            Situacoes = new ObservableCollection<string>() { "", "ATIVO", "BAIXADO" };
             StartProgress = false;
             D_I_A.Emissao = DateTime.Now;
             AsyncMostrarDados(AreaTransferencia.Indice);
@@ -228,6 +228,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
             if (Unidade_Tempo == "ANO")
                 D_I_A.Validade = Convert.ToDateTime(D_I_A.Emissao.AddYears(Unidade).ToShortDateString());
+
+            if (D_I_A.Emissao < D_I_A.Validade)
+                D_I_A.Situacao = "ATIVO";
         }
 
         private async void AsyncMostrarDados(int indice)
@@ -244,6 +247,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     {
                         D_I_A = t.Result;
 
+                        if(t.Result.Validade > DateTime.Now)
+                        {
+                            AreaTransferencia.DIA_OK = false;
+                            AreaTransferencia.DIA_Cancel_Service = true;
+                            AsyncMessageBox("Ambulante já tem D.I.A ativo no momento", DialogBoxColor.Red, true);
+                        }
+
                         DateTime d = Convert.ToDateTime(D_I_A.Validade);
 
                         var dif = d.Date - D_I_A.Emissao.Date;
@@ -255,7 +265,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                         //System.Windows.MessageBox.Show("dia: " + _dias + "\n" + "mes: " + _meses + "\n" + "ano: " +_anos);
 
-                        if (_dias < 31 && _meses < 1 && _anos < 1)
+                        if (_dias < 31 && _meses <= 1 && _anos < 1)
                         {
                             Unidade = Convert.ToInt32(_dias);
                             Unidade_Tempo = "DIA";
@@ -289,6 +299,19 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                         }
 
                         D_I_A.Emissao = DateTime.Now;
+
+                        var a = new Repositorio.RAmbulante().GetAmbulante(D_I_A.Titular.CPF);
+
+                        D_I_A.Titular = a.Titular;
+
+                        if (a.Auxiliar.Nome != string.Empty)
+                        {
+                            Expand_Auxiliar = true;
+                            D_I_A.Auxiliar = a.Auxiliar;
+                        }
+
+                        D_I_A.Atividade = a.Atividade;
+                        D_I_A.FormaAtuacao = a.FormaAtuacao;
                     }
                 }
                 catch (Exception ex)
@@ -300,19 +323,25 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private async void Gravar_DIA(DIA obj)
         {
-
-            var t = Task<int>.Factory.StartNew(() => new Repositorio.RDIA().Gravar(obj));
-
-            await t;
-
             try
             {
+                /*
+                var r = Task<int>.Factory.StartNew(() => new Repositorio.RDIA().Renovar(obj));
+
+                await r;*/
+
+
+                var t = Task<int>.Factory.StartNew(() => new Repositorio.RDIA().Renovar(obj));
+
+                await t;
+
+
                 if (t.Result > 0)
                 {
                     AreaTransferencia.Numero_DIA = D_I_A.Autorizacao;
                     AreaTransferencia.DIA_OK = true;
                     AreaTransferencia.Preview_DIA = true;
-                    AsyncMessageBox("D.I.A Alterado!", DialogBoxColor.Green, true);
+                    AsyncMessageBox("D.I.A Renovado!", DialogBoxColor.Green, true);
                 }
                 else
                     AsyncMessageBox("Dados inválidos!", DialogBoxColor.Red, false);

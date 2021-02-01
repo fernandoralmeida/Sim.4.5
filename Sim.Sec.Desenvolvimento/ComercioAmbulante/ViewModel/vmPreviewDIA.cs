@@ -278,6 +278,9 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 {
                     Validade = "VENCIDO";
                 }
+
+                if (Ambulante.Situacao == "BAIXADO")
+                    Validade = "BAIXADO - " + Ambulante.Validade;
             }
         }
         #endregion

@@ -157,6 +157,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 case "SEM DATA DE VENCIMENTO":
                     Report_DIA_Sem_Validade();
                     break;
+
+                case "BAIXADOS":
+                    Report_DIA_Baixados();
+                    break;
             }
         });
 
@@ -392,6 +396,28 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             Filtros.Clear();
 
             var t = Task<ObservableCollection<Model.DIA>>.Run(() => new Repositorio.RDIA().DIA_Sem_Data_Vencimento(Parametros()));
+
+            await t;
+
+            if (t.IsCompleted)
+            {
+                await FlowDoc.Dispatcher.BeginInvoke(new System.Threading.ThreadStart(() => FlowDoc = PreviewInTable(t.Result)));
+                BlackBox = Visibility.Collapsed;
+                MainBox = Visibility.Collapsed;
+                PrintBox = Visibility.Visible;
+                StartProgress = false;
+            }
+        }
+
+        private async void Report_DIA_Baixados()
+        {
+            BlackBox = Visibility.Visible;
+            StartProgress = true;
+            PrintBox = Visibility.Collapsed;
+            MainBox = Visibility.Visible;
+            Filtros.Clear();
+
+            var t = Task.Run(() => new Repositorio.RDIA().DIA_Baixados(Parametros()));
 
             await t;
 

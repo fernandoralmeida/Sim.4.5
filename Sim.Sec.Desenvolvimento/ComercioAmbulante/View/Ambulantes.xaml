@@ -24,11 +24,15 @@
             <WrapPanel HorizontalAlignment="Center">
                 <!---->            
                 <TextBlock Margin="2">
-                    <Hyperlink NavigateUri="ConsultaDIA.xaml">CONSULTAR</Hyperlink>
+                    <Hyperlink NavigateUri="ConsultaAmbulante.xaml">CONSULTAR</Hyperlink>
                 </TextBlock>
                 <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
                 <TextBlock Margin="2">
-                    <Hyperlink NavigateUri="ReportDIA.xaml">RELATÓRIOS</Hyperlink>
+                    <Hyperlink NavigateUri="ReportAmbulante.xaml">RELATÓRIOS</Hyperlink>
+                </TextBlock>
+                <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
+                <TextBlock Margin="2">
+                    <Hyperlink NavigateUri="Estatisticas.xaml">ESTATÍSTICAS</Hyperlink>
                 </TextBlock>
             </WrapPanel>
         </StackPanel>

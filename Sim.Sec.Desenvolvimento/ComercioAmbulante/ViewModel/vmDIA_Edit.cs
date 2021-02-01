@@ -209,7 +209,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             GlobalNavigation.Pagina = "D.I.A - EDIT";
             BlackBox = Visibility.Collapsed;
             ViewMessageBox = Visibility.Collapsed;
-            Situacoes = new ObservableCollection<string>() { "", "ATIVO", "BAIXADO", "CANCELADO" };
+            Situacoes = new ObservableCollection<string>() { "", "ATIVO", "BAIXADO" };
             StartProgress = false;
             D_I_A.Emissao = DateTime.Now;
             AsyncMostrarDados(AreaTransferencia.Indice);
@@ -232,7 +232,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private async void AsyncMostrarDados(int indice)
         {
-            var t = Task<Model.DIA>.Run(() => new Repositorio.RDIA().GetDIA(indice));
+            var t = Task<Model.DIA>.Run(() => new Repositorio.RDIA().GetDIA(indice));            
 
             await t;
 
@@ -255,17 +255,17 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                         //System.Windows.MessageBox.Show("dia: " + _dias + "\n" + "mes: " + _meses + "\n" + "ano: " +_anos);
 
-                        if (_dias < 31 && _meses < 1 && _anos < 1)
+                        if (_dias < 31 && _meses <= 1 && _anos < 1)
                         {
                             Unidade = Convert.ToInt32(_dias);
                             Unidade_Tempo = "DIA";
                         }
-                        else if(_dias > 30 && _meses <= (12 * 2))
-                        { 
+                        else if (_dias > 30 && _meses <= (12 * 2))
+                        {
                             Unidade = Convert.ToInt32(_meses);
                             Unidade_Tempo = "MÊS";
                         }
-                        else if (_meses > (12*2) && _anos > ((365 * 2)/365))
+                        else if (_meses > (12 * 2) && _anos > ((365 * 2) / 365))
                         {
                             Unidade = Convert.ToInt32(_anos);
                             Unidade_Tempo = "ANO";
@@ -287,6 +287,20 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                             Situacoes.Add("VENCIDO");
                             D_I_A.Situacao = "VENCIDO";
                         }
+
+                        var a = new Repositorio.RAmbulante().GetAmbulante(D_I_A.Titular.CPF);
+
+                        D_I_A.Titular = a.Titular;
+
+                        if (a.Auxiliar.Nome != string.Empty)
+                        {
+                            Expand_Auxiliar = true;
+                            D_I_A.Auxiliar = a.Auxiliar;
+                        }
+
+                        D_I_A.Atividade = a.Atividade;
+                        D_I_A.FormaAtuacao = a.FormaAtuacao;
+
                     }
                 }
                 catch (Exception ex)

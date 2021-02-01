@@ -37,7 +37,7 @@
                 </TextBlock>
                 <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
                 <TextBlock ToolTip="Cadastro antigo, somente para eventuais consultas!" Margin="2">
-                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pPerfil.xaml">AMBULANTES - LEGADO</Hyperlink>
+                    <Hyperlink NavigateUri="/Sim.Sec.Desenvolvimento;component/ComercioAmbulante/View/pPerfil.xaml">LEGADO</Hyperlink>
                 </TextBlock>
             </WrapPanel>
         </StackPanel>
@@ -126,7 +126,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Button Grid.Column="0" ToolTip="Visualizar" Command="{Binding DataContext.CommandPreviewBox, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                                    CommandParameter="{Binding Protocolo}" Style="{StaticResource SystemButtonIcon}">
+                                                    CommandParameter="{Binding Cliente.Inscricao}" Style="{StaticResource SystemButtonIcon}">
 
                                                     <Path Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                                                       Data="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z" Height="15" Width="17"/>

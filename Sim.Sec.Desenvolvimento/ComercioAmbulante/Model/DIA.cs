@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 
 namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
 {
@@ -155,5 +156,37 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             get { return _cor; }
             set { _cor = value; RaisePropertyChanged("Cor"); }
         }
+    }
+
+    public class MReportDIA
+    {
+        #region Declarations
+        private List<KeyValuePair<string, int>> _dia = new List<KeyValuePair<string, int>>();
+        private List<KeyValuePair<string, int>> _ativo = new List<KeyValuePair<string, int>>();
+        private List<KeyValuePair<string, int>> _ativond = new List<KeyValuePair<string, int>>();
+        private List<KeyValuePair<string, int>> _vencido = new List<KeyValuePair<string, int>>();
+        private List<KeyValuePair<string, int>> _baixado = new List<KeyValuePair<string, int>>();
+        #endregion
+
+        #region Properties
+        public List<KeyValuePair<string, int>> DIA { get { return _dia; } set { _dia = value; } }
+        public List<KeyValuePair<string, int>> Ativo { get { return _ativo; } set { _ativo = value; } }
+        /// <summary>
+        /// Retorna d.i.a ativo sem necessidade de renovar
+        /// </summary>
+        public List<KeyValuePair<string, int>> AtivoND { get { return _ativond; } set { _ativond = value; } }
+        public List<KeyValuePair<string, int>> Vencido { get { return _vencido; } set { _vencido = value; } }
+        public List<KeyValuePair<string, int>> Baixado { get { return _baixado; } set { _baixado = value; } }
+        #endregion
+
+        #region MyRegion
+        public void Clear()
+        {
+            DIA.Clear();
+            Ativo.Clear();
+            Vencido.Clear();
+            Baixado.Clear();
+        }
+        #endregion
     }
 }
