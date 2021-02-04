@@ -114,6 +114,7 @@
                                     <ComboBoxItem Content="DENOMINACOES" />
                                     <ComboBoxItem Content="SALA DO EMPREENDEDOR" />
                                     <ComboBoxItem Content="SEBRAE AQUI" />
+                                    <ComboBoxItem Content="COMERCIO AMBULANTE" />
                                 </ComboBox>
                                 <ComboBox SelectedIndex="{Binding Path=Acesso}" IsEnabled="False" Margin="2">
                                     <ComboBoxItem Content="BLOQUEADO"  />
