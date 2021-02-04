@@ -31,7 +31,7 @@
                     <Hyperlink NavigateUri="ReportAmbulante.xaml">RELATÓRIOS</Hyperlink>
                 </TextBlock>
                 <Line X1=".5" Y1="3" X2=".5" Y2="12" Margin="5,0" VerticalAlignment="Center" Stroke="{DynamicResource SeparatorBackground}" />
-                <TextBlock Margin="2">
+                <TextBlock Margin="2" IsEnabled="False">
                     <Hyperlink NavigateUri="Estatisticas.xaml">ESTATÍSTICAS</Hyperlink>
                 </TextBlock>
             </WrapPanel>

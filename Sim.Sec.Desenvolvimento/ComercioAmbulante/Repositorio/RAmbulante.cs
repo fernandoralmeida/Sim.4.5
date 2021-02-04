@@ -292,16 +292,16 @@ VALUES
                 dataAccess.AddParameters("@FormaAtuacao", _cmd[2]);
                 dataAccess.AddParameters("@HorarioTrabalho", _cmd[3]);
 
-                string ss = string.Empty;
+                //string ss = string.Empty;
 
-                foreach (string s in _cmd)
-                    ss = ss + "\n" + s;
+                //foreach (string s in _cmd)
+                    //ss = ss + "\n" + s;
 
-                System.Windows.MessageBox.Show(ss);
+                //System.Windows.MessageBox.Show(ss);
 
                 string sql = @"SELECT * FROM SDT_Ambulante WHERE ([Atividade] LIKE '%' + @Atividade + '%') AND ([Local] LIKE '%' + @Local + '%') AND ([FormaAtuacao] LIKE '%' + @FormaAtuacao + '%') AND ([HorarioTrabalho] LIKE '%' + @HorarioTrabalho + '%') AND (Ativo = true) ORDER BY DataCadastro";
 
-                System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
+                //System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
 
                 int cont = 1;
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
@@ -354,16 +354,16 @@ VALUES
 
                 var lista = new ObservableCollection<Ambulante>();
 
-                string ss = string.Empty;
+                //string ss = string.Empty;
 
-                foreach (string s in _cmd)
-                    ss = ss + "\n" + s;
+                //foreach (string s in _cmd)
+                    //ss = ss + "\n" + s;
 
-                System.Windows.MessageBox.Show(ss);
+                //System.Windows.MessageBox.Show(ss);
 
                 string sql = @"SELECT * FROM SDT_Ambulante WHERE (Ativo = true) ORDER BY DataCadastro DESC";
 
-                System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
+                //System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
 
                 int cont = 1;
                 foreach (DataRow at in dataAccess.Read(sql).Rows)
