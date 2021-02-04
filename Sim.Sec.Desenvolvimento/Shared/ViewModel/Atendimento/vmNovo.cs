@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -185,6 +186,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
 
                     case "MEI - FORMALIZAÇÃO":
                         Atendimento.Tipo = 7;
+                        AreaTransferencia.CNPJ = string.Empty;
                         AreaTransferencia.MEI_F = true;
                         ns.Navigate(new Uri("/Sim.Sec.Desenvolvimento;component/Shared/View/Empresa/pView.xaml", UriKind.Relative));
                         break;
@@ -662,7 +664,8 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                     return;
                 }
 
-                AsyncMostrarCliente(obj.CPF);
+                //AsyncMostrarCliente(obj.CPF);
+                MostrarCliente(obj.CPF);
 
                 Atendimento.Cliente.Inscricao = new mMascaras().CPF(obj.CPF);
                 Atendimento.Cliente.NomeRazao = obj.Nome;
@@ -742,6 +745,61 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                     Servicos.Add(s.Nome);
             }
                 
+        }
+
+        private async void MostrarCliente(string cpf)
+        {
+            PF.Clear();
+            ListaPJ.Clear();
+
+            var pf = Task.Run(() => mdata.ExistPessoaFisica(cpf));
+            
+            await pf;
+
+            if (pf.IsCompleted)
+                PF.Add(new mCliente()
+                {
+                    Inscricao = pf.Result.CPF,
+                    NomeRazao = pf.Result.Nome,
+                    Telefones = pf.Result.Telefones,
+                    Email = pf.Result.Email
+                });
+
+            List<Task<mPJ_Ext>> l_pj = new List<Task<mPJ_Ext>>();
+
+            foreach (mVinculos v in pf.Result.ColecaoVinculos)
+                l_pj.Add(Task.Run(() => mdata.ExistPessoaJuridica(v.CNPJ)));
+            
+            foreach(Task<mPJ_Ext> pj in l_pj)
+            {
+                await pj;
+
+                //if (pj.Result.SituacaoCadastral != "BAIXADO")
+                    if (pj.IsCompleted)
+                    {
+                        if (pf.Result.ColecaoVinculos.Count > 1)
+                        {
+                            ListaPJ.Add(new mCliente()
+                            {
+                                Inscricao = pj.Result.CNPJ,
+                                NomeRazao = pj.Result.RazaoSocial,
+                                Telefones = pj.Result.Telefones,
+                                Email = pj.Result.Email
+                            });
+                            ViewListaPJ = Visibility.Visible;
+                        }
+                        else
+                        {
+                            PJ.Add(new mCliente()
+                            {
+                                Inscricao = pj.Result.CNPJ,
+                                NomeRazao = pj.Result.RazaoSocial,
+                                Telefones = pj.Result.Telefones,
+                                Email = pj.Result.Email
+                            });
+                        }
+                    }
+            }
         }
 
         private void AsyncMostrarCliente(string cpf)

@@ -183,18 +183,20 @@
 
                 <Label Content="SERVIÇOS" Grid.Row="2" Margin="2,5,2,0" Grid.Column="0" FontSize="10"/>
                             <ItemsControl BorderThickness="1" BorderBrush="{DynamicResource InputBorder}" ItemsSource="{Binding Servicos}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Margin="2,0" >
+                               <!---->
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Label Content="{Binding}" Margin="2" Grid.Column="0" VerticalContentAlignment="Center"/>
-                                            <Button CommandParameter="{Binding}" Margin="2" Command="{Binding DataContext.CommandAddService, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="1">
+                                            <Button CommandParameter="{Binding}" Margin="2" Command="{Binding DataContext.CommandAddService, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="0">
                                                 <Path Stretch="Uniform" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                                                       Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
                                             </Button>
+                                            <Label Content="{Binding}" Margin="2" Grid.Column="1" VerticalContentAlignment="Center"/>
+
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

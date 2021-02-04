@@ -32,7 +32,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Visibility="{Binding Cabecalho}">
+            <Grid Grid.Row="0" Margin="0,10" Visibility="{Binding Cabecalho}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>

@@ -447,7 +447,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Empresa
                     {
 
                         DadosEmpresa = Visibility.Visible;
-                        Cabecalho = Visibility.Collapsed;
+                        Cabecalho = Visibility.Visible;
                         SincronizarBRF = Visibility.Collapsed;
                         PessoaJuridica.CNPJ = CNPJ.Empresa.Cnpj.ToUpper();
                         PessoaJuridica.MatrizFilial = CNPJ.Empresa.MatrizFilial.ToUpper();
@@ -537,7 +537,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Empresa
                     else
                     {
                         DadosEmpresa = Visibility.Visible;
-                        Cabecalho = Visibility.Collapsed;
+                        Cabecalho = Visibility.Visible;
                         PessoaJuridica.CNPJ = new mMascaras().CNPJ(GetCNPJ);
                     }
                     return;
