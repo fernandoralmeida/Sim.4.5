@@ -56,20 +56,25 @@
                                 </TableCell>
                                 <TableCell BorderBrush="Black" >
                                     <Paragraph>
-                                        <Run Text="EMISSÃO:"/>
+                                        <Run Text="EMISSÃO DIA:"/>
                                         <Run FontWeight="Bold" Text="{Binding Ambulante.Emissao, StringFormat=dd/MM/yyyy}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
+                                <TableCell ColumnSpan="2" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
-                                        <Run Text="AUTORIZADOS A EXERCER:"/>
+                                        <Run Text="AUTORIZADOS A EXERCER DESDE:"/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderBrush="Black" LineHeight="25">
+                                    <Paragraph>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.DiaDesde}"/>
                                     </Paragraph>
                                 </TableCell>
                                 <TableCell BorderBrush="Black" >
                                     <Paragraph>
-                                        <Run Text="N.:"/>
+                                        <Run Text="N. DIA:"/>
                                         <Run FontWeight="Bold" Text="{Binding Ambulante.Autorizacao}"/>
                                     </Paragraph>
                                 </TableCell>

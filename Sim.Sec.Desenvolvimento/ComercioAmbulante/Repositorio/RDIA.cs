@@ -50,11 +50,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
                 dataAccess.AddParameters("@Validade", obj.Validade);
                 dataAccess.AddParameters("@Processo", obj.Processo);
                 dataAccess.AddParameters("@Situacao", obj.Situacao);
+                dataAccess.AddParameters("@DiaDesde", obj.DiaDesde.ToShortDateString());
 
                 string _novo = @"INSERT INTO SDT_Ambulante_DIA 
-([InscricaoMunicipal], [Autorizacao], [Titular], [Auxiliar], [Atividade], [FormaAtuacao], [Veiculo], [Emissao], [Validade], [Processo], [Situacao]) 
+([InscricaoMunicipal], [Autorizacao], [Titular], [Auxiliar], [Atividade], [FormaAtuacao], [Veiculo], [Emissao], [Validade], [Processo], [Situacao], [DiaDesde]) 
 VALUES 
-(@InscricaoMunicipal, @Autorizacao, @Titular, @Auxiliar, @Atividade, @FormaAtuacao, @Veiculo, @Emissao, @Validade, @Processo, @Situacao)";
+(@InscricaoMunicipal, @Autorizacao, @Titular, @Auxiliar, @Atividade, @FormaAtuacao, @Veiculo, @Emissao, @Validade, @Processo, @Situacao, @DiaDesde)";
 
 
                 if (dataAccess.Write(_novo))
@@ -258,7 +259,7 @@ VALUES
                         if (dia.Situacao != "BAIXADO")
                             dia.Situacao = "VENCIDO";
                     }
-
+                    dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     cont++;
                     lista.Add(dia);
@@ -314,6 +315,7 @@ VALUES
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = (string)at[11];
+                    dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     cont++;
                 }
@@ -496,7 +498,8 @@ VALUES
                         if (dia.Situacao != "BAIXADO")
                             dia.Situacao = "VENCIDO";
                     }
-                       
+
+                    dia.DiaDesde = (DateTime)at[12];
 
                     dia.Contador = cont;
                     _lista.Add(dia);

@@ -20,6 +20,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         private string _historico = string.Empty;
         private string _operador = string.Empty;
         private bool _ativo;
+        private string _canal;
 
         string _tipotostring = string.Empty;
         string _origemtostring = string.Empty;
@@ -206,6 +207,12 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
             set { _atendimentosebrae = value.Trim();
                 RaisePropertyChanged("AtendimentoSebrae");
             }
+        }
+
+        public string Canal
+        {
+            get { return _canal; }
+            set { _canal = value; RaisePropertyChanged("Canal"); }
         }
 
         public int Contador { get; set; }

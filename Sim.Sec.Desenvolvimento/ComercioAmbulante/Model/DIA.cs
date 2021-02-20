@@ -94,6 +94,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             set { _situacao = value;RaisePropertyChanged("Situacao"); }
         }
 
+        private DateTime _diadesde;
+        public DateTime DiaDesde
+        {
+            get { return _diadesde; }
+            set { _diadesde = value; RaisePropertyChanged("DiaDesde"); }
+        }
+
         private int _contador;
         public int Contador
         {

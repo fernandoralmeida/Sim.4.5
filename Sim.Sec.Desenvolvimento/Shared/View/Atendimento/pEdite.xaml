@@ -75,13 +75,14 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="ORIGEM" FontSize="10" Margin="2,0" />
                         <ComboBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Origens}" SelectedValue="{Binding Atendimento.Origem}" DisplayMemberPath="Nome" SelectedValuePath="Valor" Margin="2,0" />
-                        <!--
-                        <Label Grid.Row="0" Grid.Column="1" Content="TIPO" FontSize="10" Margin="2,0" />
-                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Tipos}" SelectedValue="{Binding Atendimento.Tipo}" DisplayMemberPath="Nome" SelectedValuePath="Valor" Margin="2,0" />
-                        -->
+                        <!---->
+                        <Label Grid.Row="0" Grid.Column="1" Content="CANAL DO ATENDIMENTO" FontSize="10" Margin="2,0" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Canais}" SelectedValue="{Binding Atendimento.Canal}" DisplayMemberPath="Nome" SelectedValuePath="Valor" Margin="2,0" />
+                        
                     </Grid>
                     <Grid Margin="2">
                         <Grid.RowDefinitions>

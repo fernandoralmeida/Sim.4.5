@@ -45,6 +45,14 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             get { return new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Origem WHERE (Ativo = True) ORDER BY Valor"); }
         }
 
+        public ObservableCollection<mTiposGenericos> Canais
+        {
+            get
+            {
+                return new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Canal WHERE (Ativo = True) ORDER BY Tipo");
+            }
+        }
+
         public ObservableCollection<mTiposGenericos> Tipos
         {
             get

@@ -13,6 +13,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
         public List<KeyValuePair<string, int>> Atendimentos { get; set; }
         public List<KeyValuePair<string, int>> Tipo { get; set; }
         public List<KeyValuePair<string, int>> Origem { get; set; }
+        public List<KeyValuePair<string, int>> Canal { get; set; }
         public List<KeyValuePair<string, int>> Operador { get; set; }
 
         public void Clear()
@@ -23,6 +24,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
             Tipo.Clear();
             Origem.Clear();
             Operador.Clear();
+            Canal.Clear();
         }
 
         public mReportAtendimentos()
@@ -32,6 +34,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
             Atendimentos = new List<KeyValuePair<string, int>>();
             Tipo = new List<KeyValuePair<string, int>>();
             Origem = new List<KeyValuePair<string, int>>();
+            Canal = new List<KeyValuePair<string, int>>();
             Operador = new List<KeyValuePair<string, int>>();
         }
 
@@ -44,6 +47,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
                 List<string> _atendimento = new List<string>();
                 List<string> _tipo = new List<string>();
                 List<string> _origem = new List<string>();
+                List<string> _canal = new List<string>();
                 List<string> _operador = new List<string>();
 
                 foreach(mAtendimento at in lista_atendimento)
@@ -60,6 +64,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
                             _tipo.Add(sv);
                     }
 
+                    _canal.Add(at.Canal);
                     //_tipo.Add(at.TipoString);
                     _origem.Add(at.OrigemString);
                     _operador.Add(at.Operador);
@@ -118,6 +123,17 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
                 foreach (var x in c_operador)
                 {
                     Operador.Add(new KeyValuePair<string, int>(x.Value, x.Count));
+                }
+
+                var c_canal = from x in _canal
+                                 group x by x into g
+                                 let count = g.Count()
+                                 orderby count descending
+                                 select new { Value = g.Key, Count = count };
+
+                foreach (var x in c_canal)
+                {
+                    Canal.Add(new KeyValuePair<string, int>(x.Value, x.Count));
                 }
 
             }

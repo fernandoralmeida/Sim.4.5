@@ -1235,6 +1235,7 @@ WHERE (((SDT_SE_PJ_Formalizada.Ativo) = True) AND ((SDT_SE_PJ_Segmento.Ativo) = 
                     atendimento.Historico = (string)at[7];
                     atendimento.Operador = (string)at[8];
                     atendimento.Ativo = (bool)at[9];
+                    atendimento.Canal = (string)at[10];
 
                     //atendimento.TipoString = (string)_tipo.Rows[atendimento.Tipo][1];
                     atendimento.OrigemString = (string)_origem.Rows[atendimento.Origem][1];
@@ -1325,6 +1326,7 @@ WHERE (((SDT_SE_PJ_Formalizada.Ativo) = True) AND ((SDT_SE_PJ_Segmento.Ativo) = 
                     atendimento.Historico = (string)at[7];
                     atendimento.Operador = (string)at[8];
                     atendimento.Ativo = (bool)at[9];
+                    atendimento.Canal = (string)at[10];
 
                     //atendimento.TipoString = (string)_tipo.Rows[atendimento.Tipo][1];
                     atendimento.OrigemString = (string)_origem.Rows[atendimento.Origem][1];
@@ -1411,6 +1413,7 @@ WHERE (((SDT_SE_PJ_Formalizada.Ativo) = True) AND ((SDT_SE_PJ_Segmento.Ativo) = 
                     atendimento.Historico = (string)at[7];
                     atendimento.Operador = (string)at[8];
                     atendimento.Ativo = (bool)at[9];
+                    atendimento.Canal = (string)at[10];
 
                     //atendimento.TipoString = (string)_tipo.Rows[atendimento.Tipo][1];
                     atendimento.OrigemString = (string)_origem.Rows[atendimento.Origem][1];

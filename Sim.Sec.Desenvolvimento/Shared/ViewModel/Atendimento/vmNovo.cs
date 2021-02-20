@@ -24,6 +24,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         private mData mdata = new mData();
         private mAtendimento _atendimento = new mAtendimento();
         private ObservableCollection<mTiposGenericos> _origemat = new ObservableCollection<mTiposGenericos>();
+        private ObservableCollection<mTiposGenericos> _canais = new ObservableCollection<mTiposGenericos>();
         private ObservableCollection<string> _servicos = new ObservableCollection<string>();
         private ObservableCollection<mCliente> _pf = new ObservableCollection<mCliente>();
         private ObservableCollection<mCliente> _lpj = new ObservableCollection<mCliente>();
@@ -46,6 +47,16 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                 _origemat = value;                
 
                 RaisePropertyChanged("OrigemAtendimento");
+            }
+        }
+
+        public ObservableCollection<mTiposGenericos> Canais
+        {
+            get { return _canais; }
+            set
+            {
+                _canais = value;
+                RaisePropertyChanged("Canais");
             }
         }
 
@@ -497,6 +508,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             ViewMessageBox = Visibility.Collapsed;
 
             AsyncOrigems();
+            AsyncCanais();
         }
 
         private void NavService_Navigated(object sender, NavigationEventArgs e)
@@ -715,6 +727,17 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async void AsyncCanais()
+        {
+            var t = Task.Factory.StartNew(() => new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Canal WHERE (Ativo = True) ORDER BY Valor"));
+            await t;
+
+            if (t.IsCompleted)
+            {
+                OrigemAtendimento = t.Result;
             }
         }
 

@@ -251,33 +251,31 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             Ambulante = (DIA)obj;
 
             if (Ambulante.Validade == new DateTime(2001, 1, 1))
-                Validade = "-";
+                Validade = "NÃO PRECISA RENOVAR";
             else
-            {
-                DateTime d = Convert.ToDateTime(Ambulante.Validade);
+            {                
+                //DateTime d = Convert.ToDateTime(Ambulante.Validade);
 
-                var dif = d.Date - Ambulante.Emissao.Date;
+                //var dif = d.Date - Ambulante.Emissao.Date;
 
-                //dif.TotalDays;
-                var mes = dif.TotalDays / 30;
+                
+                //var mes = dif.TotalDays / 30;
 
-                if (mes < 1)
-                {
-                    var dia = mes * 30;
-                    if (dia > 1)
-                        Validade = Convert.ToInt32(dia).ToString() + " DIAS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                    else
-                        Validade = Convert.ToInt32(dia).ToString() + " DIA"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                }
-                else if (mes < 2)
-                    Validade = Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                else
-                    Validade = Convert.ToInt32(mes).ToString() + " MESES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                //if (mes < 1)
+                //{
+                    //var dia = mes * 30;
+                    //if (dia > 1)
+                        //Validade = Convert.ToInt32(dia).ToString() + " DIAS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                    //else
+                        //Validade = Convert.ToInt32(dia).ToString() + " DIA"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                //}
+                //else if (mes < 2)
+                    //Validade = Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
+                //else
+                    //Validade = Convert.ToInt32(mes).ToString() + " MESES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
 
                 if (Ambulante.Validade < DateTime.Now.Date)
-                {
                     Validade = "VENCIDO";
-                }
 
                 if (Ambulante.Situacao == "BAIXADO")
                     Validade = "BAIXADO - " + Ambulante.Validade;

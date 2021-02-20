@@ -147,6 +147,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                <DataGridTextColumn Binding="{Binding Canal}" MaxWidth="300" ClipboardContentBinding="{x:Null}" Header="CANAL" />
                                 <!--
                                 <DataGridTextColumn Binding="{Binding TipoString}" MaxWidth="300" ClipboardContentBinding="{x:Null}" Header="SERVIÇOs" />                                
                                 
