@@ -25,7 +25,7 @@
                 <FlowDocumentPageViewer.Effect>
                     <DropShadowEffect BlurRadius="10" Color="Black" Opacity=".4" ShadowDepth="0"/>
                 </FlowDocumentPageViewer.Effect>
-                <FlowDocument Name="xflow" ColumnWidth="768" PageWidth="768"  
+                <FlowDocument Name="xflow" ColumnWidth="770" PageWidth="770"  
                               FontFamily="Segoe UI" Foreground="Black"
                               PagePadding="20">
 
@@ -39,7 +39,7 @@
                             <TableColumn/>
                             <TableColumn/>
                             <TableColumn/>
-                            <TableColumn Width="180"/>
+                            <TableColumn Width="200"/>
                         </Table.Columns>
                         <TableRowGroup>
                             <TableRow>
@@ -48,34 +48,42 @@
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ColumnSpan="3" BorderBrush="Black" LineHeight="25">
+                                <TableCell ColumnSpan="2" BorderBrush="Black">
                                     <Paragraph>
                                         <Run Text="INSCRIÇÃO MUNICIPAL:"/>
                                         <Run FontWeight="Bold" Text="{Binding Ambulante.InscricaoMunicipal}"/>
                                     </Paragraph>
                                 </TableCell>
+                                <TableCell BorderBrush="Black">
+                                    <Paragraph>
+                                        <Run Text="D.I.A:"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Autorizacao}"/>
+                                    </Paragraph>                                    
+                                </TableCell>
                                 <TableCell BorderBrush="Black" >
                                     <Paragraph>
-                                        <Run Text="EMISSÃO DIA:"/>
+                                        <Run Text="DESDE:"/>
+                                        <Run FontWeight="Bold" Text="{Binding Ambulante.DiaDesde, StringFormat=dd/MM/yyyy}"/>
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ColumnSpan="3" BorderBrush="Black">
+                                    <Paragraph>
+                                        <Run Text=""/>
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderBrush="Black" >
+                                    <Paragraph>
+                                        <Run Text="EMISSÃO:"/>
                                         <Run FontWeight="Bold" Text="{Binding Ambulante.Emissao, StringFormat=dd/MM/yyyy}"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ColumnSpan="2" BorderBrush="Black" LineHeight="25">
+                                <TableCell ColumnSpan="4" BorderBrush="Black" LineHeight="25">
                                     <Paragraph>
-                                        <Run Text="AUTORIZADOS A EXERCER DESDE:"/>
-                                    </Paragraph>
-                                </TableCell>
-                                <TableCell BorderBrush="Black" LineHeight="25">
-                                    <Paragraph>
-                                        <Run FontWeight="Bold" Text="{Binding Ambulante.DiaDesde}"/>
-                                    </Paragraph>
-                                </TableCell>
-                                <TableCell BorderBrush="Black" >
-                                    <Paragraph>
-                                        <Run Text="N. DIA:"/>
-                                        <Run FontWeight="Bold" Text="{Binding Ambulante.Autorizacao}"/>
+                                        <Run Text="AUTORIZADO A EXERCER:"/>
                                     </Paragraph>
                                 </TableCell>
                             </TableRow>

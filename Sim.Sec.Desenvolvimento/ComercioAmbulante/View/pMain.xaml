@@ -85,7 +85,7 @@
                 </StackPanel>
                 <DockPanel Grid.Row="1" Grid.Column="0">
                     <StackPanel Margin="10">
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding ListarAtendimentos, NotifyOnSourceUpdated=True}" SelectedIndex="{Binding SelectedRow}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding ListarAtendimentos}" SelectedIndex="{Binding SelectedRow}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
@@ -147,7 +147,10 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Binding="{Binding Canal}" MaxWidth="300" ClipboardContentBinding="{x:Null}" Header="CANAL" />
+
+                                <DataGridTextColumn Binding="{Binding OrigemString}" ClipboardContentBinding="{x:Null}" Header="ORIGEM" />
+                                <DataGridTextColumn Binding="{Binding Canal}" ClipboardContentBinding="{x:Null}" Header="CANAL" />
+
                                 <!--
                                 <DataGridTextColumn Binding="{Binding TipoString}" MaxWidth="300" ClipboardContentBinding="{x:Null}" Header="SERVIÇOs" />                                
                                 

@@ -425,10 +425,20 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
 
         public ICommand CommandSave => new RelayCommand(p => {
 
-            StartProgress = true;
-            BlackBox = Visibility.Visible;
-            Gravar();
-
+            if (Atendimento.Canal == string.Empty)
+                AsyncMessageBox("Escolha um Canal de Atendimento", DialogBoxColor.Blue, false);
+            else
+            {
+                if (ServicosRealizados.Count == 0)
+                    AsyncMessageBox("Escolha ao menos um Serviço", DialogBoxColor.Blue, false);
+                else
+                {
+                    StartProgress = true;
+                    BlackBox = Visibility.Visible;
+                    Gravar();
+                }
+            }
+                
         });
 
         public ICommand CommandCancel => new RelayCommand(p => {
@@ -737,7 +747,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
 
             if (t.IsCompleted)
             {
-                OrigemAtendimento = t.Result;
+                Canais = t.Result;
             }
         }
 

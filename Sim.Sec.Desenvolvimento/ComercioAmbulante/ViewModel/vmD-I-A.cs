@@ -187,6 +187,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         #region Commands
         public ICommand CommandSave => new RelayCommand( p=> {
             D_I_A.Situacao = "ATIVO";
+            D_I_A.DiaDesde = D_I_A.Emissao;
             AreaTransferencia.Objeto = D_I_A; 
             Gravar_DIA(D_I_A);
         });
@@ -301,9 +302,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     //System.Windows.MessageBox.Show("Ambulante já tem D.I.A ativo no momento!", "Sim.Alerta!");              
 
                     //ns.GoBack();
-                }
-
-                               
+                }                               
             }
         }
 
@@ -338,6 +337,17 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                             D_I_A.Atividade = t.Result.Atividade;
 
                         D_I_A.FormaAtuacao = t.Result.FormaAtuacao;
+                        D_I_A.Veiculo = t.Result.UsaVeiculo;
+
+                        if (D_I_A.Auxiliar.Nome == "-")
+                            Expand_Auxiliar = false;
+
+                        if (D_I_A.Veiculo.Modelo == "-")
+                            Expand_Veiculo = false;
+
+                        if (D_I_A.Validade == new DateTime(2001, 1, 1))
+                            Expand_Auxiliar = false;
+
                     }
                 }
                 catch (Exception ex)
@@ -346,7 +356,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         }
 
         private async void Gravar_DIA(DIA obj)
-        {
+        { 
 
             var t = Task<int>.Factory.StartNew(() => new Repositorio.RDIA().Gravar(obj));
 

@@ -31,6 +31,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         ObservableCollection<Autorizados> _auxiliar = new ObservableCollection<Autorizados>();
 
         private ObservableCollection<mPeriodos> _listartimework = new ObservableCollection<mPeriodos>();
+        private List<string> _veiculo = new List<string>();
 
         private Visibility _viewlistaeventos;
         private Visibility _viewpj;
@@ -41,6 +42,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private Visibility _textboxoutrosview;
         private Visibility _viewinfo;
         private Visibility _existeauxiliar;
+        private Visibility _hasveiculo;
 
         private bool _isactive;
         private bool _somentepf;
@@ -100,6 +102,16 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             {
                 _auxiliar = value;
                 RaisePropertyChanged("Auxiliar");
+            }
+        }
+
+        public List<string> Veiculo
+        {
+            get { return _veiculo; }
+            set
+            {
+                _veiculo = value;
+                RaisePropertyChanged("Veiculo");
             }
         }
 
@@ -244,6 +256,21 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             set { _viewinfo = value; RaisePropertyChanged("ViewInfo"); }
         }
 
+        public Visibility HasVeiculo
+        {
+            get { return _hasveiculo; }
+            set { _hasveiculo = value;
+
+                if (_hasveiculo == Visibility.Collapsed)
+                {
+                    Ambulante.UsaVeiculo.Modelo = "-";
+                    Ambulante.UsaVeiculo.Placa = "-";
+                    Ambulante.UsaVeiculo.Cor = "-";
+                }               
+                
+                RaisePropertyChanged("HasVeiculo"); }
+        }
+
         public bool SomentePF
         {
             get { return _somentepf; }
@@ -292,6 +319,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             set
             {
                 _isveiculo = value;
+
+                if (_isveiculo == true)
+                    HasVeiculo = Visibility.Visible;
+                else
+                    HasVeiculo = Visibility.Collapsed;
+
                 RaisePropertyChanged("IsVeiculo");
             }
         }
@@ -478,6 +511,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             ViewInfo = Visibility.Collapsed;
             ViewMessageBox = Visibility.Collapsed;
             ExisteAuxiliar = Visibility.Visible;
+            IsVeiculo = false;
             IsOutros = false;
             HoraInicio = "00:00";
             HoraFim = "00:00";
@@ -539,15 +573,15 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             if (IsOutros) _instalacao += string.Format("OUTROS[{0}]", GetOutros);
 
             Ambulante.FormaAtuacao = _instalacao;
-
+            /*
             string _pwork = string.Empty;
 
             foreach (mPeriodos p in ListarTimeWork)
             {
                 _pwork += string.Format("{0} - {1}/", p.Dias.ToUpper(), p.Periodos.ToUpper());
             }
-
-            Ambulante.HorarioTrabalho = _pwork;
+              */          
+            //Ambulante.HorarioTrabalho = _pwork;
 
             Ambulante.UltimaAlteracao = DateTime.Now;
             Ambulante.Ativo = true;
@@ -687,7 +721,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                             GetOutros = testing[0];
                         }
 
-                        string[] _twk = t.Result.HorarioTrabalho.Split('/');
+                        Ambulante.UsaVeiculo = t.Result.UsaVeiculo;
+
+                        /*
+                        string[] _twk = t.Result.UsaVeiculo.Split('/');
 
                         foreach (string wk in _twk)
                         {
@@ -697,6 +734,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                                 ListarTimeWork.Add(new mPeriodos() { Dias = iwk[0].TrimEnd(), Periodos = iwk[1].TrimStart() });
                             }
                         }
+                        */
 
                         ViewInfo = Visibility.Visible;
                     }

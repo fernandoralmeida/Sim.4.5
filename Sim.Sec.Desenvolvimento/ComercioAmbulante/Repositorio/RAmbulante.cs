@@ -40,7 +40,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
                        obj.Auxiliar.Nome,
                        obj.Auxiliar.RG,
                        obj.Auxiliar.Tel);
-                
+
+                string _veiculo = string.Format(@"{0};{1};{2};",
+                    obj.UsaVeiculo.Modelo,
+                    obj.UsaVeiculo.Placa,
+                    obj.UsaVeiculo.Cor);
+
                 dataAccess.ClearParameters();
 
                 if (_exist == false)
@@ -53,7 +58,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
                 dataAccess.AddParameters("@Atividade", obj.Atividade);
                 dataAccess.AddParameters("@Local", obj.Local);
                 dataAccess.AddParameters("@FormaAtuacao", obj.FormaAtuacao);
-                dataAccess.AddParameters("@HorarioTrabalho", obj.HorarioTrabalho);
+                dataAccess.AddParameters("@UsaVeiculo", _veiculo);
                 dataAccess.AddParameters("@DataCadastro", obj.DataCadastro.ToShortDateString());
                 dataAccess.AddParameters("@UltimaAlteracao", obj.UltimaAlteracao.ToShortDateString());
                 dataAccess.AddParameters("@Ativo", obj.Ativo);
@@ -63,18 +68,18 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
                     dataAccess.AddParameters("@Original_Indice", obj.Indice);
 
                 string _novo = @"INSERT INTO SDT_Ambulante 
-([Cadastro], [Titular], [Auxiliar], [Atividade], [Local], [FormaAtuacao], [HorarioTrabalho], [DataCadastro], [UltimaAlteracao], [Ativo]) 
+([Cadastro], [Titular], [Auxiliar], [Atividade], [Local], [FormaAtuacao], [UsaVeiculo], [DataCadastro], [UltimaAlteracao], [Ativo]) 
 VALUES 
-(@Cadastro, @Titular, @Auxiliar, @Atividade, @Local, @FormaAtuacao, @HorarioTrabalho, @DataCadastro, @DataAlteracao, @Ativo)";
+(@Cadastro, @Titular, @Auxiliar, @Atividade, @Local, @FormaAtuacao, @UsaVeiculo, @DataCadastro, @DataAlteracao, @Ativo)";
 
                 string _update = @"UPDATE SDT_Ambulante SET
-[Titular] = @Titular, [Auxiliar] = @Auxiliar, [Atividade] = @Atividade, [Local] = @Local, [FormaAtuacao] = @FormaAtuacao, [HorarioTrabalho] = @HorarioTrabalho, [DataCadastro] = @DataCadastro, [UltimaAlteracao] = @UltimaAlteracao, [Ativo] = @Ativo WHERE (Indice = @Original_Indice)";
+[Titular] = @Titular, [Auxiliar] = @Auxiliar, [Atividade] = @Atividade, [Local] = @Local, [FormaAtuacao] = @FormaAtuacao, [UsaVeiculo] = @UsaVeiculo, [DataCadastro] = @DataCadastro, [UltimaAlteracao] = @UltimaAlteracao, [Ativo] = @Ativo WHERE (Indice = @Original_Indice)";
 
                 //dataAccess.WriteR(_nsql);
 
                 if (_exist == true)
                     return dataAccess.Write(_update);
-                
+
                 else
                     return dataAccess.Write(_novo);
 
@@ -122,7 +127,10 @@ VALUES
                     ambulante.Atividade = (string)at[4];
                     ambulante.Local = (string)at[5];
                     ambulante.FormaAtuacao = (string)at[6];
-                    ambulante.HorarioTrabalho = (string)at[7];
+
+                    string[] _veiculo = at[7].ToString().Split(';');
+                    ambulante.UsaVeiculo = new Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
+
                     ambulante.DataCadastro = (DateTime)at[8];
                     ambulante.UltimaAlteracao = (DateTime)at[9];
                     ambulante.Ativo = (bool)at[10];
@@ -189,7 +197,8 @@ VALUES
                     ambulante.Atividade = (string)at[4];
                     ambulante.Local = (string)at[5];
                     ambulante.FormaAtuacao = (string)at[6];
-                    ambulante.HorarioTrabalho = (string)at[7];
+                    string[] _veiculo = at[7].ToString().Split(';');
+                    ambulante.UsaVeiculo = new Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
                     ambulante.DataCadastro = (DateTime)at[8];
                     ambulante.UltimaAlteracao = (DateTime)at[9];
                     ambulante.Ativo = (bool)at[10];
@@ -251,7 +260,8 @@ VALUES
                     ambulante.Atividade = (string)at[4];
                     ambulante.Local = (string)at[5];
                     ambulante.FormaAtuacao = (string)at[6];
-                    ambulante.HorarioTrabalho = (string)at[7];
+                    string[] _veiculo = at[7].ToString().Split(';');
+                    ambulante.UsaVeiculo = new Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
                     ambulante.DataCadastro = (DateTime)at[8];
                     ambulante.UltimaAlteracao = (DateTime)at[9];
                     ambulante.Ativo = (bool)at[10];
@@ -290,7 +300,7 @@ VALUES
                 dataAccess.AddParameters("@Atividade", _cmd[0]);
                 dataAccess.AddParameters("@Local", _cmd[1]);
                 dataAccess.AddParameters("@FormaAtuacao", _cmd[2]);
-                dataAccess.AddParameters("@HorarioTrabalho", _cmd[3]);
+                //dataAccess.AddParameters("@HorarioTrabalho", _cmd[3]);
 
                 //string ss = string.Empty;
 
@@ -299,7 +309,7 @@ VALUES
 
                 //System.Windows.MessageBox.Show(ss);
 
-                string sql = @"SELECT * FROM SDT_Ambulante WHERE ([Atividade] LIKE '%' + @Atividade + '%') AND ([Local] LIKE '%' + @Local + '%') AND ([FormaAtuacao] LIKE '%' + @FormaAtuacao + '%') AND ([HorarioTrabalho] LIKE '%' + @HorarioTrabalho + '%') AND (Ativo = true) ORDER BY DataCadastro";
+                string sql = @"SELECT * FROM SDT_Ambulante WHERE ([Atividade] LIKE '%' + @Atividade + '%') AND ([Local] LIKE '%' + @Local + '%') AND ([FormaAtuacao] LIKE '%' + @FormaAtuacao + '%') AND (Ativo = true) ORDER BY DataCadastro";
 
                 //System.Windows.MessageBox.Show(dataAccess.Read(sql).Rows.Count.ToString());
 
@@ -320,7 +330,8 @@ VALUES
                     ambulante.Atividade = (string)at[4];
                     ambulante.Local = (string)at[5];
                     ambulante.FormaAtuacao = (string)at[6];
-                    ambulante.HorarioTrabalho = (string)at[7];
+                    string[] _veiculo = at[7].ToString().Split(';');
+                    ambulante.UsaVeiculo = new Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
                     ambulante.DataCadastro = (DateTime)at[8];
                     ambulante.UltimaAlteracao = (DateTime)at[9];
                     ambulante.Ativo = (bool)at[10];
@@ -382,7 +393,8 @@ VALUES
                     ambulante.Atividade = (string)at[4];
                     ambulante.Local = (string)at[5];
                     ambulante.FormaAtuacao = (string)at[6];
-                    ambulante.HorarioTrabalho = (string)at[7];
+                    string[] _veiculo = at[7].ToString().Split(';');
+                    ambulante.UsaVeiculo = new Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
                     ambulante.DataCadastro = (DateTime)at[8];
                     ambulante.UltimaAlteracao = (DateTime)at[9];
                     ambulante.Ativo = (bool)at[10];

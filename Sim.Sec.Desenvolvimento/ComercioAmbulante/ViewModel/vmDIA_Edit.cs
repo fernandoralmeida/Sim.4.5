@@ -232,7 +232,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         private async void AsyncMostrarDados(int indice)
         {
-            var t = Task<Model.DIA>.Run(() => new Repositorio.RDIA().GetDIA(indice));            
+            var t = Task.Run(() => new Repositorio.RDIA().GetDIA(indice));            
 
             await t;
 
@@ -242,11 +242,25 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                 {
                     if (t.Result != null)
                     {
-                        D_I_A = t.Result;
 
-                        DateTime d = Convert.ToDateTime(D_I_A.Validade);
+                        if (t.Result.Auxiliar.Nome == "-")
+                            Expand_Auxiliar = false;
+                        else
+                            Expand_Auxiliar = true;
 
-                        var dif = d.Date - D_I_A.Emissao.Date;
+                        if (t.Result.Veiculo.Modelo == "-")
+                            Expand_Veiculo = false;
+                        else
+                            Expand_Veiculo = true;
+
+                        if (t.Result.Validade == new DateTime(2001, 1, 1))
+                            Expand_Validade = false;
+                        else
+                            Expand_Validade = true;
+
+                        DateTime d = Convert.ToDateTime(t.Result.Validade);
+
+                        var dif = d.Date - t.Result.Emissao.Date;
 
                         //dif.TotalDays;
                         var _dias = dif.TotalDays;
@@ -271,35 +285,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                             Unidade_Tempo = "ANO";
                         }
 
-                        if (D_I_A.Auxiliar.Nome == "-")
-                            Expand_Auxiliar = false;
+                        D_I_A = t.Result;
 
-                        if (D_I_A.Veiculo.Modelo == "-")
-                            Expand_Veiculo = false;
-
-                        if (D_I_A.Validade == new DateTime(2001, 1, 1))
-                            Expand_Validade = false;
-                        else
-                            Expand_Validade = true;
-
-                        if (D_I_A.Validade < DateTime.Now)
+                        if (t.Result.Validade < DateTime.Now)
                         {
                             Situacoes.Add("VENCIDO");
                             D_I_A.Situacao = "VENCIDO";
-                        }
-
-                        var a = new Repositorio.RAmbulante().GetAmbulante(D_I_A.Titular.CPF);
-
-                        D_I_A.Titular = a.Titular;
-
-                        if (a.Auxiliar.Nome != string.Empty)
-                        {
-                            Expand_Auxiliar = true;
-                            D_I_A.Auxiliar = a.Auxiliar;
-                        }
-
-                        D_I_A.Atividade = a.Atividade;
-                        D_I_A.FormaAtuacao = a.FormaAtuacao;
+                        }                       
 
                     }
                 }

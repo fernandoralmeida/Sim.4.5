@@ -88,6 +88,7 @@
                         <LineBreak/>
                         <Run Text="{Binding Ambulante.Local}"/>
                         <LineBreak/>
+                        <!--
                         <LineBreak/>
                         <Bold>
                             <Run Text="HORÁRIO DE TRABALHO" FontSize="10"/>
@@ -101,17 +102,20 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <LineBreak/>
+                        -->
                         <LineBreak/>
                         <Bold>
                             <Run Text="FORMA DE ATUAÇÃO:" FontSize="10"/>
                         </Bold>
                         <LineBreak/>
-                        <CheckBox Margin="0,2" Content="TENDA" IsChecked="{Binding IsTenda}" Foreground="Black" Background="Transparent" />
-                        <CheckBox Margin="8,2,4,2" Content="VEÍCULO" IsChecked="{Binding IsVeiculo}" Foreground="Black" Background="Transparent" />
-                        <CheckBox Margin="4,2" Content="TRAILER" IsChecked="{Binding IsTrailer}" Foreground="Black" Background="Transparent" />
-                        <CheckBox Margin="4,2" Content="CARRINHO" IsChecked="{Binding IsCarrinho}" Foreground="Black" Background="Transparent" />
-                        <CheckBox Margin="4,2" Content="{Binding Outros}" IsChecked="{Binding IsOutros}" Foreground="Black" Background="Transparent" />
-                    </Paragraph>
+                        <ItemsControl ItemsSource="{Binding ListaFormaAtuacao}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        </Paragraph>
                 </FlowDocument>
             </FlowDocumentPageViewer>
             <Grid Grid.Row="0" >

@@ -503,7 +503,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     np.Inlines.Add(new LineBreak());
                     np.Inlines.Add(new Run(string.Format("ATIVIDADE: {0}", a.Atividade)));
                     np.Inlines.Add(new LineBreak());
-                    np.Inlines.Add(new Run(string.Format("FORMA ATUAÇÃO: {0} - {1}", a.FormaAtuacao, a.HorarioTrabalho)));
+                    np.Inlines.Add(new Run(string.Format("FORMA ATUAÇÃO: {0} - {1}", a.FormaAtuacao, a.UsaVeiculo)));
                     np.Inlines.Add(new LineBreak());
                     np.Inlines.Add(new Run(string.Format("LOCAL: {0}", a.Local)));
 

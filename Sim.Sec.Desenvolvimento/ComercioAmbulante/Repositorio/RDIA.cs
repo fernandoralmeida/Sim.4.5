@@ -22,13 +22,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Repositorio
             {
                 dataAccess.ClearParameters();
 
-                string _titular = string.Format(@"{0};{1};{2};{3}",
+                string _titular = string.Format(@"{0};{1};{2};{3};",
                     obj.Titular.Nome,
                     obj.Titular.CPF,
                     obj.Titular.RG,
                     obj.Titular.Tel);
 
-                string _auxiliar = string.Format(@"{0};{1};{2};{3}",
+                string _auxiliar = string.Format(@"{0};{1};{2};{3};",
                     obj.Auxiliar.Nome,
                     obj.Auxiliar.CPF,
                     obj.Auxiliar.RG,
@@ -77,13 +77,13 @@ VALUES
             {
                 dataAccess.ClearParameters();
 
-                string _titular = string.Format(@"{0};{1};{2};{3}",
+                string _titular = string.Format(@"{0};{1};{2};{3};",
                     obj.Titular.Nome,
                     obj.Titular.CPF,
                     obj.Titular.RG,
                     obj.Titular.Tel);
 
-                string _auxiliar = string.Format(@"{0};{1};{2};{3}",
+                string _auxiliar = string.Format(@"{0};{1};{2};{3};",
                     obj.Auxiliar.Nome,
                     obj.Auxiliar.CPF,
                     obj.Auxiliar.RG,
@@ -105,6 +105,7 @@ VALUES
                 dataAccess.AddParameters("@Validade", obj.Validade);
                 dataAccess.AddParameters("@Processo", obj.Processo);
                 dataAccess.AddParameters("@Situacao", obj.Situacao);
+                dataAccess.AddParameters("@DiaDesde", obj.DiaDesde.ToShortDateString());
                 dataAccess.AddParameters("@Original_Indice", obj.Indice);
 
                 string _novo = @"INSERT INTO SDT_Ambulante_DIA 
@@ -113,7 +114,7 @@ VALUES
 (@InscricaoMunicipal, @Autorizacao, @Titular, @Auxiliar, @Atividade, @FormaAtuacao, @Veiculo, @Emissao, @Validade, @Processo, @Situacao)";
 
                 string _update = @"UPDATE SDT_Ambulante_DIA SET
-[InscricaoMunicipal] = @PesInscricaoMunicipalsoa, [Autorizacao] = @Autorizacao, [Titular] = @Titular, [Auxiliar] = @Auxiliar, [Atividade] = @Atividade, [FormaAtuacao] = @FormaAtuacao, [Veiculo] = @Veiculo, [Emissao] = @Emissao, [Validade] = @Validade, [Processo] = @Processo, [Situacao] = @Situacao WHERE (Indice = @Original_Indice)";
+[InscricaoMunicipal] = @PesInscricaoMunicipalsoa, [Autorizacao] = @Autorizacao, [Titular] = @Titular, [Auxiliar] = @Auxiliar, [Atividade] = @Atividade, [FormaAtuacao] = @FormaAtuacao, [Veiculo] = @Veiculo, [Emissao] = @Emissao, [Validade] = @Validade, [Processo] = @Processo, [Situacao] = @Situacao, [DiaDesde] = @DiaDesde WHERE (Indice = @Original_Indice)";
 
 
                 if (dataAccess.Write(_update))
@@ -134,44 +135,11 @@ VALUES
             try
             {
                 dataAccess.ClearParameters();
-
-                string _titular = string.Format(@"{0};{1};{2};{3}",
-                    obj.Titular.Nome,
-                    obj.Titular.CPF,
-                    obj.Titular.RG,
-                    obj.Titular.Tel);
-
-                string _auxiliar = string.Format(@"{0};{1};{2};{3}",
-                    obj.Auxiliar.Nome,
-                    obj.Auxiliar.CPF,
-                    obj.Auxiliar.RG,
-                    obj.Auxiliar.Tel);
-
-                string _veiculo = string.Format(@"{0};{1};{2};",
-                    obj.Veiculo.Modelo,
-                    obj.Veiculo.Placa,
-                    obj.Veiculo.Cor);
-
-                dataAccess.AddParameters("@InscricaoMunicipal", obj.InscricaoMunicipal);
-                dataAccess.AddParameters("@Autorizacao", obj.Autorizacao);
-                dataAccess.AddParameters("@Titular", _titular);
-                dataAccess.AddParameters("@Auxiliar", _auxiliar);
-                dataAccess.AddParameters("@Atividade", obj.Atividade);
-                dataAccess.AddParameters("@FormaAtuacao", obj.FormaAtuacao);
-                dataAccess.AddParameters("@Veiculo", _veiculo);
                 dataAccess.AddParameters("@Emissao", obj.Emissao.ToShortDateString());
-                dataAccess.AddParameters("@Validade", obj.Validade);
-                dataAccess.AddParameters("@Processo", obj.Processo);
-                dataAccess.AddParameters("@Situacao", obj.Situacao);
+                dataAccess.AddParameters("@Situacao", "RENOVADO");
                 dataAccess.AddParameters("@Original_Indice", obj.Indice);
 
-                string _novo = @"INSERT INTO SDT_Ambulante_DIA 
-([InscricaoMunicipal], [Autorizacao], [Titular], [Auxiliar], [Atividade], [FormaAtuacao], [Veiculo], [Emissao], [Validade], [Processo], [Situacao]) 
-VALUES 
-(@InscricaoMunicipal, @Autorizacao, @Titular, @Auxiliar, @Atividade, @FormaAtuacao, @Veiculo, @Emissao, @Validade, @Processo, @Situacao)";
-
-                string _update = @"UPDATE SDT_Ambulante_DIA SET
-[InscricaoMunicipal] = @PesInscricaoMunicipalsoa, [Autorizacao] = @Autorizacao, [Titular] = @Titular, [Auxiliar] = @Auxiliar, [Atividade] = @Atividade, [FormaAtuacao] = @FormaAtuacao, [Veiculo] = @Veiculo, [Emissao] = @Emissao, [Validade] = @Validade, [Processo] = @Processo, [Situacao] = @Situacao WHERE (Indice = @Original_Indice)";
+                string _update = @"UPDATE SDT_Ambulante_DIA SET [Emissao] = @Emissao, [Situacao] = @Situacao WHERE (Indice = @Original_Indice)";
 
 
                 if (dataAccess.Write(_update))
@@ -250,15 +218,20 @@ VALUES
                     dia.Emissao = (DateTime)at[8];
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
+                    dia.Situacao = (string)at[11];
 
-                    if (dia.Validade > DateTime.Now || dia.Validade == new DateTime(2001, 1, 1))
-                        dia.Situacao = (string)at[11];
-                    else
+                    if (dia.Situacao != "ATIVO")
                     {
                         dia.Situacao = (string)at[11];
-                        if (dia.Situacao != "BAIXADO")
-                            dia.Situacao = "VENCIDO";
+
+                        if (dia.Situacao == "RENOVADO" || dia.Situacao == "BAIXADO")
+                            dia.Situacao = (string)at[11];
                     }
+                    else if (dia.Validade > DateTime.Now || dia.Validade == new DateTime(2001, 1, 1))
+                        dia.Situacao = (string)at[11];
+                    else
+                        dia.Situacao = "VENCIDO";
+
                     dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     cont++;
@@ -306,11 +279,13 @@ VALUES
 
 
                     dia.Atividade = (string)at[5];
-                    dia.FormaAtuacao = (string)at[6];
+                    dia.FormaAtuacao = (string)at[6];                    
 
                     string[] _veiculo = at[7].ToString().Split(';');
-                    dia.Veiculo = new Model.Veiculo() { Modelo = _veiculo[0], Placa = _veiculo[1], Cor = _veiculo[2] };
-
+                    dia.Veiculo.Modelo = _veiculo[0];
+                    dia.Veiculo.Placa = _veiculo[1];
+                    dia.Veiculo.Cor = _veiculo[2];
+                                        
                     dia.Emissao = (DateTime)at[8];
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
@@ -370,6 +345,7 @@ VALUES
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = (string)at[11];
+                    dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     cont++;
                 }
@@ -489,15 +465,19 @@ VALUES
                     dia.Emissao = (DateTime)at[8];
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
+                    dia.Situacao = (string)at[11];
 
-                    if (dia.Validade > DateTime.Now || dia.Validade == new DateTime(2001, 1, 1))
-                        dia.Situacao = (string)at[11];
-                    else
+                    if (dia.Situacao != "ATIVO")
                     {
                         dia.Situacao = (string)at[11];
-                        if (dia.Situacao != "BAIXADO")
-                            dia.Situacao = "VENCIDO";
+
+                        if (dia.Situacao == "RENOVADO" || dia.Situacao == "BAIXADO")
+                            dia.Situacao = (string)at[11];
                     }
+                    else if (dia.Validade > DateTime.Now || dia.Validade == new DateTime(2001, 1, 1))
+                        dia.Situacao = (string)at[11];                   
+                    else
+                        dia.Situacao = "VENCIDO";
 
                     dia.DiaDesde = (DateTime)at[12];
 
@@ -557,6 +537,7 @@ VALUES
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = (string)at[11];
+                    dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     _lista.Add(dia);
                     cont++;
@@ -611,6 +592,7 @@ VALUES
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = (string)at[11];
+                    dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     _lista.Add(dia);
                     cont++;
@@ -668,6 +650,7 @@ VALUES
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = "VENCIDO";
+                    dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     _lista.Add(dia);
                     cont++;
@@ -723,6 +706,7 @@ VALUES
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
                     dia.Situacao = (string)at[11];
+                    dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     _lista.Add(dia);
                     cont++;
@@ -776,15 +760,19 @@ VALUES
                     dia.Validade = (DateTime?)at[9];
                     dia.Processo = (string)at[10];
 
-                    if (dia.Validade > DateTime.Now || dia.Validade == new DateTime(2001, 1, 1))
-                        dia.Situacao = (string)at[11];
-                    else
+                    if (dia.Situacao != "ATIVO")
                     {
                         dia.Situacao = (string)at[11];
-                        if (dia.Situacao != "BAIXADO")
-                            dia.Situacao = "VENCIDO";
-                    }
 
+                        if (dia.Situacao == "RENOVADO" || dia.Situacao == "BAIXADO")
+                            dia.Situacao = (string)at[11];
+                    }
+                    else if (dia.Validade > DateTime.Now || dia.Validade == new DateTime(2001, 1, 1))
+                        dia.Situacao = (string)at[11];
+                    else
+                        dia.Situacao = "VENCIDO";
+
+                    dia.DiaDesde = (DateTime)at[12];
                     dia.Contador = cont;
                     _lista.Add(dia);
                     cont++;
@@ -815,20 +803,24 @@ VALUES
                 foreach (DIA ab in obj)
                 {
 
-                    _dia.Add(ab.Emissao.Year.ToString());
+                    if(ab.Situacao != "RENOVADO")
+                        _dia.Add(ab.Emissao.Year.ToString());
 
-
-                    if (ab.Emissao < ab.Validade)
+                    if (DateTime.Now < ab.Validade.Value)
                         _ativos.Add(ab.Emissao.Year.ToString());
-
-                    if (ab.Emissao > ab.Validade)
-                        _vencidos.Add(ab.Emissao.Year.ToString());
 
                     if (ab.Validade == new DateTime(2001, 1, 1))
                         _ativosnd.Add(ab.Emissao.Year.ToString());
 
+                    if (DateTime.Now > ab.Validade && 
+                        ab.Validade != new DateTime(2001, 1, 1) && 
+                        ab.Situacao != "RENOVADO" && 
+                        ab.Situacao != "BAIXADO")
+                        _vencidos.Add(ab.Validade.Value.Year.ToString());
+                   
                     if (ab.Situacao == "BAIXADO")
-                        _baixados.Add(ab.Emissao.Year.ToString());                    
+                        _baixados.Add(ab.Emissao.Year.ToString());
+
                 }
 
                 var c_dia = from x in _dia
@@ -895,9 +887,7 @@ VALUES
             }
         }
         #endregion
-
         
-
         #region Functions
         public Model.DIA Exist_DIA(string _cpf_titular)
         {

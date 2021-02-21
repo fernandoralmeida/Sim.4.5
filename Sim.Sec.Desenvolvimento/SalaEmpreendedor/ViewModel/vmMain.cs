@@ -244,8 +244,8 @@ namespace Sim.Sec.Desenvolvimento.SalaEmpreendedor.ViewModel
         {
             try
             {
-                AsyncApresentarDados(obj);
                 PreviewBox = Visibility.Visible;
+                AsyncApresentarDados(obj);                
             }
             catch (Exception ex)
             {
@@ -337,6 +337,35 @@ namespace Sim.Sec.Desenvolvimento.SalaEmpreendedor.ViewModel
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Sim.Alerta!"); }
 
+        });
+
+        public ICommand CommandEdit => new RelayCommand(p =>
+        {
+            try
+            {
+
+                if (Logged.Acesso == (int)AccountAccess.Master)
+                {
+                    ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/Shared/View/Atendimento/pEdite.xaml", UriKind.Relative));
+                    AreaTransferencia.Parametro = (string)p;
+                }
+                else
+                {
+                    foreach (Account.Model.mSubModulos m in Logged.Submodulos)
+                    {
+                        if (m.SubModulo == (int)SubModulo.SalaEmpreendedor || m.SubModulo == (int)SubModulo.SebraeAqui)
+                        {
+                            if (m.Acesso > (int)SubModuloAccess.Consulta)
+                            {
+                                ns.Navigate(new Uri(@"/Sim.Sec.Desenvolvimento;component/Shared/View/Atendimento/pEdite.xaml", UriKind.Relative));
+                                AreaTransferencia.Parametro = (string)p;
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Sim.Alerta!"); }
         });
 
         public string EventoSelecionado { get { return _eventoselecionado; } set { 
@@ -582,39 +611,26 @@ namespace Sim.Sec.Desenvolvimento.SalaEmpreendedor.ViewModel
                 TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private void AsyncApresentarDados(object cliente)
+        private async void AsyncApresentarDados(object cliente)
         {
             string _cliente = new mMascaras().Remove((string)cliente);
 
-            FlowDocument flow = new FlowDocument();
+            await Task.Run(() => {
 
-            new System.Threading.Thread(() =>
-            {
-                System.Windows.Threading.DispatcherOperation op =
-                FlowDoc.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,
-                    new Action(delegate () {
+                FlowDoc.Dispatcher.BeginInvoke(new Action(delegate () {
 
-                        switch (_cliente.Length)
-                        {
-                            case 11:
-                                FlowDoc = FlowPF(_cliente);
-                                break;
+                    switch (_cliente.Length)
+                    {
+                        case 11:
+                            FlowDoc = FlowPF(_cliente);
+                            break;
 
-                            case 14:
-                                FlowDoc = FlowPJ(_cliente);
-                                break;
-                        }
-
-                    }));
-
-                op.Completed += (o, args) =>
-                {
-                    //BlackBox = Visibility.Collapsed;
-                    //MainBox = Visibility.Collapsed;
-                    //PrintBox = Visibility.Visible;
-                    //StartProgress = false;
-                };
-            }).Start();
+                        case 14:
+                            FlowDoc = FlowPJ(_cliente);
+                            break;
+                    }
+                }));
+            });
         }
 
         private void AsyncFlowAtendimento(string protocolo)
@@ -646,7 +662,19 @@ namespace Sim.Sec.Desenvolvimento.SalaEmpreendedor.ViewModel
         {
 
             mPF_Ext pessoafisica = new mPF_Ext();
-            pessoafisica = new mData().ExistPessoaFisica(cliente);
+
+            var at = new mAtendimento
+            {
+                Protocolo = ListarAtendimentos[SelectedRow].Protocolo
+            };
+
+            at.Cliente.Inscricao = ListarAtendimentos[SelectedRow].Cliente.Inscricao;
+
+            var t = Task.Run(() => { pessoafisica = new mData().ExistPessoaFisica(at.Cliente.Inscricao); });
+
+            t.Wait();
+            
+            //at.OrigemString
 
             FlowDocument flow = new FlowDocument();
             flow.Foreground = (Brush)Application.Current.Resources["WindowText"];
@@ -698,8 +726,21 @@ namespace Sim.Sec.Desenvolvimento.SalaEmpreendedor.ViewModel
                 pr.Inlines.Add(new Run(" - " + v.VinculoString));
             }
 
-            flow.Blocks.Add(pr);
+            pr.Inlines.Add(new LineBreak());
+            pr.Inlines.Add(new LineBreak());
+            pr.Inlines.Add(new Run("---------- INFO. ATENDIMENTO ----------") { FontSize = 10, Foreground = Brushes.Gray });
+            pr.Inlines.Add(new LineBreak());
+            pr.Inlines.Add(ListarAtendimentos[SelectedRow].Protocolo + ", " + ListarAtendimentos[SelectedRow].Data + ", " + ListarAtendimentos[SelectedRow].Hora);
+            pr.Inlines.Add(new LineBreak());
+            pr.Inlines.Add(new Run("SERVIÇOS REALIZADOS:") { FontSize = 10, Foreground = Brushes.Gray });
+            pr.Inlines.Add(new LineBreak());
+            pr.Inlines.Add(ListarAtendimentos[SelectedRow].TipoString);
+            pr.Inlines.Add(new LineBreak());
+            pr.Inlines.Add(new Run("DESCRIÇÃO ATENDIMENTO:") { FontSize = 10, Foreground = Brushes.Gray });
+            pr.Inlines.Add(new LineBreak());
+            pr.Inlines.Add(ListarAtendimentos[SelectedRow].Historico);
 
+            flow.Blocks.Add(pr);
 
             return flow;
         }
@@ -709,7 +750,9 @@ namespace Sim.Sec.Desenvolvimento.SalaEmpreendedor.ViewModel
 
             mPJ_Ext pessoajuridica = new mPJ_Ext();
 
-            pessoajuridica = new mData().ExistPessoaJuridica(cliente);
+            var t = Task.Run(() => { pessoajuridica = new mData().ExistPessoaJuridica(cliente); });
+
+            t.Wait();
 
             FlowDocument flow = new FlowDocument();
             flow.Foreground = (Brush)Application.Current.Resources["WindowText"];

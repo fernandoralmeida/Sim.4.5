@@ -472,7 +472,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     np.Inlines.Add(new LineBreak());
                     np.Inlines.Add(new Run(string.Format("ATIVIDADE: {0}", a.Atividade)));
                     np.Inlines.Add(new LineBreak());
-                    np.Inlines.Add(new Run(string.Format("FORMA ATUAÇÃO: {0} - {1}", a.FormaAtuacao, a.HorarioTrabalho)));
+                    np.Inlines.Add(new Run(string.Format("FORMA ATUAÇÃO: {0} - {1}", a.FormaAtuacao, a.UsaVeiculo)));
                     
                     row.Cells.Add(new TableCell(np) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
                     row.Cells.Add(new TableCell(new Paragraph(new Run(a.Local)) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });

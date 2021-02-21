@@ -94,7 +94,8 @@
                         <DataGridTextColumn Binding="{Binding Hora, StringFormat=HH:mm}" ClipboardContentBinding="{x:Null}" Header="HORA" />
                         <DataGridTextColumn Binding="{Binding Cliente.NomeRazao}" ClipboardContentBinding="{x:Null}" Header="CLIENTE" />
                         <DataGridTextColumn Binding="{Binding Cliente.Inscricao}" ClipboardContentBinding="{x:Null}" Header="INSCRICAO" />
-                        <DataGridTextColumn Binding="{Binding TipoString}" ClipboardContentBinding="{x:Null}" Header="TIPO" />
+                        <DataGridTextColumn Binding="{Binding TipoString}" ClipboardContentBinding="{x:Null}" Header="SERVIÇOS" />
+                        <DataGridTextColumn Binding="{Binding Canal}" ClipboardContentBinding="{x:Null}" Header="CANAL" />
                         <DataGridTextColumn Binding="{Binding AtendimentoSebrae}" ClipboardContentBinding="{x:Null}" Header="RAE" />
                         <DataGridTemplateColumn Header="...">
                             <DataGridTemplateColumn.CellTemplate>

@@ -21,7 +21,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private Ambulante _ambulante = new Ambulante();
 
         private ObservableCollection<string> _atividades = new ObservableCollection<string>();
-        private ObservableCollection<string> _periodos = new ObservableCollection<string>();
+        private ObservableCollection<string> _listaformaatuacao = new ObservableCollection<string>();
 
         private string _outros = string.Empty;
         private string _situacao = string.Empty;
@@ -62,13 +62,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             }
         }
 
-        public ObservableCollection<string> Periodos
+        public ObservableCollection<string> ListaFormaAtuacao
         {
-            get { return _periodos; }
+            get { return _listaformaatuacao; }
             set
             {
-                _periodos = value;
-                RaisePropertyChanged("Periodos");
+                _listaformaatuacao = value;
+                RaisePropertyChanged("ListaFormaAtuacao");
             }
         }
 
@@ -268,18 +268,19 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
                         Ambulante = t.Result;
 
+                        ListaFormaAtuacao.Clear();
 
                         if (t.Result.FormaAtuacao.Contains("TENDA;"))
-                            IsTenda = true;
+                            ListaFormaAtuacao.Add("TENDA");
 
                         if (t.Result.FormaAtuacao.Contains("VEÍCULO;"))
-                            IsVeiculo = true;
+                            ListaFormaAtuacao.Add(string.Format("VEÍCULO - {0};{1};{2}", Ambulante.UsaVeiculo.Modelo, Ambulante.UsaVeiculo.Placa, Ambulante.UsaVeiculo.Cor));
 
                         if (t.Result.FormaAtuacao.Contains("CARRINHO;"))
-                            IsCarrinho = true;
+                            ListaFormaAtuacao.Add("CARRINHO");
 
                         if (t.Result.FormaAtuacao.Contains("TRAILER;"))
-                            IsTrailer = true;
+                            ListaFormaAtuacao.Add("TRAILER");
 
                         if (t.Result.FormaAtuacao.Contains("OUTROS"))
                         {
@@ -291,15 +292,17 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                                                         .Select(s => s.Groups[1].Value).ToArray();
 
                             Outros = testing[0];
+                            ListaFormaAtuacao.Add(testing[0]);
                         }
 
-                        string[] _periodos = t.Result.HorarioTrabalho.Split('/');
+                        /*
+                        string[] _periodos = t.Result.UsaVeiculo.Split('/');
 
                         foreach (string p in _periodos)
                         {
                             if (p != string.Empty)
-                                Periodos.Add(p);
-                        }
+                                ListaFormaAtuacao.Add(p);
+                        }*/
                     }
                 }
                 catch (Exception ex)

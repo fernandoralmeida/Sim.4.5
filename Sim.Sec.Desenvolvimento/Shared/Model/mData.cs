@@ -47,7 +47,6 @@ namespace Sim.Sec.Desenvolvimento.Shared.Model
             }
         }
 
-
         public ObservableCollection<mTiposGenericos> Servicos(string _origem)
         {
             try
@@ -1235,7 +1234,9 @@ WHERE (((SDT_SE_PJ_Formalizada.Ativo) = True) AND ((SDT_SE_PJ_Segmento.Ativo) = 
                     atendimento.Historico = (string)at[7];
                     atendimento.Operador = (string)at[8];
                     atendimento.Ativo = (bool)at[9];
-                    atendimento.Canal = (string)at[10];
+
+                    //System.Windows.MessageBox.Show((string)at[10]);
+                    if (at[10] != DBNull.Value) atendimento.Canal = (string)at[10];
 
                     //atendimento.TipoString = (string)_tipo.Rows[atendimento.Tipo][1];
                     atendimento.OrigemString = (string)_origem.Rows[atendimento.Origem][1];
@@ -1326,7 +1327,8 @@ WHERE (((SDT_SE_PJ_Formalizada.Ativo) = True) AND ((SDT_SE_PJ_Segmento.Ativo) = 
                     atendimento.Historico = (string)at[7];
                     atendimento.Operador = (string)at[8];
                     atendimento.Ativo = (bool)at[9];
-                    atendimento.Canal = (string)at[10];
+
+                    if (at[10] != DBNull.Value) atendimento.Canal = (string)at[10];
 
                     //atendimento.TipoString = (string)_tipo.Rows[atendimento.Tipo][1];
                     atendimento.OrigemString = (string)_origem.Rows[atendimento.Origem][1];
@@ -1383,15 +1385,14 @@ WHERE (((SDT_SE_PJ_Formalizada.Ativo) = True) AND ((SDT_SE_PJ_Segmento.Ativo) = 
 
                 dataAccess.AddParameters("@data", commands[0]);
                 dataAccess.AddParameters("@operador", commands[1]);
-                dataAccess.AddParameters("@origem", commands[2]);
-
+               
                 var _tipo = dataAccess.Read("SELECT * FROM SDT_Atendimento_Tipos ORDER BY Valor");
                 var _origem = dataAccess.Read("SELECT * FROM SDT_Atendimento_Origem ORDER BY Valor");
                 var _atendimentosebrae = dataAccess.Read("SELECT * FROM SDT_SAC_Atendimento");
 
                 //System.Windows.MessageBox.Show(commands[2], commands[1]);
 
-                string sql = @"SELECT * FROM SDT_Atendimento WHERE (Data LIKE @data) AND (Operador LIKE @operador) AND (Origem = @origem) AND (Ativo = true) ORDER BY Hora";
+                string sql = @"SELECT * FROM SDT_Atendimento WHERE (Data LIKE @data) AND (Operador LIKE @operador) AND (Ativo = true) ORDER BY Hora";
 
                 int cont = 1;
 
@@ -1413,7 +1414,10 @@ WHERE (((SDT_SE_PJ_Formalizada.Ativo) = True) AND ((SDT_SE_PJ_Segmento.Ativo) = 
                     atendimento.Historico = (string)at[7];
                     atendimento.Operador = (string)at[8];
                     atendimento.Ativo = (bool)at[9];
-                    atendimento.Canal = (string)at[10];
+
+
+                    if (at[10] != DBNull.Value) atendimento.Canal = (string)at[10];
+
 
                     //atendimento.TipoString = (string)_tipo.Rows[atendimento.Tipo][1];
                     atendimento.OrigemString = (string)_origem.Rows[atendimento.Origem][1];
@@ -2483,12 +2487,13 @@ WHERE
                 dataAccess.AddParameters("@Historico", obj.Historico);
                 dataAccess.AddParameters("@Operador", obj.Operador);
                 dataAccess.AddParameters("@Ativo", obj.Ativo);
+                dataAccess.AddParameters("@Canal", obj.Canal);
 
                 string Novo = @"INSERT INTO
             SDT_Atendimento
-            (Protocolo, Data, Hora, Cliente, Origem, Tipo, Historico, Operador, Ativo)
+            (Protocolo, Data, Hora, Cliente, Origem, Tipo, Historico, Operador, Ativo, Canal)
             VALUES
-            (@Protocolo, @Data, @Hora, @Cliente, @Origem, @Tipo, @Historico, @Operador, @Ativo)";
+            (@Protocolo, @Data, @Hora, @Cliente, @Origem, @Tipo, @Historico, @Operador, @Ativo, @Canal)";
 
                 return dataAccess.Write(Novo);
 
@@ -2526,10 +2531,11 @@ WHERE
                 dataAccess.AddParameters("@Tipo", obj.TipoString);
                 dataAccess.AddParameters("@Historico", obj.Historico);
                 dataAccess.AddParameters("@Ativo", obj.Ativo);
+                dataAccess.AddParameters("@Canal", obj.Canal);
                 dataAccess.AddParameters("@Protocolo", obj.Protocolo);
 
                 string Alterar = @"UPDATE SDT_Atendimento SET
-            Cliente = @Cliente, Origem = @Origem, Tipo = @Tipo, Historico = @Historico, Ativo = @Ativo
+            Cliente = @Cliente, Origem = @Origem, Tipo = @Tipo, Historico = @Historico, Ativo = @Ativo, Canal = @Canal
             WHERE
             (Protocolo = @Protocolo)";
 
@@ -3294,6 +3300,8 @@ WHERE
                     atendimento.Historico = (string)at[7];
                     atendimento.Operador = (string)at[8];
                     atendimento.Ativo = (bool)at[9];
+
+                    if (at[10] != DBNull.Value) atendimento.Canal = (string)at[10];
 
                     //atendimento.TipoString = (string)_tipo.Rows[atendimento.Tipo][1];
                     atendimento.OrigemString = (string)_origem.Rows[atendimento.Origem][1];

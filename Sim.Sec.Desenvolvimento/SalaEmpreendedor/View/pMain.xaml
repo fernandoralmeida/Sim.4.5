@@ -82,7 +82,7 @@
                 </StackPanel>
                 <DockPanel Grid.Row="1" Grid.Column="0">
                     <StackPanel Margin="10">
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding ListarAtendimentos, NotifyOnSourceUpdated=True}" SelectedIndex="{Binding SelectedRow}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding ListarAtendimentos}" SelectedIndex="{Binding SelectedRow}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="Column">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
@@ -123,7 +123,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Button Grid.Column="0" ToolTip="Visualizar" Command="{Binding DataContext.CommandPreviewBox, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                                    CommandParameter="{Binding Protocolo}" Style="{StaticResource SystemButtonIcon}">
+                                                    CommandParameter="{Binding Cliente.Inscricao}" Style="{StaticResource SystemButtonIcon}">
 
                                                     <Path Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                                                       Data="M6,2A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6M6,4H13V9H18V20H6V4M8,12V14H16V12H8M8,16V18H13V16H8Z" Height="15" Width="17"/>
@@ -144,7 +144,8 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Binding="{Binding Canal}" MaxWidth="300" ClipboardContentBinding="{x:Null}" Header="CANAL" />
+                                <DataGridTextColumn Binding="{Binding OrigemString}" ClipboardContentBinding="{x:Null}" Header="ORIGEM" />
+                                <DataGridTextColumn Binding="{Binding Canal}" ClipboardContentBinding="{x:Null}" Header="CANAL" />
                                 <!--
                                 <DataGridTextColumn Binding="{Binding TipoString}" MaxWidth="300" ClipboardContentBinding="{x:Null}" Header="SERVIÇOs" />                                
                                 

@@ -253,32 +253,19 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             if (Ambulante.Validade == new DateTime(2001, 1, 1))
                 Validade = "NÃO PRECISA RENOVAR";
             else
-            {                
-                //DateTime d = Convert.ToDateTime(Ambulante.Validade);
+            {
 
-                //var dif = d.Date - Ambulante.Emissao.Date;
+                Validade = Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
 
-                
-                //var mes = dif.TotalDays / 30;
-
-                //if (mes < 1)
-                //{
-                    //var dia = mes * 30;
-                    //if (dia > 1)
-                        //Validade = Convert.ToInt32(dia).ToString() + " DIAS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                    //else
-                        //Validade = Convert.ToInt32(dia).ToString() + " DIA"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                //}
-                //else if (mes < 2)
-                    //Validade = Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                //else
-                    //Validade = Convert.ToInt32(mes).ToString() + " MESES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
 
                 if (Ambulante.Validade < DateTime.Now.Date)
-                    Validade = "VENCIDO";
+                    Validade = "VENCIDO - " + Validade; 
 
                 if (Ambulante.Situacao == "BAIXADO")
-                    Validade = "BAIXADO - " + Ambulante.Validade;
+                    Validade = "BAIXADO - " + Validade;
+
+                if (Ambulante.Situacao == "RENOVADO")
+                    Validade = "RENOVADO - " + Ambulante.Emissao.ToShortDateString();
             }
         }
         #endregion

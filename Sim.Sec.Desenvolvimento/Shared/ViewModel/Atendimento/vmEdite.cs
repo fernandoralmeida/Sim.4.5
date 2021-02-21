@@ -30,15 +30,6 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         #endregion
 
         #region Propriedades
-        public mAtendimento Atendimento
-        {
-            get { return _atendimento; }
-            set
-            {
-                _atendimento = value;
-                RaisePropertyChanged("Atendimento");
-            }
-        }
 
         public ObservableCollection<mTiposGenericos> Origens
         {
@@ -49,7 +40,7 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
         {
             get
             {
-                return new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Canal WHERE (Ativo = True) ORDER BY Tipo");
+                return new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Canal WHERE (Ativo = True) ORDER BY Valor");
             }
         }
 
@@ -69,6 +60,16 @@ namespace Sim.Sec.Desenvolvimento.Shared.ViewModel.Atendimento
                 at = new mData().Tipos(@"SELECT * FROM SDT_Atendimento_Tipos WHERE (Ativo = True) ORDER BY Tipo");
                 //at.RemoveAt(0);
                 return at;
+            }
+        }
+
+        public mAtendimento Atendimento
+        {
+            get { return _atendimento; }
+            set
+            {
+                _atendimento = value;
+                RaisePropertyChanged("Atendimento");
             }
         }
 

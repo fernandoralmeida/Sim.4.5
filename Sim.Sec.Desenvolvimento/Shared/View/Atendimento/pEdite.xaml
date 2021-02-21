@@ -81,7 +81,7 @@
                         <ComboBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Origens}" SelectedValue="{Binding Atendimento.Origem}" DisplayMemberPath="Nome" SelectedValuePath="Valor" Margin="2,0" />
                         <!---->
                         <Label Grid.Row="0" Grid.Column="1" Content="CANAL DO ATENDIMENTO" FontSize="10" Margin="2,0" />
-                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Canais}" SelectedValue="{Binding Atendimento.Canal}" DisplayMemberPath="Nome" SelectedValuePath="Valor" Margin="2,0" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Canais}" SelectedValue="{Binding Atendimento.Canal}" DisplayMemberPath="Nome" SelectedValuePath="Nome" Margin="2,0" />
                         
                     </Grid>
                     <Grid Margin="2">

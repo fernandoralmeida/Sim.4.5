@@ -15,7 +15,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
         private Autorizados _titular = new Autorizados();
         private Autorizados _auxiliar = new Autorizados();
         private string _formaatuacao = string.Empty;
-        private string _periodotrabalho = string.Empty;
+        private Veiculo _usaveiculo = new Veiculo();
         private string _local = string.Empty;
         private string _atividade = string.Empty;
         private DateTime _datacadastro = DateTime.Now;
@@ -45,10 +45,10 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.Model
             get { return _formaatuacao; }
             set { _formaatuacao = value; RaisePropertyChanged("FormaAtuacao"); }
         }
-        public string HorarioTrabalho
+        public Veiculo UsaVeiculo
         {
-            get { return _periodotrabalho; }
-            set { _periodotrabalho = value; RaisePropertyChanged("HorarioTrabalho"); }
+            get { return _usaveiculo; }
+            set { _usaveiculo = value; RaisePropertyChanged("UsaVeiculo"); }
         }
         public string Local
         {

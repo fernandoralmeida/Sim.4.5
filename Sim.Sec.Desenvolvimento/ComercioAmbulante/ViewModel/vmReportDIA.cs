@@ -63,7 +63,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             set { _dia = value; RaisePropertyChanged("Lista_DIA"); }
         }
 
-        public List<string> Report_Types { get { return new List<string>() {"ATIVOS","VENCIDOS","SEM DATA DE VENCIMENTO","BAIXADOS" }; } }
+        public List<string> Report_Types { get { return new List<string>() { "ATIVOS", "VENCIDOS", "SEM DATA DE VENCIMENTO", "BAIXADOS" }; } }
 
         public string Report_Type
         {
@@ -210,7 +210,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
 
         public ICommand CommandListar => new RelayCommand(p =>
         {
-            switch(Report_Type)
+            switch (Report_Type)
             {
                 case "ATIVOS":
                     Report_DIA_Ativos();
@@ -224,7 +224,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     Report_DIA_Sem_Validade();
                     break;
             }
-            
+
         });
 
         public ICommand CommandClosePrintBox => new RelayCommand(p =>
@@ -349,13 +349,13 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
             StartProgress = true;
             PrintBox = Visibility.Collapsed;
             MainBox = Visibility.Visible;
-            Filtros.Clear();            
+            Filtros.Clear();
 
-            var t = Task<ObservableCollection<Model.DIA>>.Run(()=> new Repositorio.RDIA().DIA_Ativos(Parametros()));
-            
+            var t = Task<ObservableCollection<Model.DIA>>.Run(() => new Repositorio.RDIA().DIA_Ativos(Parametros()));
+
             await t;
 
-            if(t.IsCompleted)
+            if (t.IsCompleted)
             {
                 await FlowDoc.Dispatcher.BeginInvoke(new System.Threading.ThreadStart(() => FlowDoc = PreviewInTable(t.Result)));
                 BlackBox = Visibility.Collapsed;
@@ -547,7 +547,7 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     rg.Foreground = Brushes.Black;
                     rg.Rows.Add(row);
                     row.Cells.Add(new TableCell(new Paragraph(new Run(a.Contador.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(a.Autorizacao + "\nDE: " + a.Emissao.ToShortDateString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+                    row.Cells.Add(new TableCell(new Paragraph(new Run(a.Autorizacao + "\nDE: " + a.DiaDesde.ToShortDateString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
 
                     Paragraph np = new Paragraph();
                     np.Padding = new Thickness(5);
@@ -561,8 +561,14 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
                     np.Inlines.Add(new LineBreak());
                     np.Inlines.Add(new Run(string.Format("LOCAL: {0}", a.FormaAtuacao)));
 
+                    Paragraph at = new Paragraph();
+                    at.Padding = new Thickness(5);
+                    at.Inlines.Add(new Run(a.Situacao));
+                    at.Inlines.Add(new LineBreak());
+                    at.Inlines.Add(new Run(string.Format("EM: {0}", a.Emissao.ToShortDateString())));
+
                     row.Cells.Add(new TableCell(np) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(a.Situacao)) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
+                    row.Cells.Add(new TableCell(at) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
                     row.Cells.Add(new TableCell(new Paragraph(new Run(a.InscricaoMunicipal.ToString())) { Padding = new Thickness(5) }) { BorderThickness = new Thickness(0.5), BorderBrush = Brushes.Black });
 
                     alt++;
@@ -594,30 +600,12 @@ namespace Sim.Sec.Desenvolvimento.ComercioAmbulante.ViewModel
         private string data_string(DateTime? dateV, DateTime dateE)
         {
             if (dateV == new DateTime(2001, 1, 1))
-                return "-";
+                return "NÃO PRECISA RENOVAR";
             else
-            {
-                DateTime d = Convert.ToDateTime(dateV);
-
-                var dif = d.Date - dateE.Date;
-
-                //dif.TotalDays;
-                var mes = dif.TotalDays / 30;
-
-                if (mes < 1)
-                {
-                    var dia = mes * 30;
-                    if (dia > 1)
-                        return Convert.ToInt32(dia).ToString() + " DIAS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                    else
-                        return Convert.ToInt32(dia).ToString() + " DIA"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                }
-                else if (mes < 2)
-                    return Convert.ToInt32(mes).ToString() + " MÊS"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-                else
-                    return Convert.ToInt32(mes).ToString() + " MESES"; //Convert.ToDateTime(Ambulante.Validade).ToShortDateString();
-            }
+                return Convert.ToDateTime(dateV).ToShortDateString();
         }
-        #endregion
     }
+    #endregion
+
 }
+

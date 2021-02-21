@@ -751,7 +751,8 @@ namespace Sim.Sec.Desenvolvimento.SebraeAqui.ViewModel
 
             mPJ_Ext pessoajuridica = new mPJ_Ext();
 
-            pessoajuridica = new mData().ExistPessoaJuridica(cliente);
+            var t = Task.Run(() => { pessoajuridica = new mData().ExistPessoaJuridica(cliente); });
+            t.Wait();           
 
             AtSebrae.Atendimento = ListarAtendimentos[SelectedRow].Protocolo;
             AtSebrae.Cliente = string.Format(@"{0}/{1}/{2}/{3}",
@@ -868,7 +869,8 @@ namespace Sim.Sec.Desenvolvimento.SebraeAqui.ViewModel
         {
             var atdo = new mAtendimento();
 
-            atdo = new mData().Atendimento(protocolo);
+            var t = Task.Run(() => { atdo = new mData().Atendimento(protocolo); });
+            t.Wait();            
 
             FlowDocument flow = new FlowDocument();
 

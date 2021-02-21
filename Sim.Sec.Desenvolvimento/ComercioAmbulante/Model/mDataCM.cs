@@ -345,6 +345,8 @@ VALUES
                     atendimento.Operador = (string)at[8];
                     atendimento.Ativo = (bool)at[9];
 
+                    if (at[10] != DBNull.Value) atendimento.Canal = (string)at[10];
+
                     //atendimento.TipoString = (string)_tipo.Rows[atendimento.Tipo][1];
                     atendimento.OrigemString = (string)_origem.Rows[atendimento.Origem][1];
 
